@@ -201,8 +201,9 @@ export default function PublicEventBySlugPage() {
             <div className="lg:col-span-7 space-y-6">
               <div className="relative h-72 rounded-2xl overflow-hidden border border-navy-800 shadow-2xl">
                 <img
-                  src={event.image || event.bannerUrl}
+                  src={event.image || event.bannerUrl || '/images/talanta.jpg'}
                   alt={event.title}
+                  onError={(e) => { e.currentTarget.src = '/images/talanta.jpg'; }}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/30 to-transparent"></div>

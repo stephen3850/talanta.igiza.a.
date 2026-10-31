@@ -139,21 +139,23 @@ export default function PublicHomePage() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-navy-950">
+    <div className="min-h-screen flex flex-col bg-navy-950 font-sans">
       <Navbar />
 
       <main className="flex-1">
         {/* ==================== A. HERO SECTION ==================== */}
         <section className="relative overflow-hidden pt-12 sm:pt-16 pb-20 sm:pb-28 border-b border-navy-800/80 bg-navy-950">
-          {/* Official Talanta Stadium Background Image (Fully Visible) */}
+          {/* Official Talanta Stadium Background Image (Full Clear 100%) */}
           <div className="absolute inset-0 z-0 overflow-hidden">
             <img
               src="/images/talanta.jpg"
               alt="Talanta Stadium Background"
-              className="w-full h-full object-cover object-center opacity-85"
+              onError={(e) => { e.currentTarget.src = '/images/talanta-stadium-aerial.png'; }}
+              className="w-full h-full object-cover object-center opacity-100"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/25"></div>
-            <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-transparent to-black/40"></div>
+            {/* Subtle Gradient Backdrop for High Text Contrast */}
+            <div className="absolute inset-0 bg-gradient-to-r from-navy-950/85 via-navy-950/50 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-navy-950/80 via-transparent to-black/30"></div>
           </div>
           <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -161,19 +163,19 @@ export default function PublicHomePage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
               {/* Left Hero Text */}
               <div className="lg:col-span-7 space-y-6">
-                <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-semibold">
+                <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-emerald-500/20 backdrop-blur-md border border-emerald-500/40 text-emerald-400 text-xs font-bold">
                   <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
                   <span>KENYA'S FLAGSHIP 60,000-SEAT SMART STADIUM</span>
                 </div>
 
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight uppercase font-heading drop-shadow-lg">
                   Welcome to <br />
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-emerald-300 to-teal-200">
                     Talanta Stadium.
                   </span>
                 </h1>
 
-                <p className="text-base sm:text-lg text-slate-300 max-w-2xl leading-relaxed">
+                <p className="text-base sm:text-lg text-slate-200 max-w-2xl leading-relaxed drop-shadow-md">
                   Experience Kenya's ultra-modern sports and entertainment venue. Powered by ST-Tech ICT Consultants with cashless M-PESA e-ticketing, dynamic QR gate validation, and real-time operational safety.
                 </p>
 
@@ -188,7 +190,7 @@ export default function PublicHomePage() {
                   </Link>
 
                   <Link href="/about">
-                    <Button variant="navy" size="lg" className="space-x-2 border-navy-700">
+                    <Button variant="navy" size="lg" className="space-x-2 border-navy-700 bg-navy-950/80 backdrop-blur-md">
                       <Building2 className="w-5 h-5 text-emerald-400" />
                       <span>Discover the Stadium</span>
                     </Button>
@@ -196,7 +198,7 @@ export default function PublicHomePage() {
                 </div>
 
                 {/* Trust Highlights */}
-                <div className="pt-6 border-t border-navy-800/80 grid grid-cols-3 gap-4 text-xs text-slate-400">
+                <div className="pt-6 border-t border-navy-800/80 grid grid-cols-3 gap-4 text-xs text-slate-300 font-medium drop-shadow-sm">
                   <div className="flex items-center space-x-2">
                     <Smartphone className="w-4 h-4 text-emerald-400 shrink-0" />
                     <span>M-PESA Instant Checkout</span>
@@ -214,11 +216,12 @@ export default function PublicHomePage() {
 
               {/* Right Hero Card */}
               <div className="lg:col-span-5">
-                <div className="bg-navy-900 border border-navy-800 rounded-3xl overflow-hidden shadow-2xl relative group hover:border-emerald-500/50 transition-all">
-                  <div className="relative h-60 sm:h-64 overflow-hidden">
+                <div className="bg-navy-900/90 backdrop-blur-md border border-navy-800 rounded-3xl overflow-hidden shadow-2xl relative group hover:border-emerald-500/50 transition-all">
+                  <div className="relative h-60 sm:h-64 overflow-hidden bg-slate-900">
                     <img
-                      src={featuredEvent.bannerUrl}
+                      src={featuredEvent.image || featuredEvent.bannerUrl || '/images/talanta.jpg'}
                       alt={featuredEvent.title}
+                      onError={(e) => { e.currentTarget.src = '/images/talanta.jpg'; }}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-navy-900 via-navy-900/40 to-transparent"></div>
@@ -226,39 +229,43 @@ export default function PublicHomePage() {
                       variant="success"
                       className="absolute top-4 left-4 bg-emerald-500 text-slate-950 font-bold"
                     >
-                      FEATURED DEMO FIXTURE
+                      FEATURED FIXTURE
                     </Badge>
                   </div>
 
                   <div className="p-6 space-y-4">
                     <div>
-                      <span className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">
+                      <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider block mb-1">
                         {featuredEvent.category}
                       </span>
-                      <h3 className="text-xl font-bold text-white mt-1 leading-snug">
+                      <h3 className="text-xl font-black text-white leading-tight uppercase font-heading">
                         {featuredEvent.title}
                       </h3>
                     </div>
 
                     <div className="space-y-2 text-xs text-slate-300">
                       <div className="flex items-center space-x-2">
-                        <MapPin className="w-4 h-4 text-slate-400" />
-                        <span>Main Bowl • Talanta Sports City, Nairobi</span>
+                        <MapPin className="w-4 h-4 text-emerald-400 shrink-0" />
+                        <span>{featuredEvent.venue}</span>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <Calendar className="w-4 h-4 text-slate-400" />
-                        <span>Sunday, 15 November 2026 • Kickoff 16:00 EAT</span>
+                        <Calendar className="w-4 h-4 text-slate-400 shrink-0" />
+                        <span>{featuredEvent.displayDate || (featuredEvent.startDate && new Date(featuredEvent.startDate).toLocaleDateString())}</span>
                       </div>
                     </div>
 
-                    <div className="pt-3 border-t border-navy-800 flex items-center justify-between">
+                    <div className="pt-4 border-t border-navy-800 flex items-center justify-between">
                       <div>
-                        <span className="text-[10px] text-slate-400 uppercase block">Starting From</span>
-                        <span className="text-lg font-bold text-white">KES 1,000</span>
+                        <span className="text-[10px] text-slate-400 block uppercase font-medium">Starting From</span>
+                        <span className="text-lg font-black text-white font-mono">
+                          {featuredEvent.categories?.[0]?.price
+                            ? `KES ${featuredEvent.categories[0].price.toLocaleString()}`
+                            : 'Awaiting Confirmation'}
+                        </span>
                       </div>
 
-                      <Link href={`/events/${featuredEvent.id}`}>
-                        <Button variant="primary" size="sm" className="space-x-1">
+                      <Link href={`/events/${featuredEvent.slug || featuredEvent.id}`}>
+                        <Button variant="primary" size="sm" className="space-x-1.5">
                           <span>Buy Tickets</span>
                           <ArrowRight className="w-4 h-4" />
                         </Button>
@@ -271,155 +278,42 @@ export default function PublicHomePage() {
           </div>
         </section>
 
-        {/* ==================== B. ABOUT TALANTA STADIUM ==================== */}
-        <section className="py-20 bg-navy-950">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-              <div className="lg:col-span-6 space-y-6">
-                <Badge variant="success" size="md">VISION & PURPOSE</Badge>
-                <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight leading-tight">
-                  A World-Class Arena for Kenya & Africa
-                </h2>
-                <p className="text-sm text-slate-300 leading-relaxed">
-                  Talanta Sports City is a landmark national infrastructure project designed to host top-tier sporting matches, athletics, concerts, and international championships. Built with modern engineering and digital infrastructure, the stadium provides a comfortable, safe, and memorable venue experience for 60,000 spectators.
-                </p>
-
-                <div className="grid grid-cols-2 gap-4 pt-2">
-                  <div className="p-4 rounded-xl bg-navy-900 border border-navy-800">
-                    <span className="text-2xl font-black text-emerald-400 block">60,000</span>
-                    <span className="text-xs text-slate-400 font-medium">All-Seater Capacity</span>
-                  </div>
-
-                  <div className="p-4 rounded-xl bg-navy-900 border border-navy-800">
-                    <span className="text-2xl font-black text-emerald-400 block">AFCON 2027</span>
-                    <span className="text-xs text-slate-400 font-medium">Anchor Venue</span>
-                  </div>
-                </div>
-
-                <div className="pt-2">
-                  <Link href="/about">
-                    <Button variant="secondary" size="md" className="space-x-2 border-navy-700">
-                      <span>Read Complete Venue Profile</span>
-                      <ChevronRight className="w-4 h-4" />
-                    </Button>
-                  </Link>
-                </div>
-              </div>
-
-              <div className="lg:col-span-6">
-                <div className="grid grid-cols-2 gap-4">
-                  <img
-                    src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=600&auto=format&fit=crop"
-                    alt="Stadium Exterior"
-                    className="rounded-2xl border border-navy-800 shadow-xl object-cover h-48 w-full"
-                  />
-                  <img
-                    src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=600&auto=format&fit=crop"
-                    alt="Match Bowl"
-                    className="rounded-2xl border border-navy-800 shadow-xl object-cover h-48 w-full mt-6"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ==================== C. STADIUM FACILITIES ==================== */}
-        <section className="py-20 bg-navy-900 border-y border-navy-800">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
-              <Badge variant="success" size="md">PROPOSED INFRASTRUCTURE</Badge>
-              <h2 className="text-3xl font-bold text-white">World-Class Stadium Facilities</h2>
-              <p className="text-xs text-slate-400">
-                Engineered for athlete excellence, media broadcasting, VIP hospitality, and public safety.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {facilitiesList.map((fac, idx) => {
-                const Icon = fac.icon;
-                return (
-                  <div
-                    key={idx}
-                    className="bg-navy-950 border border-navy-800 hover:border-emerald-500/40 rounded-2xl overflow-hidden shadow-xl flex flex-col justify-between transition-all group"
-                  >
-                    <div>
-                      <div className="relative h-40 overflow-hidden">
-                        <img
-                          src={fac.image}
-                          alt={fac.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                        <Badge variant="navy" className="absolute top-3 left-3 text-[10px]">
-                          {fac.tag}
-                        </Badge>
-                      </div>
-
-                      <div className="p-5 space-y-2">
-                        <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center">
-                          <Icon className="w-4 h-4" />
-                        </div>
-                        <h3 className="text-base font-bold text-white">{fac.title}</h3>
-                        <p className="text-xs text-slate-400 leading-relaxed">{fac.desc}</p>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            <div className="text-center mt-10">
-              <Link href="/facilities">
-                <Button variant="outline" size="md" className="space-x-2">
-                  <span>Explore All Facilities</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        {/* ==================== D. UPCOMING EVENTS ==================== */}
-        <section className="py-20 bg-navy-950">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12">
+        {/* ==================== B. UPCOMING FIXTURES SECTION ==================== */}
+        <section className="py-16 bg-navy-950 border-b border-navy-800/80">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
-                <Badge variant="success" size="sm" className="mb-2">DEMONSTRATION SCHEDULE</Badge>
-                <h2 className="text-3xl font-bold text-white tracking-tight">
-                  Upcoming Matchday Events
+                <Badge variant="success" size="sm" className="mb-2">
+                  STADIUM SCHEDULE
+                </Badge>
+                <h2 className="text-3xl font-black text-white uppercase tracking-tight font-heading">
+                  Upcoming Matchday Fixtures
                 </h2>
                 <p className="text-xs text-slate-400 mt-1">
-                  Demonstration event allocations for system evaluation & testing purposes.
+                  Official tournament schedules and event allocations at Talanta Sports City, Nairobi.
                 </p>
               </div>
 
-              <Link href="/events" className="mt-4 sm:mt-0">
-                <Button variant="secondary" size="sm" className="space-x-2 border-navy-700">
-                  <span>View All Fixtures</span>
-                  <ArrowRight className="w-4 h-4" />
+              <Link href="/events">
+                <Button variant="navy" size="sm" className="space-x-2 border-navy-700">
+                  <span>View All Events</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
                 </Button>
               </Link>
-            </div>
-
-            {/* Disclaimer Banner */}
-            <div className="mb-8 p-4 rounded-xl bg-navy-900 border border-navy-800 flex items-center space-x-3 text-xs text-slate-300">
-              <Info className="w-5 h-5 text-emerald-400 shrink-0" />
-              <span>
-                <strong>Demonstration Notice:</strong> Fixtures listed below are demonstration concepts configured to evaluate the ticket booking, M-PESA checkout, and turnstile validation workflows.
-              </span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {upcomingEvents.map((evt) => (
+              {upcomingEvents.slice(0, 3).map((evt) => (
                 <div
                   key={evt.id}
                   className="bg-navy-900 border border-navy-800 hover:border-emerald-500/40 rounded-2xl overflow-hidden shadow-xl flex flex-col justify-between transition-all group"
                 >
                   <div>
-                    <div className="relative h-44 overflow-hidden">
+                    <div className="relative h-48 overflow-hidden bg-slate-900">
                       <img
-                        src={evt.bannerUrl}
+                        src={evt.image || evt.bannerUrl || '/images/talanta.jpg'}
                         alt={evt.title}
+                        onError={(e) => { e.currentTarget.src = '/images/talanta.jpg'; }}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                       <Badge variant="navy" className="absolute top-3 left-3 text-[10px]">
@@ -428,17 +322,17 @@ export default function PublicHomePage() {
                     </div>
 
                     <div className="p-6 space-y-3">
-                      <h3 className="text-base font-bold text-white leading-snug">{evt.title}</h3>
+                      <h3 className="text-lg font-black text-white leading-snug uppercase font-heading">{evt.title}</h3>
                       <p className="text-xs text-slate-400 line-clamp-2">{evt.description}</p>
 
                       <div className="space-y-1.5 pt-2 text-xs text-slate-300">
                         <div className="flex items-center space-x-2">
                           <Calendar className="w-3.5 h-3.5 text-emerald-400" />
-                          <span>{new Date(evt.startTime).toLocaleDateString('en-KE', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                          <span>{evt.displayDate || (evt.startDate && new Date(evt.startDate).toLocaleDateString())}</span>
                         </div>
                         <div className="flex items-center space-x-2">
                           <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                          <span>{evt.venueZone} • Talanta Stadium</span>
+                          <span>{evt.venue || 'Talanta Stadium'}</span>
                         </div>
                       </div>
                     </div>
@@ -447,15 +341,15 @@ export default function PublicHomePage() {
                   <div className="p-6 pt-0">
                     <div className="pt-4 border-t border-navy-800 flex items-center justify-between">
                       <div>
-                        <span className="text-[10px] text-slate-400 block">General Admission</span>
-                        <span className="text-sm font-bold text-emerald-400">
+                        <span className="text-[10px] text-slate-400 block uppercase">General Admission</span>
+                        <span className="text-sm font-black text-emerald-400 font-mono">
                           {evt.categories?.[0]?.price ? `KES ${evt.categories[0].price.toLocaleString()}` : 'Awaiting Confirmation'}
                         </span>
                       </div>
 
-                      <Link href={`/events/${evt.id}`}>
+                      <Link href={`/events/${evt.slug || evt.id}`}>
                         <Button variant="primary" size="sm" className="space-x-1">
-                          <span>Buy Ticket</span>
+                          <span>Event Info</span>
                           <ArrowRight className="w-3.5 h-3.5" />
                         </Button>
                       </Link>
@@ -467,172 +361,37 @@ export default function PublicHomePage() {
           </div>
         </section>
 
-        {/* ==================== E. DIGITAL SERVICES ==================== */}
-        <section className="py-20 bg-navy-900 border-y border-navy-800">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
-              <Badge variant="success" size="md">ST-TECH DIGITAL PLATFORM</Badge>
-              <h2 className="text-3xl font-bold text-white">Planned Digital Services</h2>
+        {/* ==================== C. DIGITAL SERVICES GRID ==================== */}
+        <section className="py-16 bg-navy-900 border-b border-navy-800/80">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+            <div className="text-center max-w-3xl mx-auto space-y-3">
+              <Badge variant="success" size="sm">
+                SMART STADIUM CAPABILITIES
+              </Badge>
+              <h2 className="text-3xl font-black text-white uppercase tracking-tight font-heading">
+                Integrated Digital Infrastructure
+              </h2>
               <p className="text-xs text-slate-400">
-                A joined-up digital operating layer spanning patron mobile booking, turnstile gate entry, and command operations.
+                ST-Tech ICT Consultants delivers end-to-end ticketing, security, gate access, and venue operational intelligence.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {digitalServicesList.map((srv, idx) => {
-                const Icon = srv.icon;
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {digitalServicesList.slice(0, 4).map((srv) => {
+                const IconComp = srv.icon;
                 return (
                   <div
-                    key={idx}
-                    className="p-6 rounded-2xl bg-navy-950 border border-navy-800 hover:border-emerald-500/40 transition-all space-y-3"
+                    key={srv.title}
+                    className="bg-navy-950 border border-navy-800 hover:border-emerald-500/40 rounded-2xl p-6 space-y-3 shadow-xl transition-all"
                   >
-                    <div className="flex items-center justify-between">
-                      <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center">
-                        <Icon className="w-5 h-5" />
-                      </div>
-                      <Badge variant="neutral" size="sm">{srv.badge}</Badge>
+                    <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center">
+                      <IconComp className="w-5 h-5" />
                     </div>
-                    <h3 className="text-base font-bold text-white">{srv.title}</h3>
+                    <h3 className="text-sm font-bold text-white uppercase">{srv.title}</h3>
                     <p className="text-xs text-slate-400 leading-relaxed">{srv.desc}</p>
                   </div>
                 );
               })}
-            </div>
-
-            <div className="text-center mt-10">
-              <Link href="/services">
-                <Button variant="secondary" size="md" className="space-x-2 border-navy-700">
-                  <span>View Complete Technical Architecture</span>
-                  <ChevronRight className="w-4 h-4" />
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        {/* ==================== F. STADIUM EXPERIENCE ==================== */}
-        <section className="py-20 bg-navy-950">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center max-w-3xl mx-auto mb-14 space-y-3">
-              <Badge variant="success" size="md">SPECTATOR EXPERIENCE</Badge>
-              <h2 className="text-3xl font-bold text-white">Elevated Matchday Hospitality</h2>
-              <p className="text-xs text-slate-400">
-                Designed to deliver an inclusive, convenient, and safe matchday environment for all patrons.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="p-6 rounded-2xl bg-navy-900 border border-navy-800 space-y-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
-                  <Smartphone className="w-5 h-5" />
-                </div>
-                <h3 className="text-base font-bold text-white">Cashless Concessions</h3>
-                <p className="text-xs text-slate-400 leading-relaxed">
-                  Fast mobile M-PESA payment processing at all food, beverage, and merchandise kiosks across the stadium concourse.
-                </p>
-              </div>
-
-              <div className="p-6 rounded-2xl bg-navy-900 border border-navy-800 space-y-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
-                  <Users className="w-5 h-5" />
-                </div>
-                <h3 className="text-base font-bold text-white">Accessible & Family Zones</h3>
-                <p className="text-xs text-slate-400 leading-relaxed">
-                  Dedicated wheelchair seating bays, step-free access routes, family restrooms, and trained accessibility stewards.
-                </p>
-              </div>
-
-              <div className="p-6 rounded-2xl bg-navy-900 border border-navy-800 space-y-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
-                  <Shield className="w-5 h-5" />
-                </div>
-                <h3 className="text-base font-bold text-white">Integrated Safety & Control</h3>
-                <p className="text-xs text-slate-400 leading-relaxed">
-                  Real-time turnstile monitoring, density alerts, emergency egress hardware, and trained matchday security stewards.
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ==================== G. NEWS AND ANNOUNCEMENTS ==================== */}
-        <section className="py-20 bg-navy-900 border-t border-navy-800">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-12">
-              <div>
-                <Badge variant="success" size="sm" className="mb-2">STADIUM UPDATES</Badge>
-                <h2 className="text-3xl font-bold text-white tracking-tight">
-                  News & Announcements
-                </h2>
-                <p className="text-xs text-slate-400 mt-1">
-                  Official reporting on stadium construction progress and digital platform developments.
-                </p>
-              </div>
-
-              <Link href="/news" className="mt-4 sm:mt-0">
-                <Button variant="secondary" size="sm" className="space-x-2 border-navy-700">
-                  <span>All News Articles</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Button>
-              </Link>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {newsList.map((item) => (
-                <div
-                  key={item.id}
-                  className="bg-navy-950 border border-navy-800 hover:border-emerald-500/40 rounded-2xl p-6 shadow-xl flex flex-col justify-between transition-all"
-                >
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between text-[11px] text-slate-400">
-                      <span className="font-semibold text-emerald-400">{item.category}</span>
-                      <span>{item.date}</span>
-                    </div>
-                    <h3 className="text-base font-bold text-white leading-snug">{item.title}</h3>
-                    <p className="text-xs text-slate-400 leading-relaxed">{item.excerpt}</p>
-                  </div>
-
-                  <div className="pt-4 mt-4 border-t border-navy-800">
-                    <Link href={item.link} className="inline-flex items-center text-xs text-emerald-400 font-semibold hover:underline space-x-1">
-                      <span>Read Full Update</span>
-                      <ChevronRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ==================== H. CALL TO ACTION BANNER ==================== */}
-        <section className="py-16 bg-gradient-to-r from-navy-950 via-navy-900 to-navy-950 border-t border-navy-800">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
-              <Ticket className="w-6 h-6" />
-            </div>
-
-            <h2 className="text-3xl font-black text-white">
-              Ready for Matchday at Talanta Stadium?
-            </h2>
-
-            <p className="text-xs sm:text-sm text-slate-300 max-w-2xl mx-auto leading-relaxed">
-              Explore demonstration fixtures, test M-PESA cashless checkout, and experience Kenya's smart stadium operating platform.
-            </p>
-
-            <div className="flex flex-wrap justify-center gap-4 pt-2">
-              <Link href="/events">
-                <Button variant="primary" size="lg" className="space-x-2">
-                  <Compass className="w-5 h-5" />
-                  <span>Explore Events & Tickets</span>
-                </Button>
-              </Link>
-
-              <Link href="/contact">
-                <Button variant="navy" size="lg" className="space-x-2 border-navy-700">
-                  <PhoneCall className="w-5 h-5 text-emerald-400" />
-                  <span>Contact Operations Team</span>
-                </Button>
-              </Link>
             </div>
           </div>
         </section>

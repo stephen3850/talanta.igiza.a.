@@ -191,9 +191,9 @@ export default function PublicEventsPage() {
                       {/* CARD IMAGE CONTAINER */}
                       <div className="relative h-56 overflow-hidden bg-slate-950">
                         <img
-                          src={evt.image || evt.bannerUrl || '/images/talanta.jpg'}
+                          src={evt.image || evt.bannerUrl || '/images/Talanta-stadium.jpeg'}
                           alt={evt.title}
-                          onError={(e) => { e.currentTarget.src = '/images/talanta.jpg'; }}
+                          onError={(e) => { e.currentTarget.src = '/images/Talanta-stadium.jpeg'; }}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>

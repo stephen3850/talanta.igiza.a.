@@ -1,0 +1,2029 @@
+// TALANTA STADIUM SMART DIGITAL INFRASTRUCTURE SCHEMA
+// ST-Tech ICT Consultants
+// PostgreSQL Database Schema Definition
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  CUSTOMER
+  STEWARD
+  STAFF_MEMBER
+  CONTRACTOR
+  MAINTENANCE_TECHNICIAN
+  GATE_OPERATOR
+  SECURITY_SUPERVISOR
+  FINANCE_OFFICER
+  TICKETING_OFFICER
+  VENUE_MANAGER
+  STADIUM_ADMINISTRATOR
+  OPERATIONS_MANAGER
+  SYSTEM_ADMIN
+  PLATFORM_ADMINISTRATOR
+}
+
+enum FacilityType {
+  STADIUM
+  TRAINING_FACILITY
+  PARKING_FACILITY
+  SPORTS_FACILITY
+  OTHER
+}
+
+enum EventStatus {
+  DRAFT
+  PUBLISHED
+  CANCELLED
+  COMPLETED
+  ARCHIVED
+}
+
+enum BookingStatus {
+  PENDING
+  AWAITING_PAYMENT
+  CONFIRMED
+  EXPIRED
+  CANCELLED
+  REFUNDED
+}
+
+enum OrderStatus {
+  DRAFT
+  PENDING_PAYMENT
+  PAID
+  FAILED
+  CANCELLED
+  REFUNDED
+}
+
+enum TicketStatus {
+  ISSUED
+  VALIDATED
+  EXPIRED
+  REVOKED
+}
+
+enum PaymentStatus {
+  INITIATED
+  PENDING
+  SUCCESSFUL
+  FAILED
+  CANCELLED
+  EXPIRED
+  REVERSED
+}
+
+enum AccreditationStatus {
+  PENDING
+  UNDER_REVIEW
+  APPROVED
+  REJECTED
+  SUSPENDED
+  EXPIRED
+}
+
+enum StaffCategory {
+  STADIUM_EMPLOYEE
+  SECURITY
+  EVENT_ORGANIZER
+  CONTRACTOR
+  VENDOR
+  TECHNICAL
+  MEDICAL_EMERGENCY
+  OTHER
+}
+
+enum IoTDeviceStatus {
+  ONLINE
+  OFFLINE
+  MAINTENANCE
+  DISABLED
+}
+
+enum IoTCategory {
+  ENVIRONMENTAL
+  TEMPERATURE_HUMIDITY
+  AIR_QUALITY
+  ENERGY_METER
+  WATER_MONITORING
+  OCCUPANCY
+  EQUIPMENT_HVAC
+  ACCESS_CONTROL
+  OTHER
+}
+
+model Facility {
+  id                    String       @id @default(uuid())
+  facilityCode          String       @unique
+  name                  String
+  description           String?      @db.Text
+  type                  FacilityType
+  address               String?
+  city                  String?
+  country               String?
+  timezone              String       @default("Africa/Nairobi")
+  status                String       @default("ACTIVE")
+  operationalInfo       String?      @db.Text
+  isDevelopmentSample   Boolean      @default(false)
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime     @updatedAt
+
+  memberships           FacilityMembership[]
+  events                Event[]
+  staffAccreditations   StaffAccreditation[]
+  iotDevices            IoTDevice[]
+  hardwareAssets        HardwareAsset[]
+  cameras               Camera[]
+  networkDevices        NetworkInfrastructureDevice[]
+  vmsIntegrations       VmsIntegration[]
+  wirelessIntegrations  WirelessControllerIntegration[]
+  accessIntegrations    AccessControlIntegration[]
+  emergencyIntegrations EmergencyCommunicationIntegration[]
+  wifiPolicies          GuestWifiPolicy[]
+  networkSegments       NetworkSegment[]
+  wifiUsageAggregates   WifiUsageAggregate[]
+  accessControlPoints   AccessControlPoint[]
+  securityEvents        SecurityEvent[]
+  securityAlerts        SecurityAlert[]
+  securityIncidents     SecurityIncident[]
+  emergencyMessages     EmergencyCommunicationMessage[]
+  revenueRecords       RevenueRecord[]
+  financialAdjustments FinancialAdjustment[]
+  reconciliationBatches ReconciliationBatch[]
+  procurementRequests  ProcurementRequest[]
+  purchaseOrders       PurchaseOrder[]
+  supplierContracts    SupplierContract[]
+  helpdeskTickets      HelpdeskTicket[]
+
+  @@index([type, status])
+  @@map("facilities")
+}
+
+model FacilityMembership {
+  id          String   @id @default(uuid())
+  facilityId  String
+  userId      String
+  role        String
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  facility    Facility @relation(fields: [facilityId], references: [id], onDelete: Cascade)
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([facilityId, userId])
+  @@index([userId, isActive])
+  @@index([facilityId, role, isActive])
+  @@map("facility_memberships")
+}
+
+model User {
+  id            String         @id @default(uuid())
+  email         String         @unique
+  passwordHash  String
+  fullName      String
+  phoneNumber   String?
+  role          Role           @default(CUSTOMER)
+  isActive      Boolean        @default(true)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  orders        Order[]
+  bookings      Booking[]
+  tickets       Ticket[]
+  auditLogs     AuditLog[]
+  facilityMemberships FacilityMembership[]
+  iamSessions   IamSession[]
+  mfaCredential MfaCredential?
+  passwordResetTokens PasswordResetToken[]
+
+  @@map("users")
+}
+
+model IamSession {
+  id            String    @id @default(uuid())
+  userId        String
+  tokenHash     String    @unique
+  userAgent     String?
+  ipAddressHash String?
+  createdAt     DateTime  @default(now())
+  lastSeenAt    DateTime  @default(now())
+  expiresAt     DateTime
+  revokedAt     DateTime?
+
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, revokedAt, expiresAt])
+  @@map("iam_sessions")
+}
+
+model MfaCredential {
+  id                String    @id @default(uuid())
+  userId            String    @unique
+  secretCiphertext  String
+  enabledAt         DateTime?
+  lastTotpCounter   BigInt    @default(0)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recoveryCodes     MfaRecoveryCode[]
+
+  @@map("mfa_credentials")
+}
+
+model MfaRecoveryCode {
+  id            String    @id @default(uuid())
+  credentialId  String
+  codeHash      String    @unique
+  consumedAt    DateTime?
+  createdAt     DateTime  @default(now())
+
+  credential    MfaCredential @relation(fields: [credentialId], references: [id], onDelete: Cascade)
+
+  @@index([credentialId, consumedAt])
+  @@map("mfa_recovery_codes")
+}
+
+model PasswordResetToken {
+  id          String    @id @default(uuid())
+  userId      String
+  tokenHash   String    @unique
+  expiresAt   DateTime
+  usedAt      DateTime?
+  createdAt   DateTime  @default(now())
+
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, usedAt, expiresAt])
+  @@map("password_reset_tokens")
+}
+
+model IdentityProvider {
+  id             String   @id @default(uuid())
+  providerKey    String   @unique
+  displayName    String
+  protocol       String
+  issuerUrl      String
+  clientId       String
+  secretReference String
+  scopes         String   @default("openid profile email")
+  status         String   @default("PENDING_CONFIGURATION")
+  configuredById String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([protocol, status])
+  @@map("identity_providers")
+}
+
+model Event {
+  id               String           @id @default(uuid())
+  eventCode        String           @unique
+  title            String
+  slug             String           @unique
+  description      String?          @db.Text
+  category         String
+  image            String?
+  startDate        DateTime
+  endDate          DateTime
+  venue            String           @default("Main Bowl")
+  organizer        String?          @default("Ministry of Sports / FKF")
+  contactInfo      String?
+  ticketSalesStart DateTime?
+  ticketSalesEnd   DateTime?
+  status           EventStatus      @default(DRAFT)
+  featured         Boolean          @default(false)
+  createdById      String?
+  facilityId       String       @default("FACILITY-TALANTA-STADIUM")
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  facility         Facility         @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+  categories       TicketCategory[]
+  orders           Order[]
+  bookings         Booking[]
+  tickets          Ticket[]
+  revenueRecords   RevenueRecord[]
+  financialAdjustments FinancialAdjustment[]
+
+  @@index([facilityId, status, startDate])
+  @@map("events")
+}
+
+model TicketCategory {
+  id             String        @id @default(uuid())
+  eventId        String
+  categoryName   String
+  description    String?
+  price          Float
+  totalCapacity  Int
+  availableSeats Int
+  maxPurchaseQty Int           @default(6)
+  holdMinutes    Int           @default(10)
+  salesStart     DateTime?
+  salesEnd       DateTime?
+  isActive       Boolean       @default(true)
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  event          Event         @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  bookingItems   BookingItem[]
+  tickets        Ticket[]
+
+  @@map("ticket_categories")
+}
+
+model Booking {
+  id             String        @id @default(uuid())
+  bookingRef     String        @unique
+  userId         String
+  userEmail      String
+  userName       String
+  eventId        String
+  totalAmount    Float
+  currency       String        @default("KES")
+  bookingStatus  BookingStatus @default(PENDING)
+  mpesaReceipt   String?
+  mpesaPhone     String?
+  expiresAt      DateTime?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  user           User          @relation(fields: [userId], references: [id])
+  event          Event         @relation(fields: [eventId], references: [id])
+  bookingItems   BookingItem[]
+  tickets        Ticket[]
+  payments       Payment[]
+
+  @@map("bookings")
+}
+
+model BookingItem {
+  id             String         @id @default(uuid())
+  bookingId      String
+  categoryId     String
+  categoryName   String
+  quantity       Int
+  unitPrice      Float
+  subtotal       Float
+
+  booking        Booking        @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  category       TicketCategory @relation(fields: [categoryId], references: [id])
+
+  @@map("booking_items")
+}
+
+model Order {
+  id             String      @id @default(uuid())
+  orderRef       String      @unique
+  userId         String
+  eventId        String
+  totalAmount    Float
+  currency       String      @default("KES")
+  status         OrderStatus @default(DRAFT)
+  mpesaReceipt   String?
+  mpesaPhone     String?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  user           User        @relation(fields: [userId], references: [id])
+  event          Event       @relation(fields: [eventId], references: [id])
+  tickets        Ticket[]
+  payments       Payment[]
+
+  @@map("orders")
+}
+
+model Ticket {
+  id             String         @id @default(uuid())
+  ticketNumber   String         @unique
+  bookingId      String?
+  orderId        String?
+  eventId        String
+  categoryId     String
+  userId         String
+  seatNumber     String?
+  qrToken        String         @db.Text
+  status         TicketStatus   @default(ISSUED)
+  gateValidated  String?
+  validatedAt    DateTime?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  booking        Booking?       @relation(fields: [bookingId], references: [id])
+  order          Order?         @relation(fields: [orderId], references: [id])
+  event          Event          @relation(fields: [eventId], references: [id])
+  category       TicketCategory @relation(fields: [categoryId], references: [id])
+  user           User           @relation(fields: [userId], references: [id])
+  gateLogs       GateLog[]
+
+  @@map("tickets")
+}
+
+model Payment {
+  id                String           @id @default(uuid())
+  paymentRef        String           @unique
+  bookingId         String?
+  orderId           String?
+  amount            Float
+  currency          String           @default("KES")
+  provider          String           @default("M-PESA")
+  phoneNumber       String?
+  merchantRequestId String?
+  checkoutRequestId String?          @unique
+  mpesaReceipt      String?
+  status            PaymentStatus    @default(INITIATED)
+  rawCallback       String?          @db.Text
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  booking           Booking?         @relation(fields: [bookingId], references: [id])
+  order             Order?           @relation(fields: [orderId], references: [id])
+  attempts          PaymentAttempt[]
+  reconciliation    PaymentReconciliation?
+  statementLine     ProviderStatementLine?
+  refundRequests    RefundRequest[]
+
+  @@map("payments")
+}
+
+model PaymentAttempt {
+  id                  String   @id @default(uuid())
+  paymentId           String
+  merchantRequestId   String?
+  checkoutRequestId   String?
+  responseCode        String?
+  responseDescription String?
+  customerMessage     String?
+  createdAt           DateTime @default(now())
+
+  payment             Payment  @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+
+  @@map("payment_attempts")
+}
+
+model GateLog {
+  id               String       @id @default(uuid())
+  ticketId         String?
+  ticketNumber     String
+  gateId           String       // e.g. "GATE-A-01"
+  deviceId         String       // e.g. "SCANNER-MOB-04"
+  validationStatus String       // APPROVED, REJECTED, EXPIRED, DUPLICATE
+  failureReason    String?
+  scannedAt        DateTime     @default(now())
+
+  ticket           Ticket?      @relation(fields: [ticketId], references: [id])
+
+  @@map("gate_logs")
+}
+
+model StaffAccreditation {
+  id              String              @id @default(uuid())
+  accreditationNo String              @unique
+  fullName        String
+  email           String?
+  phoneNumber     String?
+  idNumber        String
+  organisation    String
+  department      String              @default("Operations")
+  roleTitle       String
+  category        StaffCategory       @default(STADIUM_EMPLOYEE)
+  zonePermissions String
+  validFrom       DateTime
+  validUntil      DateTime
+  status          AccreditationStatus @default(APPROVED)
+  facilityId      String       @default("FACILITY-TALANTA-STADIUM")
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+
+  facility        Facility            @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+
+  @@index([facilityId, status, validUntil])
+  @@map("staff_accreditations")
+}
+
+model IoTDevice {
+  id           String          @id @default(uuid())
+  deviceId     String          @unique
+  name         String
+  category     IoTCategory     @default(ENVIRONMENTAL)
+  manufacturer String?         @default("Siemens / Schneider")
+  model        String?
+  serialNumber String?
+  zoneLocation String
+  gatewayId    String?         @default("GW-MQTT-MAIN-01")
+  protocol     String          @default("MQTT")
+  status       IoTDeviceStatus @default(ONLINE)
+  apiKey       String?
+  installedAt  DateTime        @default(now())
+  lastSeenAt   DateTime        @default(now())
+  facilityId   String       @default("FACILITY-TALANTA-STADIUM")
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+
+  facility      Facility        @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+  telemetries   IoTTelemetry[]
+  alerts        IoTAlert[]
+  hardwareAsset HardwareAsset?
+
+  @@index([facilityId, status, category])
+  @@map("iot_devices")
+}
+
+model IoTTelemetry {
+  id               String    @id @default(uuid())
+  deviceId         String
+  measurementType  String
+  measurementValue Float
+  unit             String
+  isSimulated      Boolean   @default(true)
+  timestamp        DateTime  @default(now())
+
+  device           IoTDevice @relation(fields: [deviceId], references: [deviceId], onDelete: Cascade)
+
+  @@map("iot_telemetries")
+}
+
+model IoTAlert {
+  id             String    @id @default(uuid())
+  deviceId       String
+  severity       String
+  title          String
+  message        String
+  thresholdValue Float?
+  actualValue    Float?
+  acknowledged   Boolean   @default(false)
+  createdAt      DateTime  @default(now())
+
+  device         IoTDevice @relation(fields: [deviceId], references: [deviceId], onDelete: Cascade)
+
+  @@map("iot_alerts")
+}
+
+model AuditLog {
+  id          String   @id @default(uuid())
+  userId      String?
+  userEmail   String?
+  action      String
+  entityType  String
+  entityId    String?
+  ipAddress   String?
+  userAgent   String?
+  details     String?  @db.Text
+  createdAt   DateTime @default(now())
+
+  user        User?    @relation(fields: [userId], references: [id])
+
+  @@map("audit_logs")
+}
+
+model SystemConfig {
+  id          String   @id @default(uuid())
+  key         String   @unique
+  value       String   @db.Text
+  description String?
+  updatedAt   DateTime @updatedAt
+
+  @@map("system_config")
+}
+
+enum CameraZone {
+  BOWL
+  CONCOURSE
+  ENTRANCE
+  EXIT
+  PARKING
+  RESTRICTED
+  OTHER
+}
+
+enum CameraInstallationStatus {
+  PLANNED
+  INSTALLED
+  DECOMMISSIONED
+}
+
+enum CameraOperationalStatus {
+  UNKNOWN
+  ONLINE
+  OFFLINE
+  DEGRADED
+}
+
+model Camera {
+  id                      String                   @id @default(uuid())
+  cameraId                String                   @unique
+  name                    String
+  zone                    CameraZone
+  locationDescription     String
+  cameraType              String
+  manufacturer            String?
+  model                   String?
+  installationStatus      CameraInstallationStatus @default(PLANNED)
+  operationalStatus       CameraOperationalStatus  @default(UNKNOWN)
+  statusSource            String                   @default("UNVERIFIED")
+  lastStatusAt            DateTime?
+  privacyMaskingSupported Boolean                  @default(false)
+  privacyMaskingEnabled   Boolean                  @default(false)
+  isSimulated             Boolean                  @default(false)
+  facilityId              String                   @default("FACILITY-TALANTA-STADIUM")
+  createdAt               DateTime                 @default(now())
+  updatedAt               DateTime                 @updatedAt
+
+  facility                Facility                 @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+  events                  CameraEventMetadata[]
+  accessLogs              CameraAccessLog[]
+
+  @@index([zone, installationStatus])
+  @@index([facilityId, operationalStatus])
+  @@map("camera_records")
+}
+
+model VmsIntegration {
+  id               String   @id @default(uuid())
+  providerName     String
+  protocol         String
+  endpointUrl      String
+  secretReference  String?
+  connectionStatus String   @default("UNVERIFIED")
+  isSimulated      Boolean  @default(false)
+  createdById      String?
+  createdByEmail   String?
+  facilityId       String   @default("FACILITY-TALANTA-STADIUM")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  facility         Facility @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+
+  @@index([facilityId, connectionStatus])
+  @@map("camera_vms_integrations")
+}
+
+model CameraEventMetadata {
+  id                String   @id @default(uuid())
+  cameraId          String
+  eventType         String
+  summary           String
+  occurredAt        DateTime
+  incidentReference String
+  vmsRecordingUrl   String?
+  isSimulated       Boolean  @default(false)
+  createdById       String?
+  createdByEmail    String?
+  createdAt         DateTime @default(now())
+
+  camera            Camera   @relation(fields: [cameraId], references: [cameraId], onDelete: Cascade)
+
+  @@index([occurredAt])
+  @@index([incidentReference])
+  @@map("camera_event_metadata")
+}
+
+model CameraAccessLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  userEmail String
+  action    String
+  cameraId  String?
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  camera    Camera?  @relation(fields: [cameraId], references: [cameraId], onDelete: SetNull)
+
+  @@index([userEmail, createdAt])
+  @@index([cameraId, createdAt])
+  @@map("camera_access_logs")
+}
+
+model NetworkInfrastructureDevice {
+  id                String   @id @default(uuid())
+  deviceId          String   @unique
+  name              String
+  category          String
+  zone              String
+  manufacturer      String?
+  model             String?
+  operationalStatus String   @default("UNKNOWN")
+  statusSource      String   @default("UNVERIFIED")
+  lastStatusAt      DateTime?
+  isSimulated       Boolean  @default(false)
+  facilityId        String       @default("FACILITY-TALANTA-STADIUM")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  facility          Facility @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+
+  @@index([zone, category])
+  @@index([facilityId, category, operationalStatus])
+  @@map("network_infrastructure_devices")
+}
+
+model WirelessControllerIntegration {
+  id               String   @id @default(uuid())
+  providerName     String
+  protocol         String
+  endpointUrl      String
+  secretReference  String?
+  connectionStatus String   @default("UNVERIFIED")
+  isSimulated      Boolean  @default(false)
+  createdById      String?
+  createdByEmail   String?
+  facilityId       String   @default("FACILITY-TALANTA-STADIUM")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  facility         Facility @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+
+  @@index([facilityId, connectionStatus])
+  @@map("wireless_controller_integrations")
+}
+
+model GuestWifiPolicy {
+  id                    String   @id @default(uuid())
+  ssid                  String
+  captivePortalProvider String?
+  bandwidthMbps         Int
+  sessionMinutes        Int
+  idleTimeoutMinutes    Int
+  maxDevicesPerSession  Int
+  status                String   @default("PENDING_APPROVAL")
+  createdById           String?
+  createdByEmail        String?
+  isSimulated           Boolean  @default(false)
+  facilityId            String       @default("FACILITY-TALANTA-STADIUM")
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  facility              Facility @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+
+  @@index([status, createdAt])
+  @@index([facilityId, status])
+  @@map("guest_wifi_policies")
+}
+
+model NetworkSegment {
+  id          String   @id @default(uuid())
+  segmentKey  String
+  name        String
+  purpose     String
+  status      String   @default("PROPOSED")
+  isSimulated Boolean  @default(false)
+  facilityId  String   @default("FACILITY-TALANTA-STADIUM")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  facility    Facility @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+
+  @@unique([facilityId, segmentKey])
+  @@index([facilityId, status])
+  @@map("network_segments")
+}
+
+model WifiUsageAggregate {
+  id                String   @id @default(uuid())
+  windowStart       DateTime
+  windowMinutes     Int
+  connectedDevices Int
+  sessions          Int
+  totalDataMb       Float
+  source            String   @default("SIMULATED")
+  isSimulated       Boolean  @default(true)
+  facilityId        String       @default("FACILITY-TALANTA-STADIUM")
+  createdAt         DateTime @default(now())
+
+  facility          Facility @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+
+  @@index([windowStart])
+  @@index([facilityId, windowStart])
+  @@map("wifi_usage_aggregates")
+}
+
+model NetworkAccessLog {
+  id        String   @id @default(uuid())
+  userId    String?
+  userEmail String
+  action    String
+  entityId  String?
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  @@index([userEmail, createdAt])
+  @@map("network_access_logs")
+}
+
+model AccessControlPoint {
+  id                String   @id @default(uuid())
+  pointId           String   @unique
+  name              String
+  zone              String
+  location          String
+  hardwareType      String
+  manufacturer      String?
+  model             String?
+  installationStatus String  @default("PLANNED")
+  operationalStatus String   @default("UNKNOWN")
+  integrationStatus String   @default("UNVERIFIED")
+  statusSource      String   @default("UNVERIFIED")
+  isEmergencyExit   Boolean  @default(false)
+  isSimulated       Boolean  @default(false)
+  lastStatusAt      DateTime?
+  facilityId        String       @default("FACILITY-TALANTA-STADIUM")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  facility          Facility @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+  permissions       AccessControlPermission[]
+  events            AccessControlEvent[]
+  alerts            AccessControlAlert[]
+
+  @@index([zone, installationStatus])
+  @@index([facilityId, operationalStatus])
+  @@map("access_control_points")
+}
+
+model AccessControlPermission {
+  id                String   @id @default(uuid())
+  pointId           String
+  targetType        String
+  targetId          String
+  groupName         String?
+  zone              String
+  validFrom         DateTime
+  expiresAt         DateTime
+  revokedAt         DateTime?
+  reason            String?
+  createdById       String
+  createdByEmail    String?
+  isSimulated       Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  point             AccessControlPoint @relation(fields: [pointId], references: [pointId], onDelete: Cascade)
+  events            AccessControlEvent[]
+
+  @@index([pointId, validFrom, expiresAt, revokedAt])
+  @@index([targetType, targetId])
+  @@map("access_control_permissions")
+}
+
+model AccessControlIntegration {
+  id               String   @id @default(uuid())
+  providerName     String
+  protocol         String
+  endpointUrl      String
+  secretReference  String?
+  connectionStatus String   @default("UNVERIFIED")
+  isSimulated      Boolean  @default(false)
+  createdById      String?
+  createdByEmail   String?
+  facilityId       String   @default("FACILITY-TALANTA-STADIUM")
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  facility         Facility @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+
+  @@index([facilityId, connectionStatus])
+  @@map("access_control_integrations")
+}
+
+model AccessControlEvent {
+  id                String   @id @default(uuid())
+  eventRef          String   @unique
+  pointId           String
+  permissionId      String?
+  outcome           String
+  reasonCode        String
+  subjectHash       String
+  source            String
+  isSimulated       Boolean  @default(false)
+  occurredAt        DateTime @default(now())
+  createdAt         DateTime @default(now())
+
+  point             AccessControlPoint @relation(fields: [pointId], references: [pointId], onDelete: Cascade)
+  permission        AccessControlPermission? @relation(fields: [permissionId], references: [id], onDelete: SetNull)
+
+  @@index([pointId, occurredAt])
+  @@index([subjectHash, outcome, occurredAt])
+  @@map("access_control_events")
+}
+
+model AccessControlAlert {
+  id                String   @id @default(uuid())
+  pointId           String
+  subjectHash       String
+  attemptCount      Int
+  severity          String
+  status            String   @default("ACTIVE")
+  title             String
+  createdAt         DateTime @default(now())
+  resolvedAt        DateTime?
+
+  point             AccessControlPoint @relation(fields: [pointId], references: [pointId], onDelete: Cascade)
+
+  @@index([status, createdAt])
+  @@index([pointId, subjectHash, createdAt])
+  @@map("access_control_alerts")
+}
+
+model AccessControlAuditLog {
+  sequence          Int      @id @default(autoincrement())
+  id                String   @unique @default(uuid())
+  actorId           String
+  actorEmail        String
+  action            String
+  entityType        String
+  entityId          String?
+  details           String   @db.Text
+  previousHash      String
+  recordHash        String   @unique
+  createdAt         DateTime @default(now())
+
+  @@index([entityType, entityId, createdAt])
+  @@map("access_control_audit_logs")
+}
+
+model EmergencyCommunicationMessage {
+  id                 String   @id @default(uuid())
+  messageRef         String   @unique
+  title              String
+  body               String   @db.Text
+  category           String
+  priority           String
+  channel            String
+  incidentReference  String?
+  status             String   @default("DRAFT")
+  createdById        String
+  createdByEmail     String
+  createdByRole      String
+  scheduledAt        DateTime?
+  publishedAt        DateTime?
+  publicationMode    String?
+  isSimulated        Boolean  @default(false)
+  cancelledAt        DateTime?
+  facilityId         String       @default("FACILITY-TALANTA-STADIUM")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  facility           Facility @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+  approvals          EmergencyCommunicationApproval[]
+
+  @@index([facilityId, status, scheduledAt])
+  @@index([category, createdAt])
+  @@index([incidentReference])
+  @@map("emergency_communication_messages")
+}
+
+model EmergencyCommunicationTemplate {
+  id                 String   @id @default(uuid())
+  templateKey        String   @unique
+  name               String
+  category           String
+  channel            String
+  titleTemplate      String
+  bodyTemplate       String   @db.Text
+  isActive           Boolean  @default(true)
+  createdById        String
+  createdByEmail     String
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  @@index([category, isActive])
+  @@map("emergency_communication_templates")
+}
+
+model EmergencyCommunicationApproval {
+  id                 String   @id @default(uuid())
+  messageId          String
+  approverId         String
+  approverEmail      String
+  approverRole       String
+  decision           String
+  notes              String?
+  createdAt          DateTime @default(now())
+
+  message            EmergencyCommunicationMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  @@index([messageId, createdAt])
+  @@map("emergency_communication_approvals")
+}
+
+model EmergencyCommunicationIntegration {
+  id                 String   @id @default(uuid())
+  systemType         String
+  providerName       String
+  protocol           String
+  endpointUrl        String
+  secretReference    String?
+  connectionStatus   String   @default("UNVERIFIED")
+  verifiedAt         DateTime?
+  createdById        String
+  createdByEmail     String
+  isSimulated        Boolean  @default(false)
+  facilityId         String   @default("FACILITY-TALANTA-STADIUM")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  facility           Facility @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+
+  @@index([facilityId, systemType, connectionStatus])
+  @@map("emergency_communication_integrations")
+}
+
+model EmergencyCommunicationPolicy {
+  id                 String   @id @default(uuid())
+  policyKey          String   @unique @default("DEFAULT")
+  operatorRoles      String
+  supervisorRoles    String
+  updatedById        String
+  updatedByEmail     String
+  updatedAt          DateTime @updatedAt
+
+  @@map("emergency_communication_policies")
+}
+
+model EmergencyCommunicationAuditLog {
+  sequence           Int      @id @default(autoincrement())
+  id                 String   @unique @default(uuid())
+  actorId            String
+  actorEmail         String
+  actorRole          String
+  action             String
+  messageRef         String?
+  details            String   @db.Text
+  previousHash       String
+  recordHash         String   @unique
+  isSimulated        Boolean  @default(false)
+  createdAt          DateTime @default(now())
+
+  @@index([messageRef, createdAt])
+  @@map("emergency_communication_audit_logs")
+}
+
+model SecurityEvent {
+  id            String   @id @default(uuid())
+  eventRef      String   @unique
+  source        String
+  eventType     String
+  severity      String
+  summary       String
+  subjectHash   String?
+  metadata      String   @db.Text
+  isSimulated   Boolean  @default(false)
+  occurredAt    DateTime @default(now())
+  facilityId    String   @default("FACILITY-TALANTA-STADIUM")
+  createdAt     DateTime @default(now())
+
+  facility      Facility @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+  alerts        SecurityAlert[]
+
+  @@index([facilityId, occurredAt])
+  @@index([source, occurredAt])
+  @@index([eventType, occurredAt])
+  @@index([subjectHash, occurredAt])
+  @@map("security_events")
+}
+
+model SecurityAlert {
+  id            String   @id @default(uuid())
+  alertRef      String   @unique
+  eventId       String?
+  ruleKey       String
+  title         String
+  description   String
+  severity      String
+  status        String   @default("ACTIVE")
+  occurrenceCount Int    @default(1)
+  firstSeenAt   DateTime @default(now())
+  lastSeenAt    DateTime @default(now())
+  acknowledgedById String?
+  acknowledgedByEmail String?
+  acknowledgedAt DateTime?
+  facilityId    String   @default("FACILITY-TALANTA-STADIUM")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  facility      Facility @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+  event         SecurityEvent? @relation(fields: [eventId], references: [id], onDelete: SetNull)
+  incidents     SecurityIncident[]
+
+  @@index([facilityId, status, severity, lastSeenAt])
+  @@index([ruleKey, status, lastSeenAt])
+  @@map("security_alerts")
+}
+
+model SecurityIncident {
+  id              String   @id @default(uuid())
+  incidentRef     String   @unique
+  alertId         String?
+  title           String
+  summary         String   @db.Text
+  severity        String
+  status          String   @default("OPEN")
+  assignedToId    String?
+  assignedToEmail String?
+  assignedToRole  String?
+  createdById     String
+  createdByEmail  String
+  resolvedAt      DateTime?
+  resolution      String?
+  facilityId      String       @default("FACILITY-TALANTA-STADIUM")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  facility        Facility @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+  alert           SecurityAlert? @relation(fields: [alertId], references: [id], onDelete: SetNull)
+  notes           SecurityInvestigationNote[]
+
+  @@index([facilityId, status, severity, updatedAt])
+  @@index([assignedToId, status])
+  @@map("security_incidents")
+}
+
+model SecurityInvestigationNote {
+  id              String   @id @default(uuid())
+  incidentId      String
+  authorId        String
+  authorEmail     String
+  authorRole      String
+  note            String   @db.Text
+  createdAt       DateTime @default(now())
+
+  incident        SecurityIncident @relation(fields: [incidentId], references: [id], onDelete: Cascade)
+
+  @@index([incidentId, createdAt])
+  @@map("security_investigation_notes")
+}
+
+model SecurityAlertPolicy {
+  id                    String   @id @default(uuid())
+  policyKey             String   @unique @default("DEFAULT")
+  failedLoginThreshold  Int      @default(5)
+  failedLoginWindowMinutes Int   @default(15)
+  apiErrorThreshold     Int      @default(10)
+  apiErrorWindowMinutes Int      @default(5)
+  updatedById           String
+  updatedByEmail        String
+  updatedAt             DateTime @updatedAt
+
+  @@map("security_alert_policies")
+}
+
+model SecuritySiemIntegration {
+  id              String   @id @default(uuid())
+  providerName    String
+  protocol        String
+  endpointUrl     String
+  secretReference String?
+  connectionStatus String  @default("UNVERIFIED")
+  isSimulated     Boolean  @default(false)
+  createdById     String
+  createdByEmail  String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([connectionStatus, createdAt])
+  @@map("security_siem_integrations")
+}
+
+model SecurityOperationsAuditLog {
+  sequence        Int      @id @default(autoincrement())
+  id              String   @unique @default(uuid())
+  actorId         String
+  actorEmail      String
+  actorRole       String
+  action          String
+  entityRef       String?
+  details         String   @db.Text
+  previousHash    String
+  recordHash      String   @unique
+  createdAt       DateTime @default(now())
+
+  @@index([entityRef, createdAt])
+  @@map("security_operations_audit_logs")
+}
+
+model DRBackupRecord {
+  id              String   @id @default(uuid())
+  backupRef       String   @unique
+  status          String
+  artifactName    String?
+  artifactSha256  String?
+  encrypted       Boolean  @default(false)
+  sizeBytes       BigInt?
+  startedAt       DateTime
+  completedAt     DateTime?
+  errorCode       String?
+  createdAt       DateTime @default(now())
+
+  @@index([status, startedAt])
+  @@map("dr_backup_records")
+}
+
+model DRRecoveryTest {
+  id              String   @id @default(uuid())
+  testRef         String   @unique
+  backupRef       String?
+  testType        String
+  status          String
+  details         String   @db.Text
+  performedById   String?
+  performedByRole String?
+  durationSeconds Int?
+  testedAt        DateTime @default(now())
+  createdAt       DateTime @default(now())
+
+  @@index([status, testedAt])
+  @@map("dr_recovery_tests")
+}
+
+model DRPolicy {
+  id                String   @id @default(uuid())
+  policyKey         String   @unique @default("DEFAULT")
+  backupScheduleCron String  @default("0 2 * * *")
+  backupScheduleTimezone String @default("UTC")
+  rpoMinutes        Int      @default(60)
+  rtoMinutes        Int      @default(240)
+  approvalStatus    String   @default("PENDING_STAKEHOLDER_APPROVAL")
+  proposedById      String?
+  updatedAt         DateTime @updatedAt
+
+  @@map("dr_policies")
+}
+
+model HardwareAsset {
+  id                    String   @id @default(uuid())
+  assetId               String   @unique
+  name                  String
+  category              String
+  manufacturer          String?
+  model                 String?
+  serialNumber          String?
+  installationLocation  String?
+  supplier              String?
+  warrantyStart         DateTime?
+  warrantyExpiry        DateTime?
+  installationDate      DateTime?
+  maintenanceStatus     String   @default("NOT_ASSESSED")
+  commissioningStatus   String   @default("NOT_STARTED")
+  iotDeviceId           String?  @unique
+  supplierId            String?
+  purchaseOrderId       String?
+  receivingRecordId     String?
+  createdById           String
+  facilityId            String       @default("FACILITY-TALANTA-STADIUM")
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  facility              Facility @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+  installationTasks     HardwareInstallationTask[]
+  commissioningChecks   HardwareCommissioningCheck[]
+  maintenanceRecords    HardwareMaintenanceRecord[]
+  attachments           HardwareAttachment[]
+  iotDevice             IoTDevice? @relation(fields: [iotDeviceId], references: [deviceId], onDelete: SetNull)
+  supplierEntity        Supplier? @relation(fields: [supplierId], references: [id], onDelete: SetNull)
+  purchaseOrder         PurchaseOrder? @relation(fields: [purchaseOrderId], references: [id], onDelete: SetNull)
+  receivingRecord       EquipmentReceivingRecord? @relation(fields: [receivingRecordId], references: [id], onDelete: SetNull)
+
+  @@index([facilityId, category, commissioningStatus])
+  @@index([maintenanceStatus, installationDate])
+  @@map("hardware_assets")
+}
+
+model HardwareInstallationTask {
+  id            String   @id @default(uuid())
+  taskRef       String   @unique
+  assetId       String
+  technicianId  String
+  title         String
+  details       String?  @db.Text
+  status        String   @default("PENDING")
+  notes         String?  @db.Text
+  inspectionResult String?
+  approvalById  String?
+  createdById   String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  asset         HardwareAsset @relation(fields: [assetId], references: [assetId], onDelete: Cascade)
+
+  @@index([status, createdAt])
+  @@index([technicianId, status])
+  @@map("hardware_installation_tasks")
+}
+
+model HardwareCommissioningCheck {
+  id              String   @id @default(uuid())
+  assetId         String
+  batchRef        String
+  checkRef        String   @unique
+  checkKey        String
+  passed          Boolean
+  notes           String?
+  performedById   String
+  status          String
+  testedAt        DateTime @default(now())
+
+  asset           HardwareAsset @relation(fields: [assetId], references: [assetId], onDelete: Cascade)
+
+  @@index([assetId, batchRef, testedAt])
+  @@index([status, testedAt])
+  @@map("hardware_commissioning_checks")
+}
+
+model HardwareMaintenanceRecord {
+  id              String   @id @default(uuid())
+  maintenanceRef  String   @unique
+  assetId         String
+  recordType      String
+  status          String   @default("OPEN")
+  scheduledAt     DateTime?
+  details         String   @db.Text
+  technicianId    String?
+  replacementAssetId String?
+  createdById     String
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  asset           HardwareAsset @relation(fields: [assetId], references: [assetId], onDelete: Cascade)
+
+  @@index([assetId, scheduledAt])
+  @@index([status, createdAt])
+  @@map("hardware_maintenance_records")
+}
+
+model HardwareAttachment {
+  id              String   @id @default(uuid())
+  attachmentRef   String   @unique
+  assetId         String
+  taskRef         String?
+  storageKey      String   @unique
+  originalName    String
+  mimeType        String
+  sizeBytes       Int
+  sha256          String
+  uploadedById    String
+  createdAt       DateTime @default(now())
+
+  asset           HardwareAsset @relation(fields: [assetId], references: [assetId], onDelete: Cascade)
+
+  @@index([assetId, createdAt])
+  @@index([taskRef, createdAt])
+  @@map("hardware_attachments")
+}
+
+model HardwareCommissioningTemplate {
+  id              String   @id @default(uuid())
+  category        String   @unique
+  checklistJson   String   @db.Text
+  updatedById     String
+  updatedAt       DateTime @updatedAt
+
+  @@map("hardware_commissioning_templates")
+}
+
+model DataInventoryItem {
+  id            String   @id @default(uuid())
+  categoryKey   String   @unique
+  label         String
+  description   String   @db.Text
+  purposes      Json
+  modules       Json
+  systems       Json
+  thirdParties  Json
+  classification String  @default("INTERNAL")
+  ownerRole     String   @default("SYSTEM_ADMIN")
+  active        Boolean  @default(true)
+  createdById   String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([classification, active])
+  @@map("data_inventory_items")
+}
+
+model GovernanceProcessor {
+  id                   String   @id @default(uuid())
+  providerKey          String   @unique
+  displayName          String
+  categories           Json
+  purpose              String   @db.Text
+  systems              Json
+  integrationStatus    String   @default("PENDING_REVIEW")
+  agreementStatus      String   @default("REVIEW_REQUIRED")
+  responsibleAdminId   String
+  reviewedAt           DateTime?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  @@index([integrationStatus, agreementStatus])
+  @@map("governance_processors")
+}
+
+model PrivacyNotice {
+  id          String   @id @default(uuid())
+  version     String   @unique
+  title       String
+  body        String   @db.Text
+  legalBasis  String   @default("REQUIRES_REVIEW")
+  status      String   @default("DRAFT")
+  publishedAt DateTime?
+  createdById String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([status, publishedAt])
+  @@map("privacy_notices")
+}
+
+model PrivacyConsent {
+  id           String   @id @default(uuid())
+  subjectHash  String
+  categoryKey  String
+  purpose      String   @db.Text
+  noticeVersion String
+  legalBasis   String
+  status       String   @default("GRANTED")
+  recordedById String
+  grantedAt    DateTime?
+  withdrawnAt  DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([subjectHash, status])
+  @@index([categoryKey, createdAt])
+  @@map("privacy_consents")
+}
+
+model DataSubjectRequest {
+  id                       String   @id @default(uuid())
+  reference                String   @unique
+  requestType              String
+  subjectContactCiphertext String   @db.Text
+  contactHint              String
+  requestedCategories      Json
+  status                   String   @default("RECEIVED")
+  assignedToId             String?
+  notes                    String?  @db.Text
+  preservationHold         Boolean  @default(false)
+  holdReason               String?  @db.Text
+  dueAt                    DateTime?
+  resolvedAt               DateTime?
+  createdById              String
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+
+  @@index([status, createdAt])
+  @@index([assignedToId, status])
+  @@map("data_subject_requests")
+}
+
+model RetentionPolicy {
+  id                  String   @id @default(uuid())
+  categoryKey         String   @unique
+  retentionDays       Int
+  reviewCycleDays     Int
+  enabled             Boolean  @default(true)
+  preservationHold    Boolean  @default(false)
+  preservationReason  String?  @db.Text
+  approvedById        String
+  nextReviewAt        DateTime?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  reviews             RetentionReview[]
+
+  @@index([enabled, nextReviewAt])
+  @@map("retention_policies")
+}
+
+model RetentionReview {
+  id                String   @id @default(uuid())
+  policyId          String
+  recordReference   String
+  action            String
+  rationale         String   @db.Text
+  preservationHold  Boolean  @default(false)
+  actorId           String
+  createdAt         DateTime @default(now())
+
+  policy            RetentionPolicy @relation(fields: [policyId], references: [id], onDelete: Cascade)
+
+  @@index([policyId, recordReference, createdAt])
+  @@index([action, createdAt])
+  @@map("retention_reviews")
+}
+
+model GovernanceAccessAudit {
+  id          String   @id @default(uuid())
+  actorId     String
+  action      String
+  entityType  String
+  entityId    String?
+  result      String   @default("SUCCESS")
+  createdAt   DateTime @default(now())
+
+  @@index([actorId, createdAt])
+  @@index([entityType, createdAt])
+  @@map("governance_access_audits")
+}
+
+model RevenueCategory {
+  id          String   @id @default(uuid())
+  categoryKey String   @unique
+  label       String
+  description String?  @db.Text
+  active      Boolean  @default(true)
+  createdById String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  records     RevenueRecord[]
+
+  @@map("revenue_categories")
+}
+
+model RevenueRecord {
+  id             String   @id @default(uuid())
+  reference      String   @unique
+  categoryId     String
+  facilityId     String
+  eventId        String?
+  amount         Float
+  currency       String   @default("KES")
+  paymentMethod  String
+  sourceReference String? @unique
+  description    String   @db.Text
+  status         String   @default("PENDING_APPROVAL")
+  createdById    String
+  approvedById   String?
+  rejectedById   String?
+  rejectionReason String? @db.Text
+  isSimulated    Boolean  @default(false)
+  occurredAt     DateTime
+  approvedAt     DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  category       RevenueCategory @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  facility       Facility @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+  event          Event? @relation(fields: [eventId], references: [id], onDelete: SetNull)
+
+  @@index([facilityId, status, occurredAt])
+  @@index([eventId, status, occurredAt])
+  @@index([categoryId, occurredAt])
+  @@map("revenue_records")
+}
+
+model FinancialAdjustment {
+  id              String   @id @default(uuid())
+  reference       String   @unique
+  facilityId      String
+  eventId         String?
+  amount          Float
+  currency        String   @default("KES")
+  reason          String   @db.Text
+  status          String   @default("PENDING_APPROVAL")
+  createdById     String
+  approvedById    String?
+  rejectedById    String?
+  rejectionReason String?  @db.Text
+  approvedAt      DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  facility        Facility @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+  event           Event? @relation(fields: [eventId], references: [id], onDelete: SetNull)
+
+  @@index([facilityId, status, createdAt])
+  @@index([eventId, status, createdAt])
+  @@map("financial_adjustments")
+}
+
+model ReconciliationBatch {
+  id                 String   @id @default(uuid())
+  statementReference String
+  provider           String   @default("M-PESA")
+  currency           String   @default("KES")
+  facilityId         String?
+  verifiedById       String
+  verificationNote   String   @db.Text
+  lineCount          Int
+  matchedCount       Int      @default(0)
+  unmatchedCount     Int      @default(0)
+  createdAt          DateTime @default(now())
+
+  lines              ProviderStatementLine[]
+  facility           Facility? @relation(fields: [facilityId], references: [id], onDelete: SetNull)
+
+  @@unique([provider, statementReference])
+  @@index([facilityId, createdAt])
+  @@index([createdAt, provider])
+  @@map("reconciliation_batches")
+}
+
+model ProviderStatementLine {
+  id                 String   @id @default(uuid())
+  batchId            String
+  providerReference  String   @unique
+  amount             Float
+  currency           String   @default("KES")
+  providerStatus     String
+  matchStatus        String   @default("UNMATCHED")
+  matchReason        String?
+  paymentId          String?  @unique
+  transactionAt      DateTime?
+  createdAt          DateTime @default(now())
+
+  batch              ReconciliationBatch @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  payment            Payment? @relation(fields: [paymentId], references: [id], onDelete: SetNull)
+  reconciliation     PaymentReconciliation?
+
+  @@index([batchId, matchStatus])
+  @@index([matchStatus, transactionAt])
+  @@map("provider_statement_lines")
+}
+
+model PaymentReconciliation {
+  id                String   @id @default(uuid())
+  paymentId         String   @unique
+  statementLineId   String   @unique
+  providerReference String   @unique
+  amount            Float
+  currency          String   @default("KES")
+  reconciledById    String
+  reconciledAt      DateTime @default(now())
+
+  payment           Payment @relation(fields: [paymentId], references: [id], onDelete: Restrict)
+  statementLine     ProviderStatementLine @relation(fields: [statementLineId], references: [id], onDelete: Restrict)
+
+  @@index([reconciledAt])
+  @@map("payment_reconciliations")
+}
+
+model RefundRequest {
+  id                    String   @id @default(uuid())
+  reference             String   @unique
+  paymentId             String
+  amount                Float
+  currency              String   @default("KES")
+  reason                String   @db.Text
+  status                String   @default("REQUESTED")
+  requestedById         String
+  approvedById          String?
+  rejectedById          String?
+  providerRefundReference String? @unique
+  providerConfirmation  String?  @db.Text
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  reviewedAt            DateTime?
+  completedAt           DateTime?
+
+  payment               Payment @relation(fields: [paymentId], references: [id], onDelete: Restrict)
+
+  @@index([paymentId, status])
+  @@index([status, createdAt])
+  @@map("refund_requests")
+}
+
+model FinancialAuditLog {
+  id         String   @id @default(uuid())
+  actorId    String
+  facilityId String?
+  action     String
+  entityType String
+  entityId   String?
+  details    String?  @db.Text
+  createdAt  DateTime @default(now())
+
+  @@index([actorId, createdAt])
+  @@index([entityType, createdAt])
+  @@index([facilityId, createdAt])
+  @@map("financial_audit_logs")
+}
+
+model Supplier {
+  id                 String   @id @default(uuid())
+  supplierCode       String   @unique
+  name               String
+  contactName        String?
+  email              String
+  phone              String?
+  businessCategory   String
+  registrationNumber String?
+  taxId              String?
+  verificationStatus String   @default("PENDING_VERIFICATION")
+  verificationNotes  String?  @db.Text
+  verifiedById       String?
+  verifiedAt         DateTime?
+  status             String   @default("ACTIVE")
+  createdById        String
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  contracts          SupplierContract[]
+  purchaseOrders     PurchaseOrder[]
+  hardwareAssets     HardwareAsset[]
+
+  @@index([businessCategory, status])
+  @@index([verificationStatus, createdAt])
+  @@map("suppliers")
+}
+
+model ProcurementRequest {
+  id                 String   @id @default(uuid())
+  requestRef         String   @unique
+  facilityId         String
+  department         String
+  title              String
+  description        String   @db.Text
+  totalEstimatedCost Float
+  currency           String   @default("KES")
+  status             String   @default("PENDING_APPROVAL")
+  currentStage       String   @default("DEPARTMENT_HEAD")
+  requestedById      String
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  facility           Facility @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+  items              ProcurementItem[]
+  approvalLogs       ProcurementApprovalLog[]
+  purchaseOrders     PurchaseOrder[]
+
+  @@index([facilityId, status, department])
+  @@index([currentStage, createdAt])
+  @@map("procurement_requests")
+}
+
+model ProcurementItem {
+  id                 String   @id @default(uuid())
+  requestId          String
+  itemName           String
+  category           String
+  quantity           Int
+  unitPrice          Float
+  estimatedCost      Float
+  specifications     String?  @db.Text
+  receivedQuantity   Int      @default(0)
+
+  procurementRequest ProcurementRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  @@index([requestId])
+  @@map("procurement_items")
+}
+
+model ProcurementApprovalLog {
+  id                 String   @id @default(uuid())
+  requestId          String
+  stage              String
+  approverId         String
+  action             String
+  comments           String?  @db.Text
+  createdAt          DateTime @default(now())
+
+  procurementRequest ProcurementRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+
+  @@index([requestId, stage])
+  @@map("procurement_approval_logs")
+}
+
+model PurchaseOrder {
+  id                   String   @id @default(uuid())
+  poNumber             String   @unique
+  requestId            String?
+  supplierId           String
+  facilityId           String
+  totalAmount          Float
+  currency             String   @default("KES")
+  status               String   @default("ISSUED")
+  expectedDeliveryDate DateTime?
+  notes                String?  @db.Text
+  createdById          String
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  supplier             Supplier @relation(fields: [supplierId], references: [id], onDelete: Restrict)
+  procurementRequest   ProcurementRequest? @relation(fields: [requestId], references: [id], onDelete: SetNull)
+  facility             Facility @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+  receivingRecords     EquipmentReceivingRecord[]
+  hardwareAssets       HardwareAsset[]
+
+  @@index([facilityId, status, createdAt])
+  @@index([supplierId, status])
+  @@map("purchase_orders")
+}
+
+model SupplierContract {
+  id               String   @id @default(uuid())
+  contractNumber   String   @unique
+  supplierId       String
+  facilityId       String?
+  title            String
+  description      String?  @db.Text
+  contractValue    Float
+  currency         String   @default("KES")
+  startDate        DateTime
+  expiryDate       DateTime
+  renewalDate      DateTime?
+  noticePeriodDays Int      @default(30)
+  status           String   @default("ACTIVE")
+  documentUrl      String?
+  documentName     String?
+  createdById      String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  supplier         Supplier @relation(fields: [supplierId], references: [id], onDelete: Restrict)
+  facility         Facility? @relation(fields: [facilityId], references: [id], onDelete: SetNull)
+
+  @@index([supplierId, status, expiryDate])
+  @@index([expiryDate, status])
+  @@map("supplier_contracts")
+}
+
+model EquipmentReceivingRecord {
+  id               String   @id @default(uuid())
+  receivingRef     String   @unique
+  purchaseOrderId  String
+  receivedById     String
+  inspectionStatus String   @default("PASSED")
+  inspectionNotes  String?  @db.Text
+  receivedDate     DateTime @default(now())
+  createdAt        DateTime @default(now())
+
+  purchaseOrder    PurchaseOrder @relation(fields: [purchaseOrderId], references: [id], onDelete: Restrict)
+  hardwareAssets   HardwareAsset[]
+
+  @@index([purchaseOrderId, receivedDate])
+  @@map("equipment_receiving_records")
+}
+
+model ProcurementAuditLog {
+  id         String   @id @default(uuid())
+  actorId    String
+  facilityId String?
+  action     String
+  entityType String
+  entityId   String?
+  details    String?  @db.Text
+  createdAt  DateTime @default(now())
+
+  @@index([actorId, createdAt])
+  @@index([entityType, createdAt])
+  @@index([facilityId, createdAt])
+  @@map("procurement_audit_logs")
+}
+
+model HelpdeskTicket {
+  id                    String   @id @default(uuid())
+  ticketNumber          String   @unique
+  category              String
+  title                 String
+  description           String   @db.Text
+  priority              String   @default("MEDIUM")
+  facilityId            String
+  department            String?
+  status                String   @default("NEW")
+  createdById           String
+  creatorEmail          String?
+  assignedTechnicianId  String?
+  assignedTechnicianName String?
+  equipmentInvolved     String?
+  resolutionNotes       String?  @db.Text
+  resolutionArticleId   String?
+  responseTargetHours   Int      @default(4)
+  resolutionTargetHours Int      @default(24)
+  firstRespondedAt      DateTime?
+  resolvedAt            DateTime?
+  closedAt              DateTime?
+  isEscalated           Boolean  @default(false)
+  escalationReason      String?  @db.Text
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  facility              Facility @relation(fields: [facilityId], references: [id], onDelete: Restrict)
+  knowledgeArticle      HelpdeskKnowledgeArticle? @relation(fields: [resolutionArticleId], references: [id], onDelete: SetNull)
+  workLogs              HelpdeskWorkLog[]
+  attachments           HelpdeskAttachment[]
+
+  @@index([facilityId, status, priority])
+  @@index([category, status])
+  @@index([assignedTechnicianId, status])
+  @@index([createdById, createdAt])
+  @@map("helpdesk_tickets")
+}
+
+model HelpdeskWorkLog {
+  id               String   @id @default(uuid())
+  ticketId         String
+  technicianId     String
+  technicianName   String?
+  workSummary      String   @db.Text
+  equipmentAction  String?
+  timeSpentMinutes Int      @default(15)
+  createdAt        DateTime @default(now())
+
+  ticket           HelpdeskTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  @@index([ticketId, createdAt])
+  @@map("helpdesk_work_logs")
+}
+
+model HelpdeskKnowledgeArticle {
+  id           String   @id @default(uuid())
+  articleRef   String   @unique
+  title        String
+  category     String
+  summary      String   @db.Text
+  solutionBody String   @db.Text
+  tags         String?
+  viewCount    Int      @default(0)
+  authorId     String
+  isPublished  Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  tickets      HelpdeskTicket[]
+
+  @@index([category, isPublished])
+  @@map("helpdesk_knowledge_articles")
+}
+
+model HelpdeskAttachment {
+  id           String   @id @default(uuid())
+  ticketId     String
+  fileName     String
+  fileUrl      String
+  fileType     String?
+  uploadedById String
+  createdAt    DateTime @default(now())
+
+  ticket       HelpdeskTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  @@index([ticketId])
+  @@map("helpdesk_attachments")
+}
+
+model HelpdeskSlaConfig {
+  id                    String   @id @default(uuid())
+  priority              String   @unique
+  responseTargetHours   Int
+  resolutionTargetHours Int
+  updatedById           String
+  updatedAt             DateTime @updatedAt
+
+  @@map("helpdesk_sla_configs")
+}
+
+model HelpdeskAuditLog {
+  id         String   @id @default(uuid())
+  actorId    String
+  facilityId String?
+  action     String
+  entityType String
+  entityId   String?
+  details    String?  @db.Text
+  createdAt  DateTime @default(now())
+
+  @@index([actorId, createdAt])
+  @@index([entityType, createdAt])
+  @@index([facilityId, createdAt])
+  @@map("helpdesk_audit_logs")
+}
+
+model ExecutiveKpiConfig {
+  id                      String   @id @default(uuid())
+  kpiKey                  String   @unique
+  label                   String
+  targetValue             Float
+  unit                    String   @default("%")
+  category                String   @default("OPERATIONAL")
+  updatedById             String
+  updatedAt               DateTime @updatedAt
+
+  @@map("executive_kpi_configs")
+}
+
+model ExecutiveAuditLog {
+  id         String   @id @default(uuid())
+  actorId    String
+  facilityId String?
+  action     String
+  entityType String
+  entityId   String?
+  details    String?  @db.Text
+  createdAt  DateTime @default(now())
+
+  @@index([actorId, createdAt])
+  @@index([entityType, createdAt])
+  @@index([facilityId, createdAt])
+  @@map("executive_audit_logs")
+}

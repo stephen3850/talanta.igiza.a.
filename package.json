@@ -1,0 +1,42 @@
+{
+  "name": "talanta-stadium-smart-infrastructure",
+  "version": "1.0.0",
+  "description": "Talanta Stadium Smart Digital Infrastructure System developed by ST-Tech ICT Consultants",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "prisma:generate": "prisma generate",
+    "prisma:push": "prisma db push",
+    "prisma:seed": "node prisma/seed.js",
+    "test:network-wifi": "node scripts/test_network_wifi.js",
+    "test:access-control": "node scripts/test_access_control.js",
+    "test:emergency-communications": "node scripts/test_emergency_communications.js",
+    "test:security-operations": "node scripts/test_security_operations.js",
+    "test:disaster-recovery": "node scripts/test_disaster_recovery.js",
+    "db:backup": "node scripts/backup_database.js",
+    "db:restore": "node scripts/restore_database.js",
+    "test:hardware-deployment": "node scripts/test_hardware_deployment.js",
+    "test:core-security": "node scripts/test_core_security_regressions.js",
+    "test:multi-facility": "node scripts/test_multi_facility.js",
+    "test:iam": "node scripts/test_iam.js",
+    "test:data-governance": "node scripts/test_data_governance.js"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.65.0",
+    "next": "^16.4.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwind-merge": "^3.7.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.6.2",
+    "postcss": "^8.5.32",
+    "prisma": "^5.22.0",
+    "tailwindcss": "^3.4.17"
+  }
+}

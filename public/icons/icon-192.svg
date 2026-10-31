@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#060B1E" />
+      <stop offset="100%" stop-color="#0B132B" />
+    </linearGradient>
+    <linearGradient id="shield" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#D97706" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background rounded box -->
+  <rect width="192" height="192" rx="40" fill="url(#bg)" stroke="#10B981" stroke-width="4" />
+
+  <!-- Shield Shape -->
+  <path d="M96 28 L148 50 V94 C148 128 124 156 96 166 C68 156 44 128 44 94 V50 Z" fill="url(#shield)" opacity="0.15" />
+  <path d="M96 36 L140 55 V92 C140 122 120 146 96 155 C72 146 52 122 52 92 V55 Z" stroke="url(#shield)" stroke-width="5" fill="none" stroke-linejoin="round" />
+
+  <!-- Stadium Arc / Crown -->
+  <path d="M72 80 C86 70 106 70 120 80" stroke="url(#accent)" stroke-width="4" stroke-linecap="round" fill="none" />
+  <ellipse cx="96" cy="100" rx="24" ry="14" stroke="#10B981" stroke-width="3" fill="#060B1E" />
+  <circle cx="96" cy="100" r="5" fill="url(#accent)" />
+
+  <!-- Lettering T -->
+  <text x="96" y="132" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="18" fill="#FFFFFF" text-anchor="middle" letter-spacing="1">TALANTA</text>
+</svg>

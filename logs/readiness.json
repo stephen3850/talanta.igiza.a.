@@ -1,0 +1,101 @@
+{
+  "timestamp": "2026-10-31T11:50:53.755Z",
+  "overallStatus": "WARNING",
+  "checks": [
+    {
+      "component": "Node.js Runtime",
+      "status": "READY",
+      "message": "Node.js v24.15.0 detected",
+      "details": null
+    },
+    {
+      "component": "Package Configuration",
+      "status": "READY",
+      "message": "talanta-stadium-smart-infrastructure v1.0.0",
+      "details": null
+    },
+    {
+      "component": "Project Dependencies",
+      "status": "READY",
+      "message": "Dependencies installed in node_modules",
+      "details": null
+    },
+    {
+      "component": "Environment File (.env)",
+      "status": "READY",
+      "message": ".env configuration file present",
+      "details": null
+    },
+    {
+      "component": "Prisma Schema",
+      "status": "READY",
+      "message": "prisma/schema.prisma database schema loaded",
+      "details": null
+    },
+    {
+      "component": "Database Configuration",
+      "status": "READY",
+      "message": "DATABASE_URL configured",
+      "details": null
+    },
+    {
+      "component": "Application Port (3000)",
+      "status": "WARNING",
+      "message": "Port 3000 is currently in use; launcher will attach or restart existing process",
+      "details": null
+    },
+    {
+      "component": "System Directories",
+      "status": "READY",
+      "message": "All required system directories verified/created",
+      "details": null
+    }
+  ],
+  "integrations": [
+    {
+      "name": "M-PESA Daraja Payments",
+      "status": "CONFIGURED_NOT_CONNECTED",
+      "details": "Daraja credentials configured; sandbox mode"
+    },
+    {
+      "name": "CCTV & VMS Surveillance",
+      "status": "SIMULATED_DEVELOPMENT",
+      "details": "6 VMS cameras initialized with RTSP simulation stream"
+    },
+    {
+      "name": "Smart Turnstile Access Gates",
+      "status": "SIMULATED_DEVELOPMENT",
+      "details": "Gate turnstile controller online in simulated mode"
+    },
+    {
+      "name": "Cryptographic QR Scanners",
+      "status": "CONNECTED_VERIFIED",
+      "details": "HMAC-SHA256 Ticket QR signature engine active"
+    },
+    {
+      "name": "IoT Smart Infrastructure",
+      "status": "SIMULATED_DEVELOPMENT",
+      "details": "BMS pitch climate, water acoustic & energy telemetry meters active in simulated mode"
+    },
+    {
+      "name": "Digital Signage OS",
+      "status": "SIMULATED_DEVELOPMENT",
+      "details": "Digital Signage screen network active in broadcast mode"
+    },
+    {
+      "name": "Network Operations Centre (NOC)",
+      "status": "CONNECTED_VERIFIED",
+      "details": "SNMP & ping network device telemetry active"
+    },
+    {
+      "name": "Smart Parking OS",
+      "status": "SIMULATED_DEVELOPMENT",
+      "details": "ANPR camera and parking space sensors active in simulated mode"
+    },
+    {
+      "name": "Emergency Communications",
+      "status": "CONNECTED_VERIFIED",
+      "details": "Emergency multi-channel SMS/Email/PA broadcast engine initialized"
+    }
+  ]
+}

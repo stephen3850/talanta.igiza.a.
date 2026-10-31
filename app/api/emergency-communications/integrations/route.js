@@ -1,0 +1,21 @@
+import {
+  authorizeCommunicationsRequest,
+  communicationsErrorResponse,
+  createCommunicationIntegration,
+  readCommunicationsJson,
+} from '../../../../lib/emergencyCommunications';
+
+export async function POST(req) {
+  const auth = authorizeCommunicationsRequest(req, 'manage');
+  if (!auth.authorized) return Response.json({ success: false, message: auth.message }, { status: auth.status });
+  try {
+    const integration = await createCommunicationIntegration(await readCommunicationsJson(req), auth.user, { simulatedOnly: Boolean(auth.user.isDemo) });
+    return Response.json({
+      success: true,
+      integration: { ...integration, endpointUrl: 'REDACTED', secretReference: integration.secretReference ? 'Configured in secret manager' : null },
+      message: 'Integration metadata saved. Connection remains UNVERIFIED; nothing is sent to physical equipment.',
+    }, { status: 201 });
+  } catch (error) {
+    return communicationsErrorResponse(error);
+  }
+}

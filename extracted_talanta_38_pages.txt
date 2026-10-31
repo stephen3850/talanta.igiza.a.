@@ -1,0 +1,1540 @@
+=== PAGE 1 ===
+REPUBLIC OF KENYA
+MINISTRY OF SPORTS
+REPUBLIC OF KENYA
+TALANTA STADIUM
+SMART INFRASTRUCTURE SYSTEM
+Integrated Digital Ticketing | Biometric Access Control
+Venue & Workforce Management | Real-time Operations
+A Smarter Stadium
+A Safer Nation
+A
+TECHNICAL
+ 
+&
+ 
+FINANCIAL
+ 
+PROPOSAL
+For
+ 
+the
+ 
+Management
+ 
+of
+ 
+Talanta
+ 
+Stadium
+Nairobi,
+ 
+Kenya
+
+=== PAGE 2 ===
+TALANTA STADIUM  |  SMART DIGITAL INFRASTRUCTURE
+TABLE OF CONTENTS  •  CONCEPT PROPOSAL
+1
+Table of Contents
+Integrated Talanta Stadium Smart Digital Infrastructure
+Technical & Financial Proposal • Nairobi, Kenya
+PROPOSAL & CORE DESIGN
+Section
+PDF page
+Proposal overview and commercial basis
+4
+2. Document Control, Purpose and How to Use This Proposal
+5
+3. Executive Summary
+6
+4. Public-Sector Case and Strategic Alignment
+7
+5. Venue Context, Construction Background and Boundaries
+8
+6. Scope of Work and Deliverables
+9
+7. Public Website and Mobile Experience
+10
+8. Ticketing and Payment Workflow
+11
+9. High-Level System Architecture
+12
+10. Detailed Architecture, Data Flow and Environments
+13
+11. Core Data Model and System Entities
+14
+12. Gate Access, Ticket Validation and Crowd Operations
+15
+13. Identity Verification and Optional Biometrics
+16
+14. Staff, Contractor and Accreditation Management
+17
+15. Command Centre, Dashboards and Reporting
+18
+16. Cybersecurity, Privacy and Compliance Plan
+19
+17. Hosting, Availability, Disaster Recovery and Support
+20
+18. Implementation Roadmap and Duration by Part
+21
+19. Milestones, Dependencies and Acceptance Gates
+22
+20. Testing, Quality Assurance and Go-Live Readiness
+23
+21. Project Team, Responsibilities and Knowledge Transfer
+24
+22. Detailed Indicative Budget and Cost Basis
+25
+23. Commercial Model, Payment Milestones and Total Cost of Ownership
+26
+24. Benefits Measurement, Risk Register and Mitigation
+27
+25. Governance, Acceptance, Sources and Final Submission Checklist
+28
+Page references in this contents list refer to the final combined PDF. The original proposal pages and their existing text, tables, illustrations, and
+annex material are retained.
+
+=== PAGE 3 ===
+TALANTA STADIUM  |  SMART DIGITAL INFRASTRUCTURE
+TABLE OF CONTENTS  •  CONCEPT PROPOSAL
+2
+Technical Annex
+Detailed functional, integration, operational and procurement reference material.
+TECHNICAL ANNEX
+Section
+PDF page
+26. Detailed Public Website Sitemap and User Journeys
+29
+27. Seat Mapping, Ticket Categories and Inventory Rules
+30
+28. API Design, Integration Contracts and Error Handling
+31
+29. Database, Audit Trail and Data Lifecycle
+32
+30. Hosting, DevSecOps and Deployment Controls
+33
+31. Event-Day Operations and Command-Centre Runbook
+34
+32. Load Planning, Performance Targets and Capacity Validation
+35
+33. Training, Service Desk and Warranty Framework
+36
+34. Procurement Evaluation, Acceptance Matrix and Change Control
+37
+35. Final Technical Commitments, Assumptions and Next Actions
+38
+DOCUMENT NAVIGATION
+Core proposal
+Purpose, outcomes, scope, solution design, implementation, costs, governance and submission
+readiness.
+Technical annex
+Detailed website journeys, inventory, APIs, data lifecycle, deployment, event-day operations,
+performance, training and procurement controls.
+Proposal status: concept only. Budget, delivery schedule, compliance, interfaces and performance assumptions remain subject to validation and
+formal approval as stated in the source proposal.
+
+=== PAGE 4 ===
+GOVERNMENT-FOCUSED TECHNICAL & COMMERCIAL PROPOSAL
+INTEGRATED TALANTA STADIUM
+SMART DIGITAL INFRASTRUCTURE
+A comprehensive proposal for a secure, accessible and accountable digital operating platform for ticketing, venue access,
+workforce coordination and event operations.
+60,000-SEAT VENUE • NAIROBI, KENYA • PROPOSED DIGITAL SYSTEMS
+PROGRAMME
+Proposed client
+Relevant Government / Stadium Operating Authority
+Proposal status
+Concept for evaluation and procurement planning
+Commercial basis
+Indicative planning estimate; not a binding quotation
+Prepared as a concept proposal. No government endorsement, award, construction partnership or existing digital deployment is implied. All scope, budget,
+performance and compliance statements require validation.
+Prepared by
+[st-tech IT Consultants ]
+Reference
+as per president speech 
+]
+
+=== PAGE 5 ===
+TALANTA STADIUM | COMPREHENSIVE SMART INFRASTRUCTURE PROPOSAL
+CONFIDENTIAL CONCEPT • Validate scope, cost, compliance and procurement before commitment
+Page 2
+2. Document Control, Purpose and How to Use This
+Proposal
+This document describes a proposed digital platform that could be developed if the bidder is selected through the applicable
+procurement process. It is intended to support stakeholder discussion and tender planning—not to substitute for a formal tender
+response, signed contract, detailed design, or statutory approvals.
+Field
+Current proposal position
+Document title
+Integrated Talanta Stadium Smart Digital Infrastructure
+Version
+Expanded concept proposal – draft for review
+Venue reference
+Talanta Sports City / Talanta Stadium, Nairobi
+Proposer
+[Complete with legal entity and authorised representative]
+Budget
+KES 75,000,000 preliminary planning envelope carried forward from supplied draft; subject to scope validation
+Timeline
+Indicative 10-month plan after approved commencement; subject to dependencies
+Approvals required
+Client ICT, operations, finance, legal, data protection, cybersecurity, procurement and any relevant regulator
+Proposal navigation
+• Pages 3–5: executive case, outcomes, project context and scope boundaries.
+• Pages 6–10: user experience, system architecture, module design and data flows.
+• Pages 11–15: security, privacy, operations, accessibility, reporting and resilience.
+• Pages 16–20: implementation, testing, staffing, support and cost model.
+• Pages 21–25: benefits, risk register, governance, acceptance, assumptions and submission checklist.
+Important distinction: images and architecture drawings are illustrative concepts. They do not represent a live
+system, verified site survey, official branding approval, confirmed hardware inventory or final construction
+drawings.
+
+=== PAGE 6 ===
+TALANTA STADIUM | COMPREHENSIVE SMART INFRASTRUCTURE PROPOSAL
+CONFIDENTIAL CONCEPT • Validate scope, cost, compliance and procurement before commitment
+Page 3
+3. Executive Summary
+Talanta Stadium is a nationally significant sports venue. The opportunity proposed here is to build a joined-up digital layer around
+event discovery, ticket sales, payment confirmation, gate validation, workforce accreditation, event control and financial
+reconciliation. The platform should make public-facing services easier to use while giving authorised operators a clearer, auditable
+view of what is happening during an event.
+The proposed Integrated Talanta Stadium Digital Infrastructure (ITSDI) is modular. The client can approve a core ticketing and
+reporting release first, then add approved integrations and more advanced capabilities after proving security, accessibility and
+operational readiness. This phased approach avoids making the whole programme dependent on unverified hardware or
+biometric assumptions.
+Core outcomes proposed
+• One official public portal for approved fixtures, ticket categories, venue guidance and customer support.
+• Secure ticket issuance, payment-status tracking, refund handling and event-level reconciliation.
+• Gate-validation workflows with offline contingency procedures and clear exception handling.
+• Role-based staff and contractor accreditation, rosters, attendance and expiry tracking.
+• A command dashboard for authorised operators, with occupancy indicators, incidents, gate health and finance summaries.
+• Privacy-conscious design, cybersecurity controls, auditable administrator actions and a documented handover.
+Decision sought
+Approve a discovery and feasibility stage to confirm the operator's requirements, current systems, event
+schedule, hardware inventory, data-protection obligations, procurement route and final business case. A
+detailed fixed scope and binding commercial offer should follow only when these facts are established.
+
+=== PAGE 7 ===
+TALANTA STADIUM | COMPREHENSIVE SMART INFRASTRUCTURE PROPOSAL
+CONFIDENTIAL CONCEPT • Validate scope, cost, compliance and procurement before commitment
+Page 4
+4. Public-Sector Case and Strategic Alignment
+A government-facing proposal should demonstrate value beyond software features. The recommended business case is built
+around public convenience, financial integrity, safety support, operational efficiency, inclusion and local skills transfer. The
+platform should complement the stadium operator's command structure and must not replace emergency services, physical
+security procedures or professional judgement.
+Public objective
+Proposed system contribution
+Evidence / KPI
+Accountability
+Traceable ticket adjustments, refunds, payment settlement and attendance
+reports.
+Reconciliation report signed off per event
+Safer event flow
+Gate status and queue indicators; configurable alerts and escalation
+workflow.
+Queue observations and incident response times
+Convenient public service
+Mobile-first booking, clear event information, accessible support and ticket
+recovery.
+Checkout completion and customer-support
+metrics
+Operational efficiency
+Roster planning, role/zone permissions and attendance reconciliation.
+Planned vs actual shift and invoice variance
+Local capability
+Training, manuals, admin handover and knowledge transfer.
+Training pass rate and independent operations
+drill
+Privacy and trust
+Data minimisation, transparent notices, retention rules and controlled
+access.
+Privacy review actions and access audit results
+Benefits must be measured against a baseline. Claims such as a specific percentage of fraud reduction,
+guaranteed investment payback, perfect accuracy or zero downtime should not be promised without verified
+baseline data, a tested design and agreed definitions.
+
+=== PAGE 8 ===
+TALANTA STADIUM | COMPREHENSIVE SMART INFRASTRUCTURE PROPOSAL
+CONFIDENTIAL CONCEPT • Validate scope, cost, compliance and procurement before commitment
+Page 5
+5. Venue Context, Construction Background and
+Boundaries
+Interior photograph supplied by the user. It is included to ground the proposal in the venue context; it is not evidence of installed ticketing, biometric,
+networking or command-centre systems.
+Publicly available reporting identifies China Road and Bridge Corporation (CRBC) as the main construction contractor. Public
+reporting also describes the Kenya Defence Forces Engineering Department as involved in project delivery / technical
+supervision. Separate reporting associates the original design-consultancy process with University of Nairobi Enterprises and
+Services Limited and Professor Erastus Abonyo. These are distinct project roles; this proposal does not claim a relationship with
+those organisations.
+Construction commenced in March 2024 according to public reporting. A CRBC update dated 10 February 2026 described
+substantial completion as scheduled for the end of March 2026, while other 2026 reporting discussed a later expected completion.
+The actual current handover, defects-liability and operator-readiness status must be verified with the responsible authority before
+any schedule or site-installation commitment is made.
+Digital project boundary
+• This proposal covers the digital operating layer and approved interfaces—not stadium structural design or construction.
+• Turnstile, camera, network, power and access-control quantities require a site survey and confirmed drawings.
+• Existing vendors and system owners must approve integration access and provide interface documentation where required.
+• Any biometric deployment is optional pending legal, necessity, proportionality, privacy, accuracy and accessibility review.
+• Public procurement requirements, tender conditions and approved technical standards take precedence over this concept.
+Sources are listed in Appendix A. Publicly reported dates are contextual only and should be rechecked before formal submission.
+
+=== PAGE 9 ===
+TALANTA STADIUM | COMPREHENSIVE SMART INFRASTRUCTURE PROPOSAL
+CONFIDENTIAL CONCEPT • Validate scope, cost, compliance and procurement before commitment
+Page 6
+6. Scope of Work and Deliverables
+Workstream
+Included in proposed scope
+Deliverable / acceptance
+Discovery & design
+Workshops, requirements, service maps, site survey, system inventory, risk and
+dependency analysis.
+Approved requirements and solution design
+pack
+Public ticketing
+Fixture pages, ticket categories, booking, secure references, confirmation,
+support and refund workflows.
+Tested web application and admin workflow
+Payments
+Approved provider integration, callback handling, transaction states and
+reconciliation.
+Sandbox evidence and production approval
+checklist
+Gate validation
+Ticket validation APIs, scanner workflows, exception queue and offline
+procedure.
+Test report against approved gate devices
+Workforce
+Staff/vendor records, roles, accreditation, roster, attendance and expiry alerts.
+Working staff portal and exportable reports
+Command dashboard
+Event view, gate/device health, incident queue, attendance and revenue
+summaries.
+Role-based dashboards and audit exports
+Security & privacy
+Threat model, privacy review, access controls, test support, retention and
+incident playbooks.
+Review reports and remediation evidence
+Training & handover
+Admin/operator training, user guides, support model, recovery drill and
+documentation.
+Signed training and handover pack
+Items requiring separate confirmation
+• Turnstile procurement, cameras, scanners, network switches, cabling, UPS, racks, screens and civil works.
+• SMS fees, payment-provider fees, cloud subscriptions, data-centre contracts and third-party licences.
+• National identity / government database integrations, which require formal authority, legal basis and approved interfaces.
+• Biometric hardware or matching services, which require a separate approved design and lawful processing assessment.
+
+=== PAGE 10 ===
+TALANTA STADIUM | COMPREHENSIVE SMART INFRASTRUCTURE PROPOSAL
+CONFIDENTIAL CONCEPT • Validate scope, cost, compliance and procurement before commitment
+Page 7
+7. Public Website and Mobile Experience
+Illustrative visual concept generated for this proposal. It is not an existing official website or approved brand design. The final visual identity must be
+approved by the stadium operator.
+The website should be the official digital entry point for fans. It should load quickly on common Kenyan mobile devices, remain
+usable on slower networks, and communicate the event rules and ticket terms before payment.
+• Home: official notices, fixtures, venue information, ticket calls to action and service alerts.
+• Event page: date/time, ticket categories, accessible seating details, entry rules, prohibited items, transport and refund policy.
+• Booking: seat/zone availability, clear total price, order summary, expiry timer and safe payment handoff.
+• Ticket wallet: secure ticket reference, QR where approved, order status, resend/recovery and customer support.
+• Help centre: frequently asked questions, fraud warnings, lost-ticket guidance, refunds and escalation contact.
+• Administration: approved event publishing, price/category configuration, inventory controls and auditable changes.
+Design standards
+Target WCAG 2.2 AA where applicable, responsive layouts, keyboard navigation, screen-reader labels, readable contrast,
+accessible error messages and plain-language content. Support both smartphone and desktop journeys; consider SMS/USSD or
+staffed assistance only after cost, accessibility and operational feasibility are confirmed.
+/ TALANTA LIVE
+Venue Guide
+Accessibility
+Home
+Fixtures
+Tickets
+TALANTA SPORTS CITY | NAIROBI
+Your Matchday.
+Seamlessly Connected. ^
+I
+'|K
+k (I
+0
+m
+Official ticketing, secure entry and venue information
+in one place.
+!-
+me *
+1.'
+W5
+l.-t
+f£
+- Ay-
+. .a**
+?-.7-
+IS
+1
+V *
+ISP
+Q
+Explore Fixtures ->
+Buy Tickets ->
+1
+JV
+Tr.
+Jtiii .
+6^
+1
+_
+rl
+f
+'ll
+O
+©
+Secure Digital Tickets
+M-PESA Checkout
+Accessible Matchday
+Pay for your tickets quickly and securely
+using M-PESA and other trusted
+payment options.
+Get your e-tickets instantly,withdynamic
+QR codes and biometric verification for
+safe and hassle-free entry.
+Designed for everyone. Get venue information,
+accessible seating, mobility support and
+helpful resources for a comfortable experience.
+Fast & secure payments
+Multiple payment methods
+Instant ticket delivery
+Dynamic, time-limited QR codes
+Wheelchair accessible seating
+<innnriit>
+Biometric facial recognition
+Step-free routes & lifts
+Stops fraud and ticket scalping
+Venue maps and assistance
+•
+Available •
+Selected
+Unavailable
+M-PESA
+Simple. Secure. Convenient.
+Talanta Sports City |
+60,000 Seat Capacity |
+Nairobi
+PROPOSED DESIGN CONCEPT- subject to stakeholder approval
+
+=== PAGE 11 ===
+TALANTA STADIUM | COMPREHENSIVE SMART INFRASTRUCTURE PROPOSAL
+CONFIDENTIAL CONCEPT • Validate scope, cost, compliance and procurement before commitment
+Page 8
+8. Ticketing and Payment Workflow
+The customer journey must treat payment and ticket issuance as separate but linked states. A user should never receive a
+confirmed ticket solely because a browser displayed a success screen; the backend must verify the provider callback or status
+before confirming the order.
+State
+System behaviour
+Control
+Draft order
+Hold selected inventory for a defined period, if supported.
+Expiry and inventory locking rules
+Payment pending
+Show pending state and reference; allow safe status refresh.
+Idempotency and callback verification
+Paid / confirmed
+Issue ticket reference and receipt; notify user.
+Unique order ID and audit record
+Failed / timed out
+Explain next step; do not issue a paid ticket until confirmed.
+Re-query provider status; prevent duplicate
+charge/order
+Refund / cancellation
+Apply authorised rules and record status.
+Role-based approval and reconciliation
+Payment integration
+M-PESA Daraja or another approved provider should be integrated using documented provider procedures and a controlled
+sandbox. The project must define callback security, duplicate-event handling, settlement reconciliation, refund permissions,
+timeouts and a customer support path. Card payments should use an approved provider and avoid storing raw card data unless
+the design and compliance scope expressly support it.
+TICKET PURCHASE TO ENTRY
+A user-friendly flow with clear payment states, support channels and manual fallback for exceptions.
+1. DISCOVER
+2. SELECT
+Ticket type
+Seat / zone
+3. PAY
+Approved gateway
+M-PESA / card
+4. RECEIVE
+5. VALIDATE
+Fixtures •rules
+Ticket reference
+Gate scanner
+Exception handling
+Venue information
+Receipt / message
+
+=== PAGE 12 ===
+TALANTA STADIUM | COMPREHENSIVE SMART INFRASTRUCTURE PROPOSAL
+CONFIDENTIAL CONCEPT • Validate scope, cost, compliance and procurement before commitment
+Page 9
+9. High-Level System Architecture
+Architecture concept
+• Public channel: browser-based website, mobile web and optional notifications.
+• API layer: authentication, authorisation, rate limiting, input validation and central audit events.
+• Business services: ticket inventory, payments, ticket validation, accreditation, workforce, reports and notifications.
+• Data layer: relational transactional data, controlled document/object storage, audit log store and backups.
+• Venue edge: locally available validation data only where approved; synchronisation and documented offline rules.
+• External services: payment provider and any government identity services only after formal approval and interface confirmation.
+The design should favour clear service boundaries and a maintainable deployment over unnecessary microservices. The final
+choice between a modular monolith and distributed services should be based on scale, team capability, support costs and
+integration requirements.
+PROPOSED TALANTA DIGITAL PLATFORM
+Conceptual reference architecture; final design depends on verified venue systems and tender requirements.
+PUBLIC CHANNELS
+SECURE API LAYER
+CORE SERVICES
+REPORTING
+Website • Mobile web
+Identity •Permissions
+Rate limits • Audit
+Tickets • Payments
+Staff • Operations
+Dashboards •Finance
+Ticket wallet •SMS
+Authorised audit
+H
+^
+TPS/API
+I
+VENUE EDGE
+Gate validation cache
+Offline procedure
+DATA & SECURITY
+Encrypted stores
+Retention •Backups
+
+=== PAGE 13 ===
+TALANTA STADIUM | COMPREHENSIVE SMART INFRASTRUCTURE PROPOSAL
+CONFIDENTIAL CONCEPT • Validate scope, cost, compliance and procurement before commitment
+Page 10
+10. Detailed Architecture, Data Flow and Environments
+Recommended logical layers
+Layer
+Responsibilities
+Design requirements
+Experience
+Public site, staff portal, steward interface, admin console.
+Responsive, accessible, role-aware, safe session handling
+Application/API
+Ticketing, inventory, payments, event configuration, accreditation,
+reporting.
+Versioned APIs, validation, idempotency, audit hooks
+Integration
+Payment callbacks, scanners, SMS/email, approved external
+systems.
+Timeouts, retries, provider status checks, secret
+management
+Persistence
+Orders, ticket state, event inventory, roles, logs and reports.
+Backups, encryption, retention and least privilege
+Operations
+Monitoring, deployment, backups, alerting and incident response.
+Separate environments, controlled releases, rollback
+Environments
+• Development: synthetic/test data only; rapid developer feedback.
+• Test/staging: controlled test data, payment sandbox, automated acceptance and load testing.
+• Production: approved configuration, restricted access, monitoring, backups, change approvals and rollback plan.
+• Training: non-production environment with fictional events and users to prevent accidental live transactions.
+Release controls
+Every production release should have a reviewed change record, automated test results, security checks, database migration
+plan, rollback strategy and named approver. Secrets must not be embedded in source code. Database changes must be
+backward-compatible where practical and tested on a production-like dataset.
+
+=== PAGE 14 ===
+TALANTA STADIUM | COMPREHENSIVE SMART INFRASTRUCTURE PROPOSAL
+CONFIDENTIAL CONCEPT • Validate scope, cost, compliance and procurement before commitment
+Page 11
+11. Core Data Model and System Entities
+A consistent data model helps avoid duplicate tickets, incorrect settlement figures and ambiguous access rights. Final fields and
+retention must be approved during discovery; the list below is conceptual.
+Entity
+Example fields / relationships
+Key controls
+Event
+Event ID, venue, date/time, status, entry rules, ticket categories.
+Approved publishing; change history
+Ticket inventory
+Category, seat/zone, allocation, price, availability.
+Concurrency control; no overselling
+Order / payment
+Order ID, amount, currency, provider reference, status, timestamps.
+Idempotency; verified status; reconciliation
+Ticket
+Ticket ID, order ID, event ID, status, validation events.
+Single-use rules; revocation; anti-replay
+User / role
+Account ID, role, permissions, contact preferences.
+MFA for privileged users; access reviews
+Accreditation
+Person/organisation reference, role, zone, validity period.
+Purpose limitation; expiry; approval log
+Audit event
+Actor, action, object, timestamp, result, correlation ID.
+Tamper-resistant storage; limited access
+Incident / device
+Gate/device identifier, status, event, assigned responder.
+Severity, escalation and closure record
+Data governance principle
+Do not collect a data field merely because it may be useful later. Define the purpose, lawful basis, access roles,
+retention period, deletion procedure and breach response for each category. Separate operational identifiers
+from sensitive identity information where feasible.
+
+=== PAGE 15 ===
+TALANTA STADIUM | COMPREHENSIVE SMART INFRASTRUCTURE PROPOSAL
+CONFIDENTIAL CONCEPT • Validate scope, cost, compliance and procurement before commitment
+Page 12
+12. Gate Access, Ticket Validation and Crowd Operations
+Gate validation must be fast, observable and safe. The precise validation method depends on existing devices and the operator's
+security model. A standard QR or NFC credential may be sufficient for many ticket classes; restricted zones may require stronger
+staff accreditation controls.
+Proposed validation sequence
+• Scanner reads the ticket token and verifies signature/status through the approved validation service.
+• System checks event, entry window, ticket category, revocation and prior-use rules.
+• Approved result returns clear accept/reject/exception status with minimal personal data displayed.
+• A successful entry is recorded with gate/device, event, timestamp and ticket reference.
+• An exception routes to a trained supervisor rather than forcing an unsafe or discriminatory decision.
+• If network connectivity is lost, operators follow a rehearsed, documented fallback with reconciliation afterwards.
+Crowd and occupancy indicators
+Dashboards may display counts and trends from validated scans and other approved sources. Scan counts are not automatically
+equal to physical occupancy: re-entry, staff, exits, scanning failures and emergency procedures must be accounted for. Any
+occupancy estimate must be labelled with its source and limitations.
+Emergency behaviour
+The software must never override the venue's approved life-safety design. Emergency exits, fail-safe gate
+behaviour and evacuation procedures must be engineered and approved by qualified specialists and tested
+with the venue operator. The proposal does not assume that every optical barrier can or should automatically
+behave identically during every emergency.
+
+=== PAGE 16 ===
+TALANTA STADIUM | COMPREHENSIVE SMART INFRASTRUCTURE PROPOSAL
+CONFIDENTIAL CONCEPT • Validate scope, cost, compliance and procurement before commitment
+Page 13
+13. Identity Verification and Optional Biometrics
+Biometric facial recognition is a sensitive, high-impact option—not a default requirement. It should be considered only if the
+stadium operator demonstrates a specific need that cannot be reasonably met by less intrusive methods, and after legal, privacy,
+accuracy, bias, accessibility and security review.
+Required decision gates before any biometric deployment
+• Define the precise purpose and lawful basis; obtain legal and data-protection review.
+• Complete a Data Protection Impact Assessment where required and consult the relevant authority if advised.
+• Assess whether QR/NFC credentials, visual ID checks or staff accreditation can achieve the purpose with less risk.
+• Define enrollment, consent where applicable, retention, deletion, access, breach handling and vendor restrictions.
+• Test false acceptance/rejection, demographic performance, lighting, face coverings and environmental conditions.
+• Provide an accessible, staffed non-biometric alternative and an appeal process for failed matches.
+• Prohibit secondary use or surveillance expansion without a new approved assessment and lawful authority.
+No performance figures in this proposal should be treated as a vendor-certified biometric guarantee. Any
+accuracy or speed target must be specified, independently tested in representative conditions and contractually
+defined before deployment.
+SECURITY & PRIVACY BY DESIGN
+Biometrics require separate necessity, proportionality, accuracy, legal and privacy assessment before adoption.
+GOVERNANCE
+Data ownership • lawful basis •DPIA
+IDENTITY & ACCESS
+MFA • least privilege •access reviews
+1
+1
+PLATFORM DEFENCES
+WAF • patching •encryption •monitoring
+RESILIENCE Sc ASSURANCE
+Backups •incident response • pen tests
+CONTINUOUS OVERSIGHT
+Audit logs •retention reviews •staff training
+
+=== PAGE 17 ===
+TALANTA STADIUM | COMPREHENSIVE SMART INFRASTRUCTURE PROPOSAL
+CONFIDENTIAL CONCEPT • Validate scope, cost, compliance and procurement before commitment
+Page 14
+14. Staff, Contractor and Accreditation Management
+The workforce module can coordinate employees, temporary event staff, security personnel, medical teams, catering vendors,
+media and contractors. It should support operational clarity while keeping access permissions proportional to each role.
+Capability
+Workflow
+Control
+Onboarding
+Create record, organisation, role, approved documents and validity dates.
+Authorised approver; minimum necessary data
+Shift planning
+Assign event, shift, supervisor and duty location.
+Conflict checks and version history
+Accreditation
+Issue credential with permitted zones and active time window.
+Least privilege; expiry and revocation
+Attendance
+Record check-in/out by approved method and flag exceptions.
+Supervisor review; no automatic payroll approval
+Vendor reporting
+Compare approved rosters, attendance and submitted service records.
+Finance approval and audit trail
+Offboarding
+Expire credential and remove account access at end of assignment.
+Revocation confirmation
+The platform should assist—not unilaterally determine—employment, payroll, police clearance or medical decisions. Integrations
+with external personnel or government systems require authorisation and verified interfaces.
+
+=== PAGE 18 ===
+TALANTA STADIUM | COMPREHENSIVE SMART INFRASTRUCTURE PROPOSAL
+CONFIDENTIAL CONCEPT • Validate scope, cost, compliance and procurement before commitment
+Page 15
+15. Command Centre, Dashboards and Reporting
+A command-centre dashboard should provide role-specific views rather than a single screen containing every sensitive detail.
+During a live event, the priority is clear, timely operational information and actionable alerts—not decorative charts.
+Dashboard
+Indicative information
+Users
+Event overview
+Event status, scan counts, gate health, service alerts and incident queue.
+Event control / venue management
+Gate operations
+Validation rates, rejects, device heartbeat and exception trends.
+Gate supervisors / technical support
+Finance
+Orders, paid/failed/pending, refunds, payment settlements and variances.
+Authorised finance / audit
+Workforce
+Shift coverage, attendance exceptions, accreditation expiry and vendor rosters.
+Operations / HR / contract managers
+Security / incident
+Approved incident records, escalation status and response owner.
+Authorised security personnel
+Technical health
+Application errors, latency, queue depth, storage, network and backup status.
+ICT and support team
+Reporting principles
+• Display timestamps, source and last refresh time for critical indicators.
+• Separate confirmed counts from estimates and show known data gaps.
+• Use access permissions and export controls for personal, financial and security data.
+• Provide downloadable event reports and reconciliation statements with clear definitions.
+• Avoid exposing individual biometric or sensitive identity data on broad command-centre screens.
+
+=== PAGE 19 ===
+TALANTA STADIUM | COMPREHENSIVE SMART INFRASTRUCTURE PROPOSAL
+CONFIDENTIAL CONCEPT • Validate scope, cost, compliance and procurement before commitment
+Page 16
+16. Cybersecurity, Privacy and Compliance Plan
+Control
+Proposed implementation
+Evidence
+Identity
+Role-based access, MFA for privileged users, session controls and account
+lifecycle.
+Access review report
+Encryption
+TLS for data in transit; encryption at rest and managed keys where supported.
+Configuration review
+Secure development
+Code review, dependency scanning, secrets scanning, input validation and
+security tests.
+Build pipeline evidence
+Monitoring
+Centralised application/security logs, alerting, time synchronisation and incident
+runbooks.
+Alert and incident drill
+Resilience
+Backups, restore testing, recovery targets and controlled failover.
+Restore test report
+Independent assurance
+Third-party penetration test and remediation before production approval.
+Report and closure evidence
+Data protection
+Data mapping, lawful basis review, privacy notices, retention and DPIA
+assessment.
+Signed privacy decision record
+Kenyan legal and standards context
+The project should be reviewed against Kenya's Data Protection Act, 2019 and applicable regulations, relevant public-sector ICT
+and cybersecurity requirements, procurement rules, payment-provider requirements, and any applicable stadium/event safety
+standards. ISO/IEC 27001, PCI DSS or CAF/FIFA requirements should only be claimed as achieved where the scope and
+independent evidence support that claim.
+No compliance certificate or regulatory approval is implied by this proposal. The final compliance matrix should
+identify each requirement, accountable owner, evidence, due date and acceptance authority.
+
+=== PAGE 20 ===
+TALANTA STADIUM | COMPREHENSIVE SMART INFRASTRUCTURE PROPOSAL
+CONFIDENTIAL CONCEPT • Validate scope, cost, compliance and procurement before commitment
+Page 17
+17. Hosting, Availability, Disaster Recovery and Support
+Hosting design should be selected after confirming government hosting policy, data residency needs, traffic assumptions,
+recovery requirements and total cost. The platform should not promise 99.99% availability until the service boundary, exclusions,
+measurement method, maintenance windows and supplier dependencies are contractually defined.
+Area
+Recommended approach
+Decision to confirm
+Hosting
+Approved cloud or data-centre environment with monitored resources and
+separated environments.
+Hosting policy, region and recurring cost
+Backups
+Encrypted scheduled backups, separate credentials and periodic restore tests.
+Retention and recovery point objective
+Recovery
+Documented recovery runbook, named incident roles and rehearsed restore
+procedure.
+Recovery time objective and event priorities
+Offline entry
+Approved cached validation or controlled manual fallback, with post-event
+reconciliation.
+Device support and security risk
+Monitoring
+Application, infrastructure, payment callback, queue and device-health alerts.
+On-call coverage and escalation route
+Service desk
+Ticketed support, severity levels, known-error database and event-day
+escalation.
+Support hours, SLA and service credits
+Proposed service-level framework
+• Critical incident: immediate acknowledgement target to be agreed, named escalation lead and frequent updates.
+• High incident: priority response, workaround assessment and progress updates at agreed intervals.
+• Routine request: logged, categorised and handled within agreed business-hour targets.
+• Planned maintenance: notice, approved window, rollback plan and post-change verification.
+
+=== PAGE 21 ===
+TALANTA STADIUM | COMPREHENSIVE SMART INFRASTRUCTURE PROPOSAL
+CONFIDENTIAL CONCEPT • Validate scope, cost, compliance and procurement before commitment
+Page 18
+18. Implementation Roadmap and Duration by Part
+Phase
+Duration
+Key work
+Gate / output
+1. Discovery
+4 weeks
+Workshops, site survey, integrations, baseline, risk and
+requirements.
+Signed requirements baseline
+2. Design
+4 weeks
+UX prototypes, architecture, data model, threat model, DPIA
+decision.
+Design and privacy gate
+3. Core build
+12 weeks
+Website, event catalogue, orders, ticket wallet, admin and reports.
+Staging release
+4. Integrations
+8 weeks, partly parallel
+Payment sandbox, approved scanners, notification and data
+exchange.
+Interface test evidence
+5. Pilot / assurance
+6 weeks
+User acceptance, accessibility, load, security, recovery and event
+simulation.
+Pilot acceptance / remediation
+6. Deployment
+4 weeks
+Production setup, training, operational readiness and launch support.
+Go-live approval
+7. Hypercare /
+handover
+4 weeks initial
+Enhanced monitoring, issue closure, handover and service review.
+Signed handover
+The phases overlap where safe and appropriate. Indicative elapsed duration is around 10 months, with schedule contingency
+required for procurement, device lead times, external approvals and venue readiness. The client should not accept a schedule
+until dependencies and critical path are agreed.
+INDICATIVE 10-MONTH DELIVERY ROADMAP
+Planning estimate only; confirm tender deadlines, construction handover, event dates and device lead times.
+Ml
+M2
+M3-5
+M6-7
+Pilot & validate
+Load / user tests
+M8-9
+Deployment
+Readiness checks
+M10+
+Discovery
+Requirements
+Design
+Privacy / security
+Build & integrate
+Staging tests
+Handover
+Support & review
++
++
+
+=== PAGE 22 ===
+TALANTA STADIUM | COMPREHENSIVE SMART INFRASTRUCTURE PROPOSAL
+CONFIDENTIAL CONCEPT • Validate scope, cost, compliance and procurement before commitment
+Page 19
+19. Milestones, Dependencies and Acceptance Gates
+Target point
+Milestone / deliverable
+Client dependency
+Acceptance evidence
+End Month 1
+Discovery report, user journeys, existing-system
+inventory and requirements.
+Stakeholder access and available
+drawings / contracts
+Signed scope baseline
+End Month 2
+Architecture, UX, data model, risk register, integration
+design and privacy decision.
+Legal, ICT, operations and
+data-protection review
+Approved design pack
+End Month 4
+Core website, admin, ticket lifecycle and basic reporting
+in staging.
+Fixture rules, pricing and content
+approvals
+Demonstration and test results
+End Month 6
+Payment sandbox and approved device integrations;
+workforce module beta.
+Provider credentials, device specs and
+vendor cooperation
+Interface test report
+End Month 7
+Pilot simulation, load/security/accessibility tests and
+training draft.
+Pilot users and representative test
+environment
+Defect log and risk acceptance
+End Month 9
+Production deployment readiness, support rota,
+recovery and rollback rehearsal.
+Production access and formal go-live
+window
+Readiness checklist signed
+Month 10+
+Go-live support, final documentation, knowledge
+transfer and performance review.
+Named operators and support escalation
+owners
+Handover certificate
+Critical dependencies
+• Tender award, contract execution, mobilisation and access to the venue.
+• Confirmation of current stadium completion, site access, drawings, network and power.
+• Payment-provider onboarding and production credentials.
+• Approval from existing hardware/software vendors for interfaces.
+• Data-protection, cybersecurity, safety and public procurement reviews.
+• Event calendar and a safe opportunity for realistic testing before a major match.
+
+=== PAGE 23 ===
+TALANTA STADIUM | COMPREHENSIVE SMART INFRASTRUCTURE PROPOSAL
+CONFIDENTIAL CONCEPT • Validate scope, cost, compliance and procurement before commitment
+Page 20
+20. Testing, Quality Assurance and Go-Live Readiness
+Test type
+What is tested
+Exit evidence
+Functional
+Ticket lifecycle, pricing, refunds, user roles, event setup, reports and edge cases.
+Passed agreed acceptance cases
+Payment
+Pending/failed/success callbacks, duplicate callbacks, timeout and settlement
+reconciliation.
+Provider sandbox evidence and exception tests
+Load / performance
+Expected peak ticket sales, concurrent sessions, gate-validation load and
+database contention.
+Results against agreed workload profile
+Security
+Authentication, authorisation, injection, dependencies, secrets, configuration and
+penetration tests.
+Remediation of critical/high findings or
+approved exception
+Accessibility
+Keyboard, screen reader, contrast, focus order, error messages and mobile
+layout.
+Accessibility report and fix log
+Recovery
+Backup restore, outage simulation, offline procedure and data reconciliation.
+Successful recovery drill
+Operational rehearsal
+Staff roles, escalation, event simulation, support desk and manual exception
+workflow.
+Signed operational readiness review
+Go-live conditions
+• No unresolved critical security issue; high-risk issues have documented resolution or formally approved treatment.
+• Payment and ticket states reconcile in test scenarios.
+• Named operations, ICT, security and finance owners have accepted their runbooks.
+• Backups, restore, monitoring, support escalation and rollback have been rehearsed.
+• Privacy and accessibility decisions are signed off; user notices and alternatives are ready.
+• The venue operator signs the final readiness checklist.
+
+=== PAGE 24 ===
+TALANTA STADIUM | COMPREHENSIVE SMART INFRASTRUCTURE PROPOSAL
+CONFIDENTIAL CONCEPT • Validate scope, cost, compliance and procurement before commitment
+Page 21
+21. Project Team, Responsibilities and Knowledge
+Transfer
+Role
+Indicative involvement
+Primary responsibility
+Project manager / delivery lead
+Across all phases
+Schedule, risks, decisions, status and change control
+Business analyst / service designer
+Discovery and acceptance
+Requirements, workflows, user journeys and KPIs
+Solution architect / technical lead
+Design through handover
+Architecture, interfaces, quality and technical decisions
+Frontend / backend engineers
+Build and stabilisation
+Portal, APIs, data model and integrations
+QA / automation engineer
+Build through acceptance
+Test plans, regression, performance and acceptance evidence
+Cybersecurity / privacy specialists
+Design gates and testing
+Threat model, privacy review, security tests and remediation
+DevOps / platform engineer
+Environments through support
+Deployment, monitoring, backup, recovery and release controls
+Training / support lead
+Pilot through handover
+Training, user manuals, helpdesk and knowledge transfer
+Client-side roles are essential
+The client should nominate a product owner, operations representative, finance/reconciliation lead, ICT/security lead,
+data-protection lead, procurement representative and authorised approver. Without timely decisions, approved test data, interface
+access and venue access, schedule and cost will be affected.
+Knowledge-transfer deliverables
+• System architecture, environment map, API/interface documentation and configuration register.
+• Administrator, operator, finance and support manuals.
+• Incident, backup/restore, outage and release runbooks.
+• Training attendance and competency checks.
+• Open-source and third-party dependency inventory plus licensing records.
+• Data export, transition assistance and exit plan consistent with contract terms.
+
+=== PAGE 25 ===
+TALANTA STADIUM | COMPREHENSIVE SMART INFRASTRUCTURE PROPOSAL
+CONFIDENTIAL CONCEPT • Validate scope, cost, compliance and procurement before commitment
+Page 22
+22. Detailed Indicative Budget and Cost Basis
+The supplied proposal's KES 75,000,000 total is retained as a planning envelope for continuity. It has not been independently
+costed against a final bill of quantities, technical survey, vendor quotations, taxes or tender terms. It must not be represented as a
+binding price until the scope and exclusions are confirmed.
+No.
+Work package
+Indicative KES
+Cost basis / note
+1
+Public ticketing website and mobile web
+18,500,000
+UX, booking workflow, admin, ticket wallet and approved payment interfaces;
+validate exact scope
+2
+Access validation and identity integration
+14,000,000
+Software and approved interfaces; physical hardware quantity and biometric
+scope require confirmation
+3
+Staff / contractor accreditation
+8,500,000
+Profiles, roles, roster, attendance, expiry and reporting
+4
+Command dashboard and audit analytics
+7,000,000
+Operational, gate, finance and exception dashboards
+5
+Cybersecurity and privacy assurance
+4,500,000
+Assessment, test support and remediation allowance; regulator/assessor fees
+to validate
+6
+Device middleware and system interfaces
+9,500,000
+Depends on device models, interface documentation and vendor support
+7
+Training, documentation and knowledge
+transfer
+3,500,000
+Training sessions, manuals, administrator handover
+Indicative engineering subtotal
+65,500,000
+Subject to validated scope
+8
+First-year hosting / support allowance
+9,500,000
+Cloud, monitoring, patching and event support assumptions to be priced
+Indicative total planning envelope
+75,000,000
+Not a fixed or approved tender price
+The table does not confirm that stadium turnstiles, cameras, network equipment, cabling, power backup, civil
+works, payment-provider fees, SMS volumes, taxes or third-party licences are included. The final financial offer
+must explicitly state each inclusion and exclusion.
+
+=== PAGE 26 ===
+TALANTA STADIUM | COMPREHENSIVE SMART INFRASTRUCTURE PROPOSAL
+CONFIDENTIAL CONCEPT • Validate scope, cost, compliance and procurement before commitment
+Page 23
+23. Commercial Model, Payment Milestones and Total
+Cost of Ownership
+A government-facing commercial offer should separate one-off delivery costs from recurring service costs. Any payment schedule
+must follow the tender and contract; the example below is a discussion model only, not a proposed legal entitlement.
+Milestone
+Indicative share of
+implementation fee
+Acceptance trigger
+Mobilisation / approved inception
+10%
+Contract, mobilisation plan, governance and approved inception deliverables
+Requirements and design approval
+15%
+Signed requirements, architecture, risk and privacy decision pack
+Core platform staging release
+25%
+Demonstrable core modules and agreed test evidence
+Integration and pilot acceptance
+20%
+Integration tests, pilot report and agreed remediation status
+Production readiness / deployment
+20%
+Go-live checklist, security sign-off and operational rehearsal
+Handover and documentation
+10%
+Signed training, documentation, handover and support transition
+Total cost of ownership items to price
+• Annual hosting and monitoring; data storage and backup growth.
+• Payment-provider fees, SMS/email delivery and high-volume event traffic.
+• Hardware warranty, replacement parts, device maintenance and network connectivity.
+• Security retesting, software upgrades, operating-system updates and dependency maintenance.
+• Event-day support coverage, travel, accommodation and out-of-hours support.
+• Renewal/licence charges, third-party vendor support and future integrations.
+• Exit support, data export and transition to a replacement supplier.
+Commercial controls
+Use milestone acceptance, clear taxes and exclusions, a change-control process, documented service levels, warranty terms,
+data ownership, IP/licensing terms, audit rights and exit provisions. Any price adjustment should follow the contract and applicable
+procurement rules.
+
+=== PAGE 27 ===
+TALANTA STADIUM | COMPREHENSIVE SMART INFRASTRUCTURE PROPOSAL
+CONFIDENTIAL CONCEPT • Validate scope, cost, compliance and procurement before commitment
+Page 24
+24. Benefits Measurement, Risk Register and Mitigation
+Risk
+Likelihood / impact
+Mitigation
+Owner
+Unclear existing interfaces
+Medium / High
+Site survey, vendor workshops, interface proof-of-concept and
+explicit exclusions.
+Client ICT / supplier lead
+Privacy or biometric challenge
+Medium / High
+Necessity test, legal review, DPIA where required, alternative entry
+and no deployment before approval.
+Client DPO / legal
+Payment callback mismatch
+Medium / High
+Sandbox tests, idempotency, provider status checks and daily
+reconciliation.
+Finance / integration lead
+Connectivity / power outage
+Medium / High
+Tested offline procedure, power/network monitoring, recovery drill
+and reconciliation.
+Venue ICT / operations
+Scope growth / cost overrun
+High / High
+Baseline scope, change requests, assumptions register and
+itemised pricing.
+Steering committee
+User adoption issues
+Medium / Medium
+Usability tests, clear signage, staff training, support desk and
+alternative workflows.
+Operations / service lead
+Vendor lock-in
+Medium / Medium
+Open interfaces where feasible, data export, documentation and exit
+plan.
+Client ICT / procurement
+Schedule conflict with events
+Medium / High
+Critical-path plan, event calendar, pilot windows and go/no-go gates.
+Project manager / venue
+Benefits dashboard to review monthly and after each pilot event
+• Financial: variance between issued tickets, payment settlement, refunds and event revenue.
+• Service: successful checkout rate, support contacts per transaction and customer feedback.
+• Entry: median and 95th-percentile validation time, queue observations and exception rate.
+• Operations: device availability, incidents by severity, recovery time and unresolved defects.
+• Workforce: planned vs actual attendance, expired credentials and approved invoice variance.
+• Governance: security findings closed, access reviews completed, privacy actions and training completion.
+Baseline and definitions must be approved before benefits are claimed. Any ROI forecast requires verified event
+volumes, historic losses, cost assumptions and finance validation.
+
+=== PAGE 28 ===
+TALANTA STADIUM | COMPREHENSIVE SMART INFRASTRUCTURE PROPOSAL
+CONFIDENTIAL CONCEPT • Validate scope, cost, compliance and procurement before commitment
+Page 25
+25. Governance, Acceptance, Sources and Final
+Submission Checklist
+Governance and responsibilities
+Stakeholder
+Accountability
+Government / venue sponsor
+Scope, funding pathway, major decisions and formal acceptance authority.
+Venue operations
+Matchday workflows, safety coordination, gate procedures and operational acceptance.
+ICT / cybersecurity
+Architecture, hosting, interfaces, security assurance and continuity approval.
+Data protection / legal
+Lawful basis, privacy notices, DPIA decision, retention and biometric review.
+Finance / internal audit
+Reconciliation definitions, reporting and audit access.
+Supplier
+Deliver, test, document, train and support approved scope under contract.
+Final submission checklist
+• Replace every bracketed placeholder with accurate legal entity, contact and authorised signatory details.
+• Confirm the actual recipient, tender number, submission format, deadline and mandatory forms.
+• Verify current venue handover status and confirm site access and system inventory.
+• Obtain vendor quotes and validate taxes, hardware, licences, hosting, connectivity and support assumptions.
+• Attach only genuine company registration, tax compliance, experience references, CVs and certifications.
+• Obtain qualified technical, legal, data-protection, cybersecurity and procurement review.
+• Remove claims of achieved certification, guaranteed ROI, perfect accuracy or confirmed government endorsement unless
+independently evidenced.
+Public context sources for verification
+• China Road and Bridge Corporation (CRBC), project update dated 10 February 2026: https://www.crbc.com/site/crbcEN/381/info/2026/46885286.html
+• Office of the President of Kenya, inspection report dated 11 April 2025:
+https://www.president.go.ke/president-ruto-inspects-construction-progress-at-talanta-sports-city/
+• Parliament of Kenya, Senate reporting dated 26 March 2026: https://www.parliament.go.ke/node/25478
+• Kenya Engineer, technical reporting on Talanta Sports City, 2026:
+https://www.kenyaengineer.co.ke/talanta-sports-city-engineering-kenyas-new-national-stadium-and-making-the-investment-count/
+Conclusion
+The proposed digital platform can help Talanta Stadium provide a clearer public ticketing journey and more accountable event
+operations if it is scoped carefully, tested realistically and governed transparently. The recommended next step is a formally
+authorised discovery and feasibility phase, followed by a validated design, costed implementation plan and compliant
+procurement decision.
+Proposal status: concept only. No contract award, government approval, construction partnership, installed
+system, regulatory clearance or guaranteed performance is implied. All figures and timelines are indicative and
+must be validated.
+
+=== PAGE 29 ===
+TALANTA STADIUM | TECHNICAL ANNEX
+Illustrative concept; final scope and commitments require validation
+Annex page 1
+26. Detailed Public Website Sitemap and User Journeys
+This annex turns the public-facing concept into a buildable information structure. Final page labels, brand assets and event content
+require approval from the stadium operator.
+Proposed sitemap
+Page / area
+Key features
+Acceptance checks
+Home
+Official notices, fixtures, venue guide, ticket call-to-action, support and status
+notices.
+Mobile layout, accessible headings, approved
+content
+Events
+Search/filter events, date, event status and ticket availability.
+Correct timezone, closed/sold-out states
+Event details
+Venue map, entry rules, category pricing, refund terms, accessibility and
+transport guidance.
+Terms visible before payment
+Checkout
+Order summary, contact details, provider handoff, payment status and safe
+retry.
+No duplicate order or false paid status
+Ticket wallet
+Confirmed ticket, reference, resend/recovery and support link.
+Ticket privacy and revocation behaviour
+Help / policies
+FAQ, refunds, privacy notice, fraud warning, accessibility support.
+Contacts and policies approved
+
+=== PAGE 30 ===
+TALANTA STADIUM | TECHNICAL ANNEX
+Illustrative concept; final scope and commitments require validation
+Annex page 2
+27. Seat Mapping, Ticket Categories and Inventory Rules
+Seat maps shown here are conceptual zones, not a surveyed Talanta Stadium seating plan. Production inventory must be based on approved seating plans
+and event-specific configuration.
+Inventory rules to implement
+• Create event-specific inventory; never assume every physical seat is saleable for every event.
+• Represent seats, blocks, standing zones, accessible allocations, restricted seats and sponsor holds separately.
+• Use transactional locking or equivalent concurrency control to prevent overselling under high traffic.
+• Apply temporary holds only for a defined time and release expired holds automatically.
+• Record every manual allocation, price change, refund, complimentary ticket and inventory override in an audit trail.
+• Support staged releases of ticket allocations where approved, without exposing restricted inventory.
+• Offer a clear seat/zone description and accessible alternative when a particular section is unavailable.
+Event configuration controls
+Only authorised event managers should publish fixtures, set sale windows, change prices, open or close categories and cancel an
+event. High-impact changes should require a second approver. The system should preserve a versioned record of the prior
+configuration.
+
+=== PAGE 31 ===
+TALANTA STADIUM | TECHNICAL ANNEX
+Illustrative concept; final scope and commitments require validation
+Annex page 3
+28. API Design, Integration Contracts and Error Handling
+The final API specification should be produced during design and reviewed with every external system owner. The following is a
+conceptual interface inventory, not a claim that any endpoint already exists.
+Interface
+Purpose
+Important safeguards
+Event API
+Read published events, categories, sale windows and
+venue notices.
+Role-based writes, validation and versioning
+Order API
+Create order, reserve inventory, query order status and
+cancel eligible drafts.
+Idempotency keys, expiry and concurrency controls
+Payment adapter
+Initiate approved provider flow and receive provider
+status/callbacks.
+Signature/authentication checks, retries and reconciliation
+Validation API
+Check ticket validity and record entry result.
+Replay protection, device authentication and rate limits
+Workforce API
+Read approved roster and credential permissions.
+Minimal data, permission checks and expiry
+Reporting API
+Provide approved event, finance and operations reports.
+Export authorisation, filtering and audit trail
+Failure patterns to plan for
+• Provider callback arrives twice: process safely once and retain evidence of duplicate delivery.
+• Provider is slow: show pending, query authoritative status and avoid issuing a duplicate order.
+• Scanner loses connectivity: follow approved offline procedure and reconcile when service returns.
+• External service is unavailable: use timeouts, bounded retries and visible degraded-service status.
+• Invalid or expired credential: show minimal information and route the user to a trained supervisor.
+
+=== PAGE 32 ===
+TALANTA STADIUM | TECHNICAL ANNEX
+Illustrative concept; final scope and commitments require validation
+Annex page 4
+29. Database, Audit Trail and Data Lifecycle
+A relational database is a reasonable starting point for orders, events, ticket states, staff roles and reconciliation. The final
+technology choice should reflect support skills, hosting policy, integration requirements and expected event volumes.
+Data group
+Examples
+Lifecycle / protection
+Operational
+Events, ticket categories, orders, validation records, staff
+assignments.
+Retention by approved operational and legal schedule
+Payment references
+Provider transaction IDs, amount, currency, state and
+reconciliation outcome.
+Do not store unnecessary payment credentials
+Identity / contact
+Account identifier, contact details and preferences where
+required.
+Purpose limitation, access controls and deletion process
+Security audit
+Administrator action, actor, timestamp, object and result.
+Restricted write access, monitored integrity and retention
+Sensitive / biometric
+Only if separately approved and strictly necessary.
+Separate legal/privacy gate, minimal retention, access logging
+Database operational controls
+• Use schema migrations tracked in source control and tested before production.
+• Define backup frequency, retention, encryption and restore-test ownership.
+• Separate production data from development and training; use synthetic data for tests.
+• Use database constraints and transactions for ticket inventory and payment state consistency.
+• Restrict direct production database access and log authorised maintenance activity.
+• Document data export and deletion procedures before go-live.
+
+=== PAGE 33 ===
+TALANTA STADIUM | TECHNICAL ANNEX
+Illustrative concept; final scope and commitments require validation
+Annex page 5
+30. Hosting, DevSecOps and Deployment Controls
+Deployment pipeline illustration. Tooling can vary; the essential control is repeatable, reviewed and recoverable releases.
+Proposed deployment workflow
+• Commit to source control with peer review and branch protections.
+• Run automated unit, integration, lint, dependency and secret-scanning checks.
+• Build a versioned release artefact and record its provenance.
+• Deploy to staging; run acceptance tests against representative configuration.
+• Approve a production change with rollback and database migration plans.
+• Deploy gradually where possible; verify health checks, payment callbacks and ticket validation.
+• Monitor errors and performance; rollback or disable the affected feature if required.
+Environment and access rules
+Production credentials must be held in a managed secret store or approved equivalent, not committed to source code. Access
+should be granted to named personnel for the minimum time and privilege required. Development, staging, training and production
+must be logically separated.
+
+=== PAGE 34 ===
+TALANTA STADIUM | TECHNICAL ANNEX
+Illustrative concept; final scope and commitments require validation
+Annex page 6
+31. Event-Day Operations and Command-Centre Runbook
+Suggested event-day checklist
+Timing
+Action
+Owner / evidence
+Before event
+Confirm event configuration, ticket categories, approved staff roster, scanner health,
+connectivity, power and support contacts.
+Event lead signs readiness checklist
+Gate opening
+Verify sample tickets, watch rejects and device heartbeat, confirm supervisor
+escalation route.
+Gate supervisor records checks
+During event
+Monitor queues, incidents, system health and payment/customer support escalations.
+Command lead tracks incidents
+After event
+Close sales as approved, export attendance/finance reports, reconcile exceptions
+and secure devices.
+Operations and finance sign closeout
+Post-event review
+Review defects, customer complaints, gate throughput, outages and corrective
+actions.
+Lessons-learned action log
+Operational principle
+The platform supports the event command structure; it does not replace emergency plans, safety officers, police, medical
+teams or the venue's life-safety systems. A named human decision-maker must remain responsible for incident escalation
+and exceptional entry decisions.
+
+=== PAGE 35 ===
+TALANTA STADIUM | TECHNICAL ANNEX
+Illustrative concept; final scope and commitments require validation
+Annex page 7
+32. Load Planning, Performance Targets and Capacity
+Validation
+Capacity must be engineered from an agreed demand model, not a headline number. The stadium's seating capacity does not
+equal simultaneous website users, payment requests or scanner transactions. The project should profile each workload separately.
+Workload
+What to model
+Evidence required
+Ticket release
+Concurrent sessions, seat/zone contention, cart holds and
+checkout conversion.
+Load-test report with assumptions
+Payment callbacks
+Provider latency, callback retries, status queries and queue
+backlog.
+Duplicate / delayed callback scenarios
+Gate validation
+Peak scan rate per lane, offline behaviour and sync after outage.
+Representative device and network test
+Reports
+Concurrent dashboard refreshes, exports and large event history
+queries.
+Query performance and access-control tests
+Recovery
+Restore duration, data recovery point and failover behaviour.
+Observed restore/failover exercise
+Targets to agree during discovery
+• Peak sales load and expected burst profile, including ticket-release announcements.
+• Maximum acceptable response time for each critical user journey.
+• Gate validation response time and safe behaviour under network interruption.
+• Recovery time objective (RTO) and recovery point objective (RPO).
+• Availability measurement window, exclusions, planned maintenance and service credits.
+• Monitoring thresholds and who receives each alert.
+Do not publish guaranteed throughput or uptime until test conditions and service boundaries are agreed and
+independently evidenced.
+
+=== PAGE 36 ===
+TALANTA STADIUM | TECHNICAL ANNEX
+Illustrative concept; final scope and commitments require validation
+Annex page 8
+33. Training, Service Desk and Warranty Framework
+Training stream
+Audience
+Topics
+Proof of readiness
+Event administrators
+Event setup, categories, sale windows, notices and approvals.
+Practical event setup exercise
+Gate supervisors / stewards
+Scanner workflow, exceptions, offline procedure and escalation.
+Simulated gate scenario
+Finance / audit
+Settlement reconciliation, refunds, exports and audit trail.
+Sample event reconciliation signed
+ICT / security
+Monitoring, access reviews, releases, backup/restore and incident response.
+Recovery and incident drill
+Helpdesk
+Ticket recovery, customer communication, escalation and privacy-safe
+verification.
+Role-played support cases
+Support model
+• Define support hours and event-day extended coverage in the contract.
+• Use a ticketing system with severity, ownership, response target, resolution target and escalation.
+• Separate incident restoration from root-cause analysis and long-term corrective work.
+• Maintain a known-error database and publish customer-facing service notices where appropriate.
+• Define warranty period, defect classification, patching responsibility and third-party dependency support.
+• Agree transition assistance, data export format and support handover before contract end.
+
+=== PAGE 37 ===
+TALANTA STADIUM | TECHNICAL ANNEX
+Illustrative concept; final scope and commitments require validation
+Annex page 9
+34. Procurement Evaluation, Acceptance Matrix and Change
+Control
+The final response must follow the actual solicitation document. Do not invent a tender number, eligibility status,
+mandatory certification or relationship with the venue. The procurement team’s instructions and formal addenda take
+precedence.
+Evaluation area
+Evidence to prepare
+Owner
+Technical compliance
+Requirement-by-requirement response, architecture, security, accessibility and integration
+approach.
+Technical lead
+Delivery capacity
+Named CVs, realistic schedule, project governance and resource plan.
+Bid manager
+Relevant experience
+Verifiable references, signed completion certificates and client contacts where permitted.
+Company authorised
+representative
+Financial offer
+Itemised pricing, taxes, recurring fees, assumptions, exclusions and payment terms.
+Finance lead
+Legal / eligibility
+Registration, tax status, declarations and other documents explicitly requested by tender.
+Compliance lead
+Implementation assurance
+Testing plan, privacy decision, support plan, acceptance gates and risk register.
+Delivery lead
+Change control
+Any request that changes scope, cost, schedule, security posture, data categories or acceptance criteria should be logged with the
+reason, options, cost/schedule impact, risk impact and authorised decision. Work on a material change should not start until
+approved in accordance with the contract.
+Acceptance should be evidence-based: each deliverable needs an owner, a review period, defined tests, defect severity rules and a
+signed acceptance record. Silence or an informal demonstration should not automatically be treated as acceptance unless the
+contract expressly says so.
+
+=== PAGE 38 ===
+TALANTA STADIUM | TECHNICAL ANNEX
+Illustrative concept; final scope and commitments require validation
+Annex page 10
+35. Final Technical Commitments, Assumptions and Next
+Actions
+What the proposed system is intended to provide
+• An official, mobile-friendly event and ticketing website with clear prices and terms.
+• Secure order and payment-state handling with reconciliation and support workflows.
+• Ticket validation and authorised staff accreditation, with tested exception procedures.
+• Role-based operational, gate-health, workforce and financial dashboards.
+• Documented cybersecurity, privacy, backup, incident, release and support controls.
+• Training, manuals, source/configuration documentation and a planned handover.
+• A modular foundation that can be extended only through approved scope and change control.
+Assumptions that must be confirmed
+• The client will identify the authorised sponsor, operator, product owner and acceptance authority.
+• Current venue handover, site access, equipment inventory and existing vendor interfaces will be confirmed.
+• The client will provide approved event rules, ticket policies, price rules and content.
+• Payment providers, messaging providers, hosting arrangements and third-party costs will be selected and priced.
+• Any biometric processing remains out of scope unless separately justified, approved, priced and contracted.
+• The KES 75 million planning envelope and 10-month timeline are indicative, not binding commitments.
+Recommended immediate next steps
+1. Confirm the legal proposer and procurement route. 2. Obtain the official tender requirements. 3. Run a discovery/site survey. 4.
+Verify vendor and payment interfaces. 5. Complete technical, legal, privacy and security reviews. 6. Produce a priced bill of
+quantities and compliance matrix. 7. Submit only verified documents and evidence.
+Closing statement
+A successful stadium digital platform is more than a website: it is a tested operating service with accountable ownership,
+safe entry procedures, financial reconciliation, trained staff and a sustainable support model. This proposal sets out a
+practical foundation for that work. Final commitments should be made only after formal requirements, technical facts and
+procurement conditions are confirmed.
+Important: this is a concept proposal and technical planning document. It does not imply a contract award, official endorsement, existing deployment, regulatory
+approval or guaranteed performance. All costs, dates, integrations and service levels require validation.

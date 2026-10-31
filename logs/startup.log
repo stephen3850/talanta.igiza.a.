@@ -1,0 +1,23 @@
+[2026-10-31T09:17:56.884Z] ================================================================
+[2026-10-31T09:17:56.890Z] TALANTA STADIUM SMART DIGITAL INFRASTRUCTURE - LAUNCHING SYSTEM
+[2026-10-31T09:17:56.891Z] ================================================================
+[2026-10-31T09:17:56.894Z] Spawning Next.js development server process...
+[2026-10-31T09:17:56.899Z] SYSTEM STARTUP ERROR: spawn EINVAL
+[2026-10-31T09:18:28.008Z] ================================================================
+[2026-10-31T09:18:28.015Z] TALANTA STADIUM SMART DIGITAL INFRASTRUCTURE - LAUNCHING SYSTEM
+[2026-10-31T09:18:28.016Z] ================================================================
+[2026-10-31T09:18:28.018Z] Spawning Next.js development server process...
+[2026-10-31T09:18:28.046Z] Process spawned with PID 35532. Wrote PID to C:\Users\stephen\Desktop\SSP IO\logs\talanta_app.pid
+[2026-10-31T09:18:28.048Z] Awaiting application health endpoint verification at http://localhost:3000/api/health...
+[2026-10-31T09:23:11.055Z] SYSTEM HEALTH VERIFIED: Next.js application server is online and healthy!
+[2026-10-31T09:23:11.058Z] Launching Talanta Stadium Operations Startup Experience in default browser...
+[2026-10-31T09:23:11.347Z] Opened default browser to http://localhost:3000/startup
+[2026-10-31T10:40:27.688Z] ================================================================
+[2026-10-31T10:40:27.692Z] TALANTA STADIUM SMART DIGITAL INFRASTRUCTURE - LAUNCHING SYSTEM
+[2026-10-31T10:40:27.693Z] ================================================================
+[2026-10-31T10:40:27.693Z] Spawning Next.js development server process...
+[2026-10-31T10:40:27.718Z] Process spawned with PID 2868. Wrote PID to C:\Users\stephen\Desktop\SSP IO\logs\talanta_app.pid
+[2026-10-31T10:40:27.719Z] Awaiting application health endpoint verification at http://localhost:3000/api/health...
+[2026-10-31T10:40:38.356Z] SYSTEM HEALTH VERIFIED: Next.js application server is online and healthy!
+[2026-10-31T10:40:38.357Z] Launching Talanta Stadium Operations Startup Experience in default browser...
+[2026-10-31T10:40:38.627Z] Opened default browser to http://localhost:3000/startup

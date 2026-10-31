@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  body {
+    background-color: #FAF8F5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpolygon points='0,0 20,0 0,20' fill='%3C%23EFECE5' opacity='0.45'/%3E%3Cpolygon points='20,0 40,0 20,20' fill='%3C%23F3EFF7' opacity='0.35'/%3E%3Cpolygon points='0,20 20,20 0,40' fill='%3C%23F3EFF7' opacity='0.35'/%3E%3Cpolygon points='20,20 40,20 20,40' fill='%3C%23EFECE5' opacity='0.45'/%3E%3Cpolygon points='20,0 40,20 40,0' fill='%3C%23FAF8F5' opacity='0.5'/%3E%3Cpolygon points='0,20 20,40 20,20' fill='%3C%23FAF8F5' opacity='0.5'/%3E%3C/svg%3E");
+    color: #111827;
+    font-family: 'Google Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6, .font-heading, .font-impact {
+    font-family: Impact, "Helvetica Neue", "Arial Narrow", sans-serif !important;
+    text-transform: uppercase !important;
+    letter-spacing: -0.03em !important;
+    line-height: 1.02 !important;
+  }
+}
+
+/* Custom Scrollbar for Stadium Dashboards */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B132B;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1C2A4E;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #10B981;
+}
+
+/* Glassmorphism Accents */
+.glass-panel {
+  background: rgba(11, 19, 43, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(42, 60, 102, 0.5);
+}

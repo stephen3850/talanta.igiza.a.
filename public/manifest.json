@@ -1,0 +1,64 @@
+{
+  "name": "Talanta Stadium Smart Operating OS",
+  "short_name": "Talanta Stadium",
+  "description": "Smart Digital Infrastructure, Mobile Ticketing, Cashless M-PESA Payments, and Workforce Operations for Talanta Sports City, Nairobi, Kenya.",
+  "start_url": "/?source=pwa",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#060B1E",
+  "theme_color": "#10B981",
+  "categories": ["sports", "entertainment", "utilities", "business"],
+  "lang": "en-KE",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-maskable.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "My Tickets",
+      "short_name": "Tickets",
+      "description": "View matchday passes and QR tokens",
+      "url": "/account/tickets?source=pwa_shortcut",
+      "icons": [{ "src": "/icons/icon-192.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "Explore Events",
+      "short_name": "Events",
+      "description": "Discover upcoming football fixtures and stadium concerts",
+      "url": "/events?source=pwa_shortcut",
+      "icons": [{ "src": "/icons/icon-192.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "Staff Portal",
+      "short_name": "Staff",
+      "description": "Staff accreditation credentials and duty schedule",
+      "url": "/staff?source=pwa_shortcut",
+      "icons": [{ "src": "/icons/icon-192.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "Gate Turnstile Scanner",
+      "short_name": "Scanner",
+      "description": "Mobile ticket turnstile validator",
+      "url": "/gate/scanner?source=pwa_shortcut",
+      "icons": [{ "src": "/icons/icon-192.svg", "sizes": "192x192" }]
+    }
+  ]
+}

@@ -144,8 +144,17 @@ export default function PublicHomePage() {
 
       <main className="flex-1">
         {/* ==================== A. HERO SECTION ==================== */}
-        <section className="relative overflow-hidden pt-12 sm:pt-16 pb-20 sm:pb-28 border-b border-navy-800/80">
-          <div className="absolute inset-0 bg-gradient-to-br from-navy-950 via-navy-900 to-navy-850 opacity-95"></div>
+        <section className="relative overflow-hidden pt-12 sm:pt-16 pb-20 sm:pb-28 border-b border-navy-800/80 bg-navy-950">
+          {/* Official Talanta Stadium Aerial Background Image */}
+          <div className="absolute inset-0 z-0">
+            <img
+              src="/images/talanta-stadium-aerial.png"
+              alt="Talanta Stadium Aerial Rendering"
+              className="w-full h-full object-cover object-center opacity-35 scale-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-navy-950 via-navy-950/85 to-navy-950/60"></div>
+            <div className="absolute inset-0 bg-gradient-to-b from-navy-950/60 via-transparent to-navy-950"></div>
+          </div>
           <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">

@@ -16,7 +16,6 @@ import {
   ShieldCheck,
   CheckCircle2,
   Clock,
-  User,
   ArrowLeft
 } from 'lucide-react';
 
@@ -24,18 +23,20 @@ export default function EventBookingDetailPage() {
   const params = useParams();
   const router = useRouter();
 
-  const event = initialEvents.find((e) => e.id === params.id) || initialEvents[0];
+  const event = initialEvents.find((e) => e.id === params.id || e.slug === params.id) || initialEvents[0];
+  const hasCategories = event.categories && event.categories.length > 0;
 
-  const [selectedCategory, setSelectedCategory] = useState(event.categories[0]);
+  const [selectedCategory, setSelectedCategory] = useState(hasCategories ? event.categories[0] : null);
   const [quantity, setQuantity] = useState(1);
   const [phone, setPhone] = useState('0712345678');
   const [isProcessing, setIsProcessing] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(null);
 
-  const subtotal = selectedCategory.price * quantity;
+  const subtotal = selectedCategory ? (selectedCategory.price || 0) * quantity : 0;
 
   const handleCheckout = async (e) => {
     e.preventDefault();
+    if (!selectedCategory) return;
     setIsProcessing(true);
 
     try {
@@ -64,7 +65,7 @@ export default function EventBookingDetailPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-navy-950">
+    <div className="min-h-screen flex flex-col bg-navy-950 font-sans">
       <Navbar />
 
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
@@ -125,7 +126,7 @@ export default function EventBookingDetailPage() {
             <div className="lg:col-span-7 space-y-6">
               <div className="relative h-64 rounded-2xl overflow-hidden border border-navy-800">
                 <img
-                  src={event.bannerUrl}
+                  src={event.image || event.bannerUrl}
                   alt={event.title}
                   className="w-full h-full object-cover"
                 />
@@ -136,7 +137,7 @@ export default function EventBookingDetailPage() {
               </div>
 
               <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-white leading-tight">
+                <h1 className="text-2xl sm:text-3xl font-bold text-white leading-tight uppercase">
                   {event.title}
                 </h1>
                 <p className="text-xs text-slate-400 mt-2 leading-relaxed">
@@ -149,7 +150,7 @@ export default function EventBookingDetailPage() {
                   <Calendar className="w-5 h-5 text-emerald-400 shrink-0" />
                   <div>
                     <span className="text-slate-500 block text-[10px] uppercase font-semibold">Match Date & Time</span>
-                    <span className="font-medium">{new Date(event.startTime).toLocaleDateString()} • 16:00 EAT</span>
+                    <span className="font-medium">{event.displayDate || (event.startDate && new Date(event.startDate).toLocaleDateString())}</span>
                   </div>
                 </div>
 
@@ -157,7 +158,7 @@ export default function EventBookingDetailPage() {
                   <MapPin className="w-5 h-5 text-emerald-400 shrink-0" />
                   <div>
                     <span className="text-slate-500 block text-[10px] uppercase font-semibold">Stadium Zone</span>
-                    <span className="font-medium">{event.venueZone} • Talanta Stadium</span>
+                    <span className="font-medium">{event.venue || event.venueZone} • Talanta Stadium</span>
                   </div>
                 </div>
               </div>
@@ -170,95 +171,105 @@ export default function EventBookingDetailPage() {
                 <p className="text-xs text-slate-400">Choose your seating allocation & quantity</p>
               </div>
 
-              {/* Category Selector */}
-              <div className="space-y-3">
-                {event.categories.map((cat) => (
-                  <div
-                    key={cat.id}
-                    onClick={() => setSelectedCategory(cat)}
-                    className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center justify-between ${
-                      selectedCategory.id === cat.id
-                        ? 'bg-emerald-500/10 border-emerald-500 text-white'
-                        : 'bg-navy-950 border-navy-800 text-slate-300 hover:border-navy-700'
-                    }`}
-                  >
+              {hasCategories ? (
+                <>
+                  {/* Category Selector */}
+                  <div className="space-y-3">
+                    {event.categories.map((cat) => (
+                      <div
+                        key={cat.id}
+                        onClick={() => setSelectedCategory(cat)}
+                        className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center justify-between ${
+                          selectedCategory?.id === cat.id
+                            ? 'bg-emerald-500/10 border-emerald-500 text-white'
+                            : 'bg-navy-950 border-navy-800 text-slate-300 hover:border-navy-700'
+                        }`}
+                      >
+                        <div>
+                          <h4 className="text-xs font-bold">{cat.name || cat.categoryName}</h4>
+                          <span className="text-[10px] text-slate-400">
+                            {cat.available?.toLocaleString() || 'Available'} seats available
+                          </span>
+                        </div>
+
+                        <div className="text-right">
+                          <span className="text-sm font-bold text-emerald-400">
+                            {formatCurrency(cat.price || 0)}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Quantity Picker */}
+                  <div className="flex items-center justify-between bg-navy-950 p-3 rounded-xl border border-navy-800">
+                    <span className="text-xs font-medium text-slate-300">Ticket Quantity</span>
+                    <div className="flex items-center space-x-3">
+                      <button
+                        onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                        className="w-8 h-8 rounded-lg bg-navy-800 hover:bg-navy-700 text-white font-bold text-sm"
+                      >
+                        -
+                      </button>
+                      <span className="font-mono text-sm font-bold text-white px-2">{quantity}</span>
+                      <button
+                        onClick={() => setQuantity(Math.min(6, quantity + 1))}
+                        className="w-8 h-8 rounded-lg bg-navy-800 hover:bg-navy-700 text-white font-bold text-sm"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* M-PESA Phone Form */}
+                  <form onSubmit={handleCheckout} className="space-y-4 pt-2 border-t border-navy-800">
                     <div>
-                      <h4 className="text-xs font-bold">{cat.name}</h4>
-                      <span className="text-[10px] text-slate-400">
-                        {cat.available.toLocaleString()} seats available
-                      </span>
+                      <label className="text-xs font-medium text-slate-300 block mb-1">
+                        Safaricom M-PESA Phone Number
+                      </label>
+                      <div className="relative">
+                        <Smartphone className="w-4 h-4 text-emerald-400 absolute left-3 top-3" />
+                        <input
+                          type="text"
+                          required
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          placeholder="0712345678 or 254712345678"
+                          className="w-full bg-navy-950 border border-navy-700 focus:border-emerald-500 rounded-xl pl-9 pr-4 py-2.5 text-xs text-white focus:outline-none"
+                        />
+                      </div>
                     </div>
 
-                    <div className="text-right">
-                      <span className="text-sm font-bold text-emerald-400">
-                        {formatCurrency(cat.price)}
-                      </span>
+                    <div className="bg-navy-950 p-4 rounded-xl border border-navy-800 space-y-2">
+                      <div className="flex justify-between text-xs text-slate-400">
+                        <span>{selectedCategory?.name || selectedCategory?.categoryName} x {quantity}</span>
+                        <span>{formatCurrency(subtotal)}</span>
+                      </div>
+                      <div className="flex justify-between text-sm font-bold text-white pt-2 border-t border-navy-800">
+                        <span>Total Amount:</span>
+                        <span className="text-emerald-400">{formatCurrency(subtotal)}</span>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
 
-              {/* Quantity Picker */}
-              <div className="flex items-center justify-between bg-navy-950 p-3 rounded-xl border border-navy-800">
-                <span className="text-xs font-medium text-slate-300">Ticket Quantity</span>
-                <div className="flex items-center space-x-3">
-                  <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-8 h-8 rounded-lg bg-navy-800 hover:bg-navy-700 text-white font-bold text-sm"
-                  >
-                    -
-                  </button>
-                  <span className="font-mono text-sm font-bold text-white px-2">{quantity}</span>
-                  <button
-                    onClick={() => setQuantity(Math.min(6, quantity + 1))}
-                    className="w-8 h-8 rounded-lg bg-navy-800 hover:bg-navy-700 text-white font-bold text-sm"
-                  >
-                    +
-                  </button>
+                    <Button
+                      type="submit"
+                      variant="primary"
+                      className="w-full justify-center py-3 space-x-2"
+                      isLoading={isProcessing}
+                    >
+                      <ShieldCheck className="w-4 h-4" />
+                      <span>Pay with M-PESA ({formatCurrency(subtotal)})</span>
+                    </Button>
+                  </form>
+                </>
+              ) : (
+                <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs space-y-2 text-center">
+                  <span className="font-bold block uppercase">Awaiting Official Confirmation</span>
+                  <p className="text-[11px] text-slate-300">
+                    Ticket sales for this matchday event have not opened yet.
+                  </p>
                 </div>
-              </div>
-
-              {/* M-PESA Phone Form */}
-              <form onSubmit={handleCheckout} className="space-y-4 pt-2 border-t border-navy-800">
-                <div>
-                  <label className="text-xs font-medium text-slate-300 block mb-1">
-                    Safaricom M-PESA Phone Number
-                  </label>
-                  <div className="relative">
-                    <Smartphone className="w-4 h-4 text-emerald-400 absolute left-3 top-3" />
-                    <input
-                      type="text"
-                      required
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      placeholder="0712345678 or 254712345678"
-                      className="w-full bg-navy-950 border border-navy-700 focus:border-emerald-500 rounded-xl pl-9 pr-4 py-2.5 text-xs text-white focus:outline-none"
-                    />
-                  </div>
-                </div>
-
-                {/* Subtotal & Checkout Button */}
-                <div className="bg-navy-950 p-4 rounded-xl border border-navy-800 space-y-2">
-                  <div className="flex justify-between text-xs text-slate-400">
-                    <span>{selectedCategory.name} x {quantity}</span>
-                    <span>{formatCurrency(subtotal)}</span>
-                  </div>
-                  <div className="flex justify-between text-sm font-bold text-white pt-2 border-t border-navy-800">
-                    <span>Total Amount:</span>
-                    <span className="text-emerald-400">{formatCurrency(subtotal)}</span>
-                  </div>
-                </div>
-
-                <Button
-                  type="submit"
-                  variant="primary"
-                  className="w-full justify-center py-3 space-x-2"
-                  isLoading={isProcessing}
-                >
-                  <ShieldCheck className="w-4 h-4" />
-                  <span>Pay with M-PESA ({formatCurrency(subtotal)})</span>
-                </Button>
-              </form>
+              )}
             </div>
           </div>
         )}

@@ -11,7 +11,7 @@ import { formatCurrency } from '../../lib/utils';
 import { Ticket, Calendar, MapPin, Search, ArrowRight, ShieldCheck, Filter } from 'lucide-react';
 
 export default function TicketsDiscoveryPage() {
-  const [events, setEvents] = useState(initialEvents.filter(e => e.status === 'PUBLISHED'));
+  const [events, setEvents] = useState(initialEvents);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('ALL');
 
@@ -41,7 +41,7 @@ export default function TicketsDiscoveryPage() {
   });
 
   return (
-    <div className="min-h-screen flex flex-col bg-navy-950">
+    <div className="min-h-screen flex flex-col bg-navy-950 font-sans">
       <Navbar />
 
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full space-y-10">
@@ -53,7 +53,7 @@ export default function TicketsDiscoveryPage() {
           <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
             Matchday Ticket Discovery
           </h1>
-          <p className="text-sm text-slate-400">
+          <p className="text-xs text-slate-400">
             Discover upcoming fixtures at Talanta Sports City, select seating categories, and pay securely via Safaricom M-PESA.
           </p>
         </div>
@@ -92,7 +92,11 @@ export default function TicketsDiscoveryPage() {
         {/* Events & Category Price Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredEvents.map((evt) => {
-            const minPrice = Math.min(...evt.categories.map((c) => c.price));
+            const hasCategories = evt.categories && evt.categories.length > 0;
+            const minPrice = hasCategories
+              ? Math.min(...evt.categories.map((c) => c.price || 0))
+              : null;
+
             return (
               <div
                 key={evt.id}
@@ -111,43 +115,49 @@ export default function TicketsDiscoveryPage() {
                   </div>
 
                   <div className="p-6 space-y-4">
-                    <h3 className="text-lg font-bold text-white leading-snug">{evt.title}</h3>
+                    <h3 className="text-lg font-bold text-white leading-snug uppercase">{evt.title}</h3>
                     <p className="text-xs text-slate-400 line-clamp-2">{evt.description}</p>
 
                     <div className="space-y-1.5 text-xs text-slate-300 pt-2 border-t border-navy-800">
                       <div className="flex items-center space-x-2">
                         <Calendar className="w-3.5 h-3.5 text-emerald-400" />
-                        <span>{new Date(evt.startDate).toLocaleDateString('en-KE', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                        <span>{evt.displayDate || (evt.startDate && new Date(evt.startDate).toLocaleDateString('en-KE', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' }))}</span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                        <span>{evt.venue} • Talanta Stadium</span>
+                        <span>{evt.venue || 'Talanta Stadium'}</span>
                       </div>
                     </div>
 
                     {/* Available Categories Pills */}
-                    <div className="pt-2 flex flex-wrap gap-1.5">
-                      {evt.categories.map((c) => (
-                        <span key={c.id} className="text-[10px] bg-navy-950 border border-navy-800 text-slate-300 px-2 py-0.5 rounded">
-                          {c.name || c.categoryName}: {formatCurrency(c.price)}
-                        </span>
-                      ))}
-                    </div>
+                    {hasCategories && (
+                      <div className="pt-2 flex flex-wrap gap-1.5">
+                        {evt.categories.map((c, idx) => (
+                          <span key={c.id || idx} className="text-[10px] bg-navy-950 border border-navy-800 text-slate-300 px-2 py-0.5 rounded">
+                            {c.name || c.categoryName}: {formatCurrency(c.price || 0)}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
 
                 <div className="p-6 pt-0">
                   <div className="pt-4 border-t border-navy-800 flex items-center justify-between">
                     <div>
-                      <span className="text-[10px] text-slate-400 block uppercase">Starting From</span>
-                      <span className="text-base font-bold text-emerald-400">
-                        {formatCurrency(minPrice)}
+                      <span className="text-[10px] text-slate-400 block uppercase">
+                        {hasCategories ? 'Starting From' : 'Ticket Status'}
+                      </span>
+                      <span className="text-sm font-bold text-emerald-400">
+                        {hasCategories && minPrice !== null
+                          ? formatCurrency(minPrice)
+                          : 'Awaiting Confirmation'}
                       </span>
                     </div>
 
-                    <Link href={`/tickets/${evt.slug || evt.id}`}>
+                    <Link href={`/events/${evt.slug || evt.id}`}>
                       <Button variant="primary" size="sm" className="space-x-1">
-                        <span>Select Category</span>
+                        <span>{hasCategories ? 'Select Category' : 'Event Info'}</span>
                         <ArrowRight className="w-3.5 h-3.5" />
                       </Button>
                     </Link>

@@ -72,7 +72,7 @@ export default function NewsPage() {
       sourceUrl: 'https://www.president.go.ke/president-ruto-inspects-construction-progress-at-talanta-sports-city/',
       isOfficialGovernment: true,
       hasFullArticle: true,
-      image: '/images/talanta-stadium-aerial.png',
+      image: '/images/president.jpg',
       badgeColor: 'bg-emerald-100 text-emerald-900 border-emerald-200',
     },
   ];

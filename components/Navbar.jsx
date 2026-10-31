@@ -33,7 +33,7 @@ export default function Navbar() {
     { name: 'PLAN YOUR VISIT', href: '/facilities', isActive: (p) => p === '/facilities' || p.startsWith('/parking') },
     { name: 'FACILITIES', href: '/facilities', isActive: (p) => p.startsWith('/facilities') && p !== '/facilities' },
     { name: 'SUITES', href: '/suites', isActive: (p) => p === '/suites' },
-    { name: 'TOURS', href: '/about#tours', isActive: (p) => p === '/tours' },
+    {name: 'TOURS', href: '/tours', isActive: (p) => p === '/tours' || p.startsWith('/tours') },
     { name: 'STADIUM', href: '/about#stadium', isActive: (p) => p === '/stadium' },
     { name: 'DIGITAL SERVICES', href: '/services', isActive: (p) => p === '/services' },
     { name: 'NEWS & UPDATES', href: '/news', isActive: (p) => p === '/news' },

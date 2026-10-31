@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
 import Navbar from '../../../components/Navbar';
 import Footer from '../../../components/Footer';
 import Button from '../../../components/Button';
@@ -16,11 +17,13 @@ import {
   ShieldCheck,
   CheckCircle2,
   Clock,
-  User,
   ArrowLeft,
   Building2,
   PhoneCall,
-  Info
+  Info,
+  ExternalLink,
+  Bell,
+  Check
 } from 'lucide-react';
 
 export default function PublicEventBySlugPage() {
@@ -33,6 +36,8 @@ export default function PublicEventBySlugPage() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [phone, setPhone] = useState('0712345678');
+  const [emailAlert, setEmailAlert] = useState('');
+  const [subscribedAlert, setSubscribedAlert] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [bookingSuccess, setBookingSuccess] = useState(null);
 
@@ -47,9 +52,9 @@ export default function PublicEventBySlugPage() {
           setEvent(data.event);
           setSelectedCategory(data.event.categories?.[0] || null);
         } else {
-          // Fallback search in mock published events
+          // Fallback search in mock events store
           const fallback = initialEvents.find(
-            (e) => (e.slug === slugOrId || e.id === slugOrId) && e.status === 'PUBLISHED'
+            (e) => e.slug === slugOrId || e.id === slugOrId
           );
           if (fallback) {
             setEvent(fallback);
@@ -77,15 +82,15 @@ export default function PublicEventBySlugPage() {
     );
   }
 
-  if (!event || event.status !== 'PUBLISHED') {
+  if (!event) {
     return (
       <div className="min-h-screen flex flex-col bg-navy-950">
         <Navbar />
         <main className="flex-1 flex flex-col items-center justify-center p-8 text-center space-y-4">
-          <Badge variant="danger" size="md">EVENT NOT PUBLICLY VISIBLE</Badge>
-          <h1 className="text-2xl font-bold text-white">Fixture Not Found or Private</h1>
+          <Badge variant="danger" size="md">EVENT NOT FOUND</Badge>
+          <h1 className="text-2xl font-bold text-white">Fixture or Event Not Found</h1>
           <p className="text-xs text-slate-400 max-w-md">
-            The requested event is either in draft review, completed, or does not exist on the public schedule.
+            The requested event does not exist on the current matchday schedule.
           </p>
           <Button variant="primary" onClick={() => router.push('/events')}>
             View Public Event Schedule
@@ -96,10 +101,12 @@ export default function PublicEventBySlugPage() {
     );
   }
 
+  const isTicketAvailable = event.ticketApproved && event.categories && event.categories.length > 0;
   const subtotal = selectedCategory ? selectedCategory.price * quantity : 0;
 
   const handleCheckout = async (e) => {
     e.preventDefault();
+    if (!isTicketAvailable) return;
     setIsProcessing(true);
 
     try {
@@ -127,13 +134,18 @@ export default function PublicEventBySlugPage() {
     }
   };
 
+  const handleSubscribeAlert = (e) => {
+    e.preventDefault();
+    setSubscribedAlert(true);
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-navy-950">
       <Navbar />
 
       <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
         <button
-          onClick={() => router.back()}
+          onClick={() => router.push('/events')}
           className="inline-flex items-center text-xs text-slate-400 hover:text-white mb-6 space-x-1"
         >
           <ArrowLeft className="w-4 h-4" />
@@ -183,7 +195,7 @@ export default function PublicEventBySlugPage() {
             </div>
           </div>
         ) : (
-          /* EVENT DETAILS & BOOKING FORM */
+          /* EVENT DETAILS & BOOKING / ALERT FORM */
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
             {/* Left Event Details */}
             <div className="lg:col-span-7 space-y-6">
@@ -194,34 +206,43 @@ export default function PublicEventBySlugPage() {
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/30 to-transparent"></div>
-                <Badge variant="navy" className="absolute top-4 left-4">
-                  {event.category}
-                </Badge>
+                <div className="absolute top-4 left-4 flex space-x-2">
+                  <Badge variant="navy">
+                    {event.category}
+                  </Badge>
+                  <Badge variant="warning">
+                    {event.statusLabel || event.status}
+                  </Badge>
+                </div>
               </div>
 
               <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-white leading-tight">
+                <h1 className="text-2xl sm:text-3xl font-bold text-white leading-tight uppercase">
                   {event.title}
                 </h1>
+                <p className="text-xs font-bold text-amber-400 mt-1 uppercase tracking-wider">
+                  {event.competition || event.category}
+                </p>
                 <p className="text-xs text-slate-300 mt-3 leading-relaxed">
                   {event.description}
                 </p>
               </div>
 
+              {/* Event Metadata Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-navy-900 p-5 rounded-2xl border border-navy-800 text-xs">
                 <div className="flex items-center space-x-3 text-slate-300">
                   <Calendar className="w-5 h-5 text-emerald-400 shrink-0" />
                   <div>
-                    <span className="text-slate-500 block text-[10px] uppercase font-semibold">Match Date & Time</span>
-                    <span className="font-medium text-white">{formatDate(event.startDate)}</span>
+                    <span className="text-slate-500 block text-[10px] uppercase font-semibold">Match Date & Schedule</span>
+                    <span className="font-medium text-white">{event.displayDate || formatDate(event.startDate)}</span>
                   </div>
                 </div>
 
                 <div className="flex items-center space-x-3 text-slate-300">
                   <MapPin className="w-5 h-5 text-emerald-400 shrink-0" />
                   <div>
-                    <span className="text-slate-500 block text-[10px] uppercase font-semibold">Stadium Zone</span>
-                    <span className="font-medium text-white">{event.venue} • Talanta Stadium</span>
+                    <span className="text-slate-500 block text-[10px] uppercase font-semibold">Venue</span>
+                    <span className="font-medium text-white">{event.venue}</span>
                   </div>
                 </div>
 
@@ -245,104 +266,184 @@ export default function PublicEventBySlugPage() {
                   </div>
                 )}
               </div>
+
+              {/* Reference Links Section */}
+              {event.referenceLinks && event.referenceLinks.length > 0 && (
+                <div className="bg-navy-900 border border-navy-800 rounded-2xl p-5 space-y-3">
+                  <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center space-x-2">
+                    <ExternalLink className="w-4 h-4 text-emerald-400" />
+                    <span>Official Reference & Organization Links</span>
+                  </h3>
+                  <div className="flex flex-wrap gap-2 text-xs">
+                    {event.referenceLinks.map((ref, idx) => (
+                      <a
+                        key={idx}
+                        href={ref.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-xl bg-navy-950 hover:bg-navy-800 border border-navy-700 text-emerald-400 hover:text-white transition-colors"
+                      >
+                        <span>{ref.label}</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
-            {/* Right Ticket Selection & M-PESA Checkout */}
+            {/* Right Panel: Tickets or Provisional Alert */}
             <div className="lg:col-span-5 bg-navy-900 border border-navy-800 rounded-2xl p-6 shadow-2xl space-y-6">
-              <div className="border-b border-navy-800 pb-4">
-                <h3 className="text-lg font-bold text-white">Select Ticket Category</h3>
-                <p className="text-xs text-slate-400">Choose your seating allocation & quantity</p>
-              </div>
+              {isTicketAvailable ? (
+                <>
+                  <div className="border-b border-navy-800 pb-4">
+                    <h3 className="text-lg font-bold text-white">Select Ticket Category</h3>
+                    <p className="text-xs text-slate-400">Choose your seating allocation & quantity</p>
+                  </div>
 
-              {/* Category Selector */}
-              <div className="space-y-3">
-                {event.categories?.map((cat) => (
-                  <div
-                    key={cat.id}
-                    onClick={() => setSelectedCategory(cat)}
-                    className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center justify-between ${
-                      selectedCategory?.id === cat.id
-                        ? 'bg-emerald-500/10 border-emerald-500 text-white'
-                        : 'bg-navy-950 border-navy-800 text-slate-300 hover:border-navy-700'
-                    }`}
-                  >
+                  {/* Category Selector */}
+                  <div className="space-y-3">
+                    {event.categories?.map((cat) => (
+                      <div
+                        key={cat.id}
+                        onClick={() => setSelectedCategory(cat)}
+                        className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center justify-between ${
+                          selectedCategory?.id === cat.id
+                            ? 'bg-emerald-500/10 border-emerald-500 text-white'
+                            : 'bg-navy-950 border-navy-800 text-slate-300 hover:border-navy-700'
+                        }`}
+                      >
+                        <div>
+                          <h4 className="text-xs font-bold">{cat.name || cat.categoryName}</h4>
+                          <span className="text-[10px] text-slate-400">
+                            {cat.available?.toLocaleString() || cat.availableSeats?.toLocaleString() || 'Available'} seats
+                          </span>
+                        </div>
+
+                        <div className="text-right">
+                          <span className="text-sm font-bold text-emerald-400">
+                            {formatCurrency(cat.price)}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Quantity Picker */}
+                  <div className="flex items-center justify-between bg-navy-950 p-3 rounded-xl border border-navy-800">
+                    <span className="text-xs font-medium text-slate-300">Ticket Quantity</span>
+                    <div className="flex items-center space-x-3">
+                      <button
+                        onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                        className="w-8 h-8 rounded-lg bg-navy-800 hover:bg-navy-700 text-white font-bold text-sm"
+                      >
+                        -
+                      </button>
+                      <span className="font-mono text-sm font-bold text-white px-2">{quantity}</span>
+                      <button
+                        onClick={() => setQuantity(Math.min(6, quantity + 1))}
+                        className="w-8 h-8 rounded-lg bg-navy-800 hover:bg-navy-700 text-white font-bold text-sm"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* M-PESA Phone Form */}
+                  <form onSubmit={handleCheckout} className="space-y-4 pt-2 border-t border-navy-800">
                     <div>
-                      <h4 className="text-xs font-bold">{cat.name || cat.categoryName}</h4>
-                      <span className="text-[10px] text-slate-400">
-                        {cat.available?.toLocaleString() || cat.availableSeats?.toLocaleString() || 'Available'} seats
-                      </span>
+                      <label className="text-xs font-medium text-slate-300 block mb-1">
+                        Safaricom M-PESA Phone Number
+                      </label>
+                      <div className="relative">
+                        <Smartphone className="w-4 h-4 text-emerald-400 absolute left-3 top-3" />
+                        <input
+                          type="text"
+                          required
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          placeholder="0712345678 or 254712345678"
+                          className="w-full bg-navy-950 border border-navy-700 focus:border-emerald-500 rounded-xl pl-9 pr-4 py-2.5 text-xs text-white focus:outline-none"
+                        />
+                      </div>
                     </div>
 
-                    <div className="text-right">
-                      <span className="text-sm font-bold text-emerald-400">
-                        {formatCurrency(cat.price)}
-                      </span>
+                    <div className="bg-navy-950 p-4 rounded-xl border border-navy-800 space-y-2">
+                      <div className="flex justify-between text-xs text-slate-400">
+                        <span>{selectedCategory?.name || selectedCategory?.categoryName} x {quantity}</span>
+                        <span>{formatCurrency(subtotal)}</span>
+                      </div>
+                      <div className="flex justify-between text-sm font-bold text-white pt-2 border-t border-navy-800">
+                        <span>Total Amount:</span>
+                        <span className="text-emerald-400">{formatCurrency(subtotal)}</span>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
 
-              {/* Quantity Picker */}
-              <div className="flex items-center justify-between bg-navy-950 p-3 rounded-xl border border-navy-800">
-                <span className="text-xs font-medium text-slate-300">Ticket Quantity</span>
-                <div className="flex items-center space-x-3">
-                  <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-8 h-8 rounded-lg bg-navy-800 hover:bg-navy-700 text-white font-bold text-sm"
-                  >
-                    -
-                  </button>
-                  <span className="font-mono text-sm font-bold text-white px-2">{quantity}</span>
-                  <button
-                    onClick={() => setQuantity(Math.min(6, quantity + 1))}
-                    className="w-8 h-8 rounded-lg bg-navy-800 hover:bg-navy-700 text-white font-bold text-sm"
-                  >
-                    +
-                  </button>
+                    <Button
+                      type="submit"
+                      variant="primary"
+                      className="w-full justify-center py-3 space-x-2"
+                      isLoading={isProcessing}
+                    >
+                      <ShieldCheck className="w-4 h-4" />
+                      <span>Pay with M-PESA ({formatCurrency(subtotal)})</span>
+                    </Button>
+                  </form>
+                </>
+              ) : (
+                /* PROVISIONAL EVENT: TICKET SALES AWAITING CONFIRMATION */
+                <div className="space-y-6">
+                  <div className="border-b border-navy-800 pb-4">
+                    <Badge variant="warning" size="md" className="mb-2">
+                      AWAITING OFFICIAL CONFIRMATION
+                    </Badge>
+                    <h3 className="text-lg font-bold text-white">Ticket Sales Status</h3>
+                    <p className="text-xs text-slate-400 mt-1">
+                      This event is currently listed with provisional status. Official ticket sales have not opened yet.
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs space-y-2">
+                    <div className="font-bold flex items-center space-x-2">
+                      <Info className="w-4 h-4 shrink-0" />
+                      <span>Provisional Status Information</span>
+                    </div>
+                    <p className="text-[11px] text-slate-300 leading-relaxed">
+                      {event.description}
+                    </p>
+                  </div>
+
+                  {/* Sign-Up for Ticket Release Notifications */}
+                  <div className="bg-navy-950 p-5 rounded-2xl border border-navy-800 space-y-4">
+                    <h4 className="text-xs font-bold text-white uppercase tracking-wider flex items-center space-x-2">
+                      <Bell className="w-4 h-4 text-emerald-400" />
+                      <span>Get Ticket Release Alerts</span>
+                    </h4>
+
+                    {subscribedAlert ? (
+                      <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs flex items-center space-x-2">
+                        <Check className="w-4 h-4 shrink-0" />
+                        <span>You will be notified immediately when ticket sales open for this match.</span>
+                      </div>
+                    ) : (
+                      <form onSubmit={handleSubscribeAlert} className="space-y-3">
+                        <input
+                          type="email"
+                          required
+                          value={emailAlert}
+                          onChange={(e) => setEmailAlert(e.target.value)}
+                          placeholder="Enter your email for ticket alerts..."
+                          className="w-full bg-navy-900 border border-navy-700 focus:border-emerald-500 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none"
+                        />
+                        <Button type="submit" variant="secondary" className="w-full justify-center space-x-2">
+                          <Bell className="w-3.5 h-3.5" />
+                          <span>Notify Me When Tickets Open</span>
+                        </Button>
+                      </form>
+                    )}
+                  </div>
                 </div>
-              </div>
-
-              {/* M-PESA Phone Form */}
-              <form onSubmit={handleCheckout} className="space-y-4 pt-2 border-t border-navy-800">
-                <div>
-                  <label className="text-xs font-medium text-slate-300 block mb-1">
-                    Safaricom M-PESA Phone Number
-                  </label>
-                  <div className="relative">
-                    <Smartphone className="w-4 h-4 text-emerald-400 absolute left-3 top-3" />
-                    <input
-                      type="text"
-                      required
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      placeholder="0712345678 or 254712345678"
-                      className="w-full bg-navy-950 border border-navy-700 focus:border-emerald-500 rounded-xl pl-9 pr-4 py-2.5 text-xs text-white focus:outline-none"
-                    />
-                  </div>
-                </div>
-
-                {/* Subtotal & Checkout Button */}
-                <div className="bg-navy-950 p-4 rounded-xl border border-navy-800 space-y-2">
-                  <div className="flex justify-between text-xs text-slate-400">
-                    <span>{selectedCategory?.name || selectedCategory?.categoryName} x {quantity}</span>
-                    <span>{formatCurrency(subtotal)}</span>
-                  </div>
-                  <div className="flex justify-between text-sm font-bold text-white pt-2 border-t border-navy-800">
-                    <span>Total Amount:</span>
-                    <span className="text-emerald-400">{formatCurrency(subtotal)}</span>
-                  </div>
-                </div>
-
-                <Button
-                  type="submit"
-                  variant="primary"
-                  className="w-full justify-center py-3 space-x-2"
-                  isLoading={isProcessing}
-                >
-                  <ShieldCheck className="w-4 h-4" />
-                  <span>Pay with M-PESA ({formatCurrency(subtotal)})</span>
-                </Button>
-              </form>
+              )}
             </div>
           </div>
         )}

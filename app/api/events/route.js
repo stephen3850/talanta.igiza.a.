@@ -28,7 +28,7 @@ export async function GET(req) {
     if (process.env.DATABASE_URL && prisma?.event) {
       try {
         const whereClause = canManage ? { facilityId } : {};
-        if (isPublic) whereClause.status = 'PUBLISHED';
+        if (isPublic) whereClause.status = { notIn: ['DRAFT', 'ARCHIVED'] };
         else if (status && status !== 'ALL') whereClause.status = status;
         if (category && category !== 'ALL') whereClause.category = { contains: category, mode: 'insensitive' };
         if (slug) whereClause.slug = slug;
@@ -48,7 +48,7 @@ export async function GET(req) {
 
     // Mock Fallback Processing
     if (isPublic) {
-      eventsList = eventsList.filter((e) => e.status === 'PUBLISHED');
+      eventsList = eventsList.filter((e) => e.status !== 'DRAFT' && e.status !== 'ARCHIVED');
     } else if (status && status !== 'ALL') {
       eventsList = eventsList.filter((e) => e.status === status);
     }
@@ -63,12 +63,13 @@ export async function GET(req) {
         (e) =>
           e.title.toLowerCase().includes(query) ||
           e.slug.toLowerCase().includes(query) ||
-          e.category.toLowerCase().includes(query)
+          e.category.toLowerCase().includes(query) ||
+          (e.description && e.description.toLowerCase().includes(query))
       );
     }
 
     if (slug) {
-      const single = eventsList.find((e) => e.slug === slug);
+      const single = eventsList.find((e) => e.slug === slug || e.id === slug);
       if (!single) {
         return NextResponse.json({ success: false, message: 'Event not found' }, { status: 404 });
       }
@@ -107,6 +108,9 @@ export async function POST(req) {
       contactInfo,
       ticketSalesStart,
       ticketSalesEnd,
+      status = 'DRAFT',
+      ticketApproved = false,
+      referenceLinks = [],
     } = body;
 
     if (!title || !startDate || !endDate || !venue) {
@@ -133,7 +137,7 @@ export async function POST(req) {
     const existingSlug = initialEvents.find((e) => e.slug === slugBase);
     const finalSlug = existingSlug ? `${slugBase}-${Date.now()}` : slugBase;
 
-    const eventCode = `EVT-2026-${Math.floor(Math.random() * 900 + 100)}`;
+    const eventCode = `EVT-2027-${Math.floor(Math.random() * 900 + 100)}`;
     const coverImage = image || bannerUrl || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=1200&auto=format&fit=crop';
 
     const newEvent = {
@@ -154,11 +158,14 @@ export async function POST(req) {
       endTime: new Date(endDate).toISOString(),
       ticketSalesStart: ticketSalesStart ? new Date(ticketSalesStart).toISOString() : new Date().toISOString(),
       ticketSalesEnd: ticketSalesEnd ? new Date(ticketSalesEnd).toISOString() : new Date(startDate).toISOString(),
-      status: 'DRAFT',
+      status,
+      statusLabel: status.replace(/_/g, ' '),
+      ticketApproved,
+      referenceLinks,
       featured: false,
       isFeatured: false,
       createdAt: new Date().toISOString(),
-      categories: [],
+      categories: body.categories || [],
       isSimulated: true,
       facilityId,
     };
@@ -194,7 +201,7 @@ export async function POST(req) {
     initialEvents.unshift(newEvent);
 
     await logAuditEvent({
-      action: 'EVENT_DRAFT_CREATED',
+      action: 'EVENT_CREATED',
       entityType: 'EVENT',
       entityId: newEvent.id,
       details: `Created event "${newEvent.title}" (${newEvent.status}) with slug /events/${newEvent.slug}`,

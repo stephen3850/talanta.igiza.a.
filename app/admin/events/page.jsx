@@ -21,7 +21,8 @@ import {
   CheckCircle,
   Archive,
   RefreshCw,
-  AlertTriangle
+  AlertTriangle,
+  Clock
 } from 'lucide-react';
 
 export default function AdminEventsOverviewPage() {
@@ -37,7 +38,7 @@ export default function AdminEventsOverviewPage() {
     try {
       const res = await fetch('/api/events');
       const data = await res.json();
-      if (data.success) {
+      if (data.success && data.events) {
         setEvents(data.events);
       }
     } catch (err) {
@@ -68,18 +69,18 @@ export default function AdminEventsOverviewPage() {
 
   // Calculate Overview Stats
   const totalEvents = events.length;
-  const publishedCount = events.filter((e) => e.status === 'PUBLISHED').length;
+  const confirmedCount = events.filter(
+    (e) => e.status === 'CONFIRMED' || e.status === 'PUBLISHED'
+  ).length;
+  const proposedCount = events.filter(
+    (e) => e.status === 'PROPOSED' || e.status === 'AWAITING_CONFIRMATION' || e.status === 'CANDIDATE_VENUE'
+  ).length;
   const draftCount = events.filter((e) => e.status === 'DRAFT').length;
-  const upcomingCount = events.filter(
-    (e) => new Date(e.startDate) > new Date()
-  ).length;
-  const completedCount = events.filter(
-    (e) => e.status === 'COMPLETED' || new Date(e.endDate) < new Date()
-  ).length;
+  const completedCount = events.filter((e) => e.status === 'COMPLETED').length;
 
-  // Toggle Publish / Unpublish Status
+  // Toggle Publish / Confirm Status
   const handleTogglePublish = async (evt) => {
-    const newStatus = evt.status === 'PUBLISHED' ? 'DRAFT' : 'PUBLISHED';
+    const newStatus = evt.status === 'CONFIRMED' || evt.status === 'PUBLISHED' ? 'DRAFT' : 'CONFIRMED';
     try {
       const res = await fetch(`/api/events/${evt.id}/publish`, {
         method: 'PATCH',
@@ -121,7 +122,7 @@ export default function AdminEventsOverviewPage() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 font-sans">
       {/* Top Banner & Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-navy-900 border border-navy-800 rounded-2xl p-6 shadow-xl">
         <div>
@@ -132,7 +133,7 @@ export default function AdminEventsOverviewPage() {
             Event Management System
           </h1>
           <p className="text-xs text-slate-400">
-            Create, edit, publish, and manage matchday events for Talanta Stadium.
+            Create, edit, manage statuses (Confirmed, Proposed, Candidate Venue), and configure 2026/2027 matchday fixtures.
           </p>
         </div>
 
@@ -155,17 +156,25 @@ export default function AdminEventsOverviewPage() {
         <StatCard
           title="Total Events"
           value={totalEvents.toString()}
-          subtitle="All Stadium Fixtures"
+          subtitle="2026 / 2027 Fixtures"
           icon={Calendar}
           accentColor="emerald"
         />
 
         <StatCard
-          title="Published"
-          value={publishedCount.toString()}
+          title="Confirmed"
+          value={confirmedCount.toString()}
           subtitle="Live on Website"
           icon={Globe}
           accentColor="emerald"
+        />
+
+        <StatCard
+          title="Provisional"
+          value={proposedCount.toString()}
+          subtitle="Proposed / Candidate"
+          icon={Clock}
+          accentColor="gold"
         />
 
         <StatCard
@@ -173,14 +182,6 @@ export default function AdminEventsOverviewPage() {
           value={draftCount.toString()}
           subtitle="In Review / Pending"
           icon={FileText}
-          accentColor="gold"
-        />
-
-        <StatCard
-          title="Upcoming"
-          value={upcomingCount.toString()}
-          subtitle="Future Matchdays"
-          icon={CheckCircle}
           accentColor="sky"
         />
 
@@ -199,7 +200,7 @@ export default function AdminEventsOverviewPage() {
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
           <input
             type="text"
-            placeholder="Search by title, slug, or event code..."
+            placeholder="Search by title, tournament, slug, or event code..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full bg-navy-950 border border-navy-700 rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
@@ -216,12 +217,11 @@ export default function AdminEventsOverviewPage() {
               className="bg-navy-950 border border-navy-700 text-slate-200 text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-500"
             >
               <option value="ALL">All Categories</option>
-              <option value="Football">Football</option>
+              <option value="Football">Football / Soccer</option>
               <option value="Rugby">Rugby</option>
               <option value="Athletics">Athletics</option>
               <option value="Concerts">Concerts</option>
-              <option value="Entertainment">Entertainment</option>
-              <option value="Community">Community</option>
+              <option value="Tours">Tours</option>
             </select>
           </div>
 
@@ -231,12 +231,15 @@ export default function AdminEventsOverviewPage() {
             onChange={(e) => setSelectedStatus(e.target.value)}
             className="bg-navy-950 border border-navy-700 text-slate-200 text-xs rounded-xl px-3 py-2 focus:outline-none focus:border-emerald-500"
           >
-            <option value="ALL">All Statuses</option>
+            <option value="ALL">All Status Categories</option>
+            <option value="CONFIRMED">Confirmed</option>
+            <option value="PROPOSED">Proposed</option>
+            <option value="AWAITING_CONFIRMATION">Awaiting Confirmation</option>
+            <option value="CANDIDATE_VENUE">Candidate Venue</option>
             <option value="PUBLISHED">Published</option>
             <option value="DRAFT">Draft</option>
-            <option value="CANCELLED">Cancelled</option>
             <option value="COMPLETED">Completed</option>
-            <option value="ARCHIVED">Archived</option>
+            <option value="POSTPONED">Postponed</option>
           </select>
         </div>
       </div>
@@ -250,8 +253,8 @@ export default function AdminEventsOverviewPage() {
                 <th className="p-4">Cover / Event Details</th>
                 <th className="p-4">Public Slug URL</th>
                 <th className="p-4">Category & Venue</th>
-                <th className="p-4">Start Date & Time</th>
-                <th className="p-4">Status</th>
+                <th className="p-4">Matchday Date</th>
+                <th className="p-4">Status Category</th>
                 <th className="p-4 text-right">Actions</th>
               </tr>
             </thead>
@@ -273,9 +276,9 @@ export default function AdminEventsOverviewPage() {
                           className="w-12 h-12 rounded-xl object-cover border border-navy-800 shrink-0"
                         />
                         <div>
-                          <div className="font-bold text-white">{evt.title}</div>
+                          <div className="font-bold text-white uppercase">{evt.title}</div>
                           <div className="font-mono text-[10px] text-emerald-400">
-                            {evt.eventCode}
+                            {evt.eventCode} • {evt.competition || evt.category}
                           </div>
                         </div>
                       </div>
@@ -290,61 +293,46 @@ export default function AdminEventsOverviewPage() {
                       <div className="text-[10px] text-slate-400">{evt.venue}</div>
                     </td>
 
-                    <td className="p-4 text-slate-300">
-                      {formatDate(evt.startDate)}
+                    <td className="p-4 text-slate-300 font-medium">
+                      {evt.displayDate || formatDate(evt.startDate)}
                     </td>
 
                     <td className="p-4">
                       <Badge
                         variant={
-                          evt.status === 'PUBLISHED'
+                          evt.status === 'CONFIRMED' || evt.status === 'PUBLISHED'
                             ? 'success'
-                            : evt.status === 'DRAFT'
-                            ? 'pending'
-                            : 'danger'
+                            : evt.status === 'PROPOSED' || evt.status === 'AWAITING_CONFIRMATION' || evt.status === 'CANDIDATE_VENUE'
+                            ? 'warning'
+                            : 'pending'
                         }
                       >
-                        {evt.status}
+                        {evt.statusLabel || evt.status.replace(/_/g, ' ')}
                       </Badge>
                     </td>
 
                     <td className="p-4 text-right space-x-2">
-                      {/* View Public Link if Published */}
-                      {evt.status === 'PUBLISHED' && (
-                        <Link href={`/events/${evt.slug}`} target="_blank">
-                          <button
-                            title="View Public Page"
-                            className="p-1.5 rounded-lg bg-navy-950 hover:bg-navy-800 text-slate-300 border border-navy-800"
-                          >
-                            <Eye className="w-3.5 h-3.5" />
-                          </button>
-                        </Link>
-                      )}
-
-                      {/* Toggle Publish / Unpublish */}
-                      <button
-                        title={evt.status === 'PUBLISHED' ? 'Unpublish Event' : 'Publish Event'}
-                        onClick={() => handleTogglePublish(evt)}
-                        className={`p-1.5 rounded-lg border ${
-                          evt.status === 'PUBLISHED'
-                            ? 'bg-amber-500/10 text-amber-400 border-amber-500/30'
-                            : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30'
-                        }`}
-                      >
-                        <Globe className="w-3.5 h-3.5" />
-                      </button>
+                      {/* View Public Link */}
+                      <Link href={`/events/${evt.slug}`} target="_blank">
+                        <button
+                          title="View Public Event Page"
+                          className="p-1.5 rounded-lg bg-navy-950 hover:bg-navy-800 text-slate-300 border border-navy-800"
+                        >
+                          <Eye className="w-3.5 h-3.5" />
+                        </button>
+                      </Link>
 
                       {/* Edit Event */}
                       <Link href={`/admin/events/${evt.id}/edit`}>
                         <button
-                          title="Edit Event"
+                          title="Edit Event Record"
                           className="p-1.5 rounded-lg bg-navy-950 hover:bg-navy-800 text-slate-300 border border-navy-800"
                         >
                           <Edit className="w-3.5 h-3.5" />
                         </button>
                       </Link>
 
-                      {/* Delete Event Confirmation Modal Trigger */}
+                      {/* Delete Event */}
                       <button
                         title="Delete Event"
                         onClick={() => {

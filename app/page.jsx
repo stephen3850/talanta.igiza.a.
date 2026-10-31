@@ -440,7 +440,7 @@ export default function PublicHomePage() {
                       <div>
                         <span className="text-[10px] text-slate-400 block">General Admission</span>
                         <span className="text-sm font-bold text-emerald-400">
-                          KES {evt.categories[0].price.toLocaleString()}
+                          {evt.categories?.[0]?.price ? `KES ${evt.categories[0].price.toLocaleString()}` : 'Awaiting Confirmation'}
                         </span>
                       </div>
 

@@ -113,7 +113,7 @@ export default function PublicFixturesPage() {
                   <div>
                     <span className="text-[10px] text-slate-400 block">General Admission</span>
                     <span className="text-base font-bold text-white">
-                      KES {evt.categories[0].price.toLocaleString()}
+                      {evt.categories?.[0]?.price ? `KES ${evt.categories[0].price.toLocaleString()}` : 'Awaiting Confirmation'}
                     </span>
                   </div>
 

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,17 +11,38 @@
   }
 
   body {
-    background-color: #FAF8F5;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpolygon points='0,0 20,0 0,20' fill='%3C%23EFECE5' opacity='0.45'/%3E%3Cpolygon points='20,0 40,0 20,20' fill='%3C%23F3EFF7' opacity='0.35'/%3E%3Cpolygon points='0,20 20,20 0,40' fill='%3C%23F3EFF7' opacity='0.35'/%3E%3Cpolygon points='20,20 40,20 20,40' fill='%3C%23EFECE5' opacity='0.45'/%3E%3Cpolygon points='20,0 40,20 40,0' fill='%3C%23FAF8F5' opacity='0.5'/%3E%3Cpolygon points='0,20 20,40 20,20' fill='%3C%23FAF8F5' opacity='0.5'/%3E%3C/svg%3E");
-    color: #111827;
-    font-family: 'Google Sans', 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #F8F7F2;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cpolygon points='0,0 20,0 0,20' fill='%3C%23EFECE4' opacity='0.55'/%3E%3Cpolygon points='20,0 40,0 20,20' fill='%3C%23F3EFF7' opacity='0.45'/%3E%3Cpolygon points='0,20 20,20 0,40' fill='%3C%23F3EFF7' opacity='0.45'/%3E%3Cpolygon points='20,20 40,20 20,40' fill='%3C%23EFECE4' opacity='0.55'/%3E%3Cpolygon points='20,0 40,20 40,0' fill='%3C%23F8F7F2' opacity='0.6'/%3E%3Cpolygon points='0,20 20,40 20,20' fill='%3C%23F8F7F2' opacity='0.6'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-attachment: fixed;
+    color: #1E293B;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
   }
 
-  h1, h2, h3, h4, h5, h6, .font-heading, .font-impact {
-    font-family: Impact, "Helvetica Neue", "Arial Narrow", sans-serif !important;
+  /* Refined Premium Heading Typography Hierarchy (Oswald) */
+  h1, h2, h3, h4, h5, h6, .font-heading {
+    font-family: 'Oswald', 'Barlow Condensed', 'Arial Narrow', sans-serif !important;
     text-transform: uppercase !important;
-    letter-spacing: -0.03em !important;
-    line-height: 1.02 !important;
+    letter-spacing: -0.01em !important;
+    line-height: 1.15 !important;
+  }
+
+  h1 {
+    font-weight: 700 !important;
+  }
+
+  h2 {
+    font-weight: 600 !important;
+  }
+
+  h3, h4, h5, h6 {
+    font-weight: 600 !important;
+  }
+
+  /* Body Text in Inter */
+  p, span, div, li, td, th, label, input, select, textarea {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
 }
 

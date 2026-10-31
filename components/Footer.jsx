@@ -112,7 +112,6 @@ export default function Footer() {
               <li><Link href="/news" className="hover:text-black transition-colors">News & Updates</Link></li>
               <li><Link href="/connect" className="hover:text-black transition-colors">Careers & Jobs</Link></li>
               <li><Link href="/help" className="hover:text-black transition-colors">Accessibility</Link></li>
-              <li><Link href="/portal" className="hover:text-black transition-colors">Digital Ticket Wallet</Link></li>
             </ul>
           </div>
 

@@ -35,37 +35,6 @@ export default function PublicHomePage() {
   const featuredEvent = initialEvents[0];
   const upcomingEvents = initialEvents;
 
-  const facilitiesList = [
-    {
-      title: '60,000-Seat Main Bowl',
-      desc: 'All-seater international stadium bowl engineered for FIFA & CAF football, athletics, and cultural events.',
-      icon: Building2,
-      tag: 'Capacity 60K',
-      image: '/images/Talanta-stadium.jpeg'
-    },
-    {
-      title: 'VIP & Presidential Suites',
-      desc: 'High-security hospitality suites, presidential boxes, and corporate lounges with dedicated access routes.',
-      icon: Award,
-      tag: 'Hospitality',
-      image: '/images/Talanta-stadium.jpeg'
-    },
-    {
-      title: 'Media & International Broadcast Centre',
-      desc: 'Ultra-fast fiber network infrastructure, press conference arenas, and high-definition VAR/broadcast bays.',
-      icon: Tv2,
-      tag: '4K Broadcast',
-      image: '/images/Talanta-stadium.jpeg'
-    },
-    {
-      title: 'Accessible & Family Bays',
-      desc: 'Step-free routes, designated wheelchair seating, elevators, and dedicated family-friendly spectator areas.',
-      icon: Users,
-      tag: 'WCAG 2.2 AA',
-      image: '/images/Talanta-stadium.jpeg'
-    }
-  ];
-
   const digitalServicesList = [
     {
       title: 'Online Ticket Booking',
@@ -112,13 +81,13 @@ export default function PublicHomePage() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-navy-950 font-sans">
+    <div className="min-h-screen flex flex-col bg-[#FAF9F5] font-sans">
       <Navbar />
 
       <main className="flex-1">
         {/* ==================== A. HERO SECTION ==================== */}
-        <section className="relative overflow-hidden pt-12 sm:pt-20 pb-16 sm:pb-24 border-b border-navy-800/80 bg-navy-950">
-          {/* Official Talanta Stadium Background Image (Very Visible) */}
+        <section className="relative overflow-hidden pt-12 sm:pt-20 pb-16 sm:pb-24 border-b border-slate-200 bg-slate-900">
+          {/* Official Talanta Stadium Background Image (Visible & Clear) */}
           <div className="absolute inset-0 z-0 overflow-hidden">
             <img
               src="/images/Talanta-stadium.jpeg"
@@ -126,9 +95,9 @@ export default function PublicHomePage() {
               onError={(e) => { e.currentTarget.src = '/images/talanta-stadium-aerial.png'; }}
               className="w-full h-full object-cover object-center opacity-100"
             />
-            {/* Translucent Backdrop Overlay for Image Visibility */}
-            <div className="absolute inset-0 bg-black/25"></div>
-            <div className="absolute inset-0 bg-gradient-to-t from-navy-950/85 via-navy-950/30 to-black/20"></div>
+            {/* Translucent Backdrop Overlay for High Contrast */}
+            <div className="absolute inset-0 bg-black/30"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-black/20 to-black/30"></div>
           </div>
           <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -150,7 +119,7 @@ export default function PublicHomePage() {
               {/* Hero Action Buttons (Faded Yellow, No Green) */}
               <div className="flex flex-wrap justify-center gap-4 pt-2">
                 <Link href="/events">
-                  <Button variant="amber" size="md" className="space-x-2 bg-amber-400/90 hover:bg-amber-400 text-slate-950 font-bold px-5 py-2.5 rounded-xl shadow-lg shadow-amber-400/20">
+                  <Button variant="amber" size="md" className="space-x-2 bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold px-5 py-2.5 rounded-xl shadow-lg">
                     <Compass className="w-4 h-4 text-slate-950" />
                     <span>Explore Events</span>
                     <ArrowRight className="w-4 h-4 ml-1" />
@@ -158,7 +127,7 @@ export default function PublicHomePage() {
                 </Link>
 
                 <Link href="/about">
-                  <Button variant="navy" size="md" className="space-x-2 border-amber-400/50 bg-navy-950/80 hover:bg-navy-900 text-white font-medium px-5 py-2.5 rounded-xl backdrop-blur-md">
+                  <Button variant="navy" size="md" className="space-x-2 border-amber-400/50 bg-slate-900/80 hover:bg-slate-900 text-white font-medium px-5 py-2.5 rounded-xl backdrop-blur-md">
                     <Building2 className="w-4 h-4 text-amber-300" />
                     <span>Discover the Stadium</span>
                   </Button>
@@ -185,10 +154,10 @@ export default function PublicHomePage() {
         </section>
 
         {/* ==================== B. FEATURED FIXTURE SECTION ==================== */}
-        <section className="py-16 bg-navy-900 border-b border-navy-800/80 relative overflow-hidden">
+        <section className="py-16 bg-[#F4F3EF] border-b border-slate-200 relative overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto">
-              <div className="bg-white rounded-3xl overflow-hidden shadow-2xl border border-slate-200 transition-all duration-300 group">
+              <div className="bg-white rounded-3xl overflow-hidden shadow-xl border border-slate-200 transition-all duration-300 group">
                 {/* Background Banner / Image (100% Clear & Sharp) */}
                 <div className="relative overflow-hidden bg-slate-900">
                   <img
@@ -251,27 +220,27 @@ export default function PublicHomePage() {
           </div>
         </section>
 
-        {/* ==================== C. UPCOMING FIXTURES SECTION ==================== */}
-        <section className="py-16 bg-navy-950 border-b border-navy-800/80">
+        {/* ==================== C. UPCOMING FIXTURES SECTION (WHITE THEME) ==================== */}
+        <section className="py-16 bg-[#FAF9F5] border-b border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
               <div>
-                <Badge variant="navy" size="sm" className="mb-2 text-amber-300 border-amber-400/40">
+                <span className="inline-block mb-2 px-3 py-1 rounded-full bg-slate-200 text-slate-800 text-[10px] font-extrabold uppercase tracking-wider border border-slate-300">
                   STADIUM SCHEDULE
-                </Badge>
-                <h2 className="text-3xl font-black text-white uppercase tracking-tight font-heading">
+                </span>
+                <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tight font-heading">
                   Upcoming Matchday Fixtures
                 </h2>
-                <p className="text-xs text-slate-400 mt-1">
+                <p className="text-xs text-slate-600 mt-1">
                   Official tournament schedules and event allocations at Talanta Sports City, Nairobi.
                 </p>
               </div>
 
               <Link href="/events">
-                <Button variant="navy" size="sm" className="space-x-2 border-navy-700">
+                <button className="bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs tracking-wider uppercase px-4 py-2.5 rounded-xl transition-all flex items-center space-x-2 shadow-sm">
                   <span>View All Events</span>
                   <ArrowRight className="w-3.5 h-3.5" />
-                </Button>
+                </button>
               </Link>
             </div>
 
@@ -279,7 +248,7 @@ export default function PublicHomePage() {
               {upcomingEvents.slice(0, 3).map((evt) => (
                 <div
                   key={evt.id}
-                  className="bg-navy-900 border border-navy-800 hover:border-amber-400/40 rounded-2xl overflow-hidden shadow-xl flex flex-col justify-between transition-all group"
+                  className="bg-white border border-slate-200 hover:border-amber-400/80 rounded-2xl overflow-hidden shadow-lg flex flex-col justify-between transition-all duration-300 group"
                 >
                   <div>
                     <div className="relative h-48 overflow-hidden bg-slate-900">
@@ -287,41 +256,41 @@ export default function PublicHomePage() {
                         src={evt.image || evt.bannerUrl || '/images/ajax.jpg'}
                         alt={evt.title}
                         onError={(e) => { e.currentTarget.src = '/images/Talanta-stadium.jpeg'; }}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-100"
                       />
-                      <Badge variant="navy" className="absolute top-3 left-3 text-[10px]">
+                      <span className="absolute top-3 left-3 bg-slate-900/85 backdrop-blur-md text-white font-bold text-[10px] px-2.5 py-1 rounded-full uppercase tracking-wider">
                         {evt.category}
-                      </Badge>
+                      </span>
                     </div>
 
                     <div className="p-6 space-y-3">
-                      <h3 className="text-lg font-black text-white leading-snug uppercase font-heading">{evt.title}</h3>
-                      <p className="text-xs text-slate-400 line-clamp-2">{evt.description}</p>
+                      <h3 className="text-lg font-black text-slate-900 leading-snug uppercase font-heading">{evt.title}</h3>
+                      <p className="text-xs text-slate-600 line-clamp-2">{evt.description}</p>
 
-                      <div className="space-y-1.5 pt-2 text-xs text-slate-300">
+                      <div className="space-y-1.5 pt-2 text-xs text-slate-600">
                         <div className="flex items-center space-x-2">
-                          <Calendar className="w-3.5 h-3.5 text-amber-300" />
-                          <span>{evt.displayDate || (evt.startDate && new Date(evt.startDate).toLocaleDateString())}</span>
+                          <Calendar className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                          <span className="font-medium text-slate-700">{evt.displayDate || (evt.startDate && new Date(evt.startDate).toLocaleDateString())}</span>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                          <span>{evt.venue || 'Talanta Stadium'}</span>
+                          <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                          <span className="font-medium text-slate-700">{evt.venue || 'Talanta Stadium'}</span>
                         </div>
                       </div>
                     </div>
                   </div>
 
                   <div className="p-6 pt-0">
-                    <div className="pt-4 border-t border-navy-800 flex items-center justify-between">
+                    <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
                       <div>
-                        <span className="text-[10px] text-slate-400 block uppercase">General Admission</span>
-                        <span className="text-sm font-black text-amber-300 font-mono">
+                        <span className="text-[10px] text-slate-500 block uppercase font-medium">General Admission</span>
+                        <span className="text-sm font-black text-slate-900 font-mono">
                           {evt.categories?.[0]?.price ? `KES ${evt.categories[0].price.toLocaleString()}` : 'KES 1,000'}
                         </span>
                       </div>
 
                       <Link href={`/events/${evt.slug || evt.id}`}>
-                        <Button variant="amber" size="sm" className="space-x-1">
+                        <Button variant="amber" size="sm" className="space-x-1 bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold px-3.5 py-1.5 rounded-lg shadow-sm">
                           <span>Event Info</span>
                           <ArrowRight className="w-3.5 h-3.5" />
                         </Button>
@@ -334,17 +303,17 @@ export default function PublicHomePage() {
           </div>
         </section>
 
-        {/* ==================== D. DIGITAL SERVICES GRID ==================== */}
-        <section className="py-16 bg-navy-900 border-b border-navy-800/80">
+        {/* ==================== D. DIGITAL SERVICES GRID (WHITE THEME) ==================== */}
+        <section className="py-16 bg-[#F4F3EF] border-b border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             <div className="text-center max-w-3xl mx-auto space-y-3">
-              <Badge variant="navy" size="sm" className="text-amber-300 border-amber-400/40">
+              <span className="inline-block px-3 py-1 rounded-full bg-slate-200 text-slate-800 text-[10px] font-extrabold uppercase tracking-wider border border-slate-300">
                 SMART STADIUM CAPABILITIES
-              </Badge>
-              <h2 className="text-3xl font-black text-white uppercase tracking-tight font-heading">
+              </span>
+              <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tight font-heading">
                 Integrated Digital Infrastructure
               </h2>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-600">
                 ST-Tech ICT Consultants delivers end-to-end ticketing, security, gate access, and venue operational intelligence.
               </p>
             </div>
@@ -355,13 +324,13 @@ export default function PublicHomePage() {
                 return (
                   <div
                     key={srv.title}
-                    className="bg-navy-950 border border-navy-800 hover:border-amber-400/40 rounded-2xl p-6 space-y-3 shadow-xl transition-all"
+                    className="bg-white border border-slate-200 hover:border-amber-400/80 rounded-2xl p-6 space-y-3 shadow-md transition-all duration-300"
                   >
-                    <div className="w-10 h-10 rounded-xl bg-amber-400/10 border border-amber-400/30 text-amber-300 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-xl bg-amber-400/15 border border-amber-400/30 text-amber-700 flex items-center justify-center">
                       <IconComp className="w-5 h-5" />
                     </div>
-                    <h3 className="text-sm font-bold text-white uppercase">{srv.title}</h3>
-                    <p className="text-xs text-slate-400 leading-relaxed">{srv.desc}</p>
+                    <h3 className="text-sm font-black text-slate-900 uppercase">{srv.title}</h3>
+                    <p className="text-xs text-slate-600 leading-relaxed">{srv.desc}</p>
                   </div>
                 );
               })}

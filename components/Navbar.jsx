@@ -49,9 +49,9 @@ export default function Navbar() {
 
         <div className="flex items-center space-x-3 md:space-x-5 text-[11px] uppercase">
           <span className="hidden lg:inline text-[#059669] font-black tracking-tight">ST-TECH ICT PLATFORM</span>
-          <Link href="/events" className="hover:text-black dark:hover:text-white transition-colors font-bold">STORE</Link>
-          <Link href="/help" className="hover:text-black dark:hover:text-white transition-colors font-bold">ACCESSIBILITY</Link>
-          <Link href="/help" className="hover:text-black dark:hover:text-white transition-colors font-bold">SAFETY</Link>
+          <Link href="/store" className="hover:text-black dark:hover:text-white transition-colors font-bold">STORE</Link>
+          <Link href="/help#accessibility" className="hover:text-black dark:hover:text-white transition-colors font-bold">ACCESSIBILITY</Link>
+          <Link href="/safety" className="hover:text-black dark:hover:text-white transition-colors font-bold">SAFETY</Link>
           <Link href="/contact" className="hover:text-black dark:hover:text-white transition-colors font-bold">CONTACT</Link>
           <button
             onClick={toggleTheme}

@@ -188,59 +188,58 @@ export default function PublicHomePage() {
         <section className="py-16 bg-navy-900 border-b border-navy-800/80 relative overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto">
-              <div className="bg-navy-950/90 border border-navy-800 hover:border-amber-400/40 rounded-3xl overflow-hidden shadow-2xl transition-all duration-300 group">
-                {/* Background Banner / Image */}
-                <div className="relative h-64 sm:h-80 overflow-hidden bg-slate-900">
+              <div className="bg-white rounded-3xl overflow-hidden shadow-2xl border border-slate-200 transition-all duration-300 group">
+                {/* Background Banner / Image (100% Clear & Sharp) */}
+                <div className="relative overflow-hidden bg-slate-900">
                   <img
                     src={featuredEvent.image || featuredEvent.bannerUrl || '/images/ajax.jpg'}
                     alt={featuredEvent.title}
                     onError={(e) => { e.currentTarget.src = '/images/Talanta-stadium.jpeg'; }}
-                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 opacity-90"
+                    className="w-full h-auto max-h-[420px] object-cover object-center group-hover:scale-105 transition-transform duration-500 opacity-100"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/40 to-transparent"></div>
 
                   {/* Top Left Faded Yellow Badge */}
-                  <div className="absolute top-4 left-4 bg-amber-400 text-slate-950 font-bold px-3.5 py-1.5 rounded-full text-xs uppercase tracking-wider shadow-lg flex items-center space-x-1.5">
+                  <div className="absolute top-4 left-4 bg-amber-400 text-slate-950 font-bold px-3.5 py-1.5 rounded-full text-xs uppercase tracking-wider shadow-lg flex items-center space-x-1.5 z-10">
                     <Sparkles className="w-3.5 h-3.5" />
                     <span>FEATURED DEMO FIXTURE</span>
                   </div>
                 </div>
 
-                {/* Card Content */}
-                <div className="p-6 sm:p-8 space-y-4">
+                {/* Card Content (White Background) */}
+                <div className="p-6 sm:p-8 space-y-4 bg-white text-slate-900">
                   <div>
-                    <span className="text-xs font-bold text-amber-300 uppercase tracking-widest block mb-1">
+                    <span className="text-xs font-bold text-amber-600 uppercase tracking-widest block mb-1">
                       {featuredEvent.category || 'SOCCER'}
                     </span>
-                    <h2 className="text-2xl sm:text-3xl font-black text-white uppercase font-heading tracking-tight leading-tight">
+                    <h2 className="text-2xl sm:text-3xl font-black text-slate-900 uppercase font-heading tracking-tight leading-tight">
                       {featuredEvent.title}
                     </h2>
                   </div>
 
-                  <div className="space-y-2 text-xs sm:text-sm text-slate-300">
+                  <div className="space-y-2 text-xs sm:text-sm text-slate-600">
                     <div className="flex items-center space-x-2.5">
-                      <MapPin className="w-4 h-4 text-slate-400 shrink-0" />
-                      <span>{featuredEvent.venue}</span>
+                      <MapPin className="w-4 h-4 text-slate-500 shrink-0" />
+                      <span className="font-medium text-slate-700">{featuredEvent.venue}</span>
                     </div>
                     <div className="flex items-center space-x-2.5">
-                      <Calendar className="w-4 h-4 text-slate-400 shrink-0" />
-                      <span>{featuredEvent.displayDate}</span>
+                      <Calendar className="w-4 h-4 text-slate-500 shrink-0" />
+                      <span className="font-medium text-slate-700">{featuredEvent.displayDate}</span>
                     </div>
                   </div>
 
                   {/* Pricing and Buy Tickets Button */}
-                  <div className="pt-6 border-t border-navy-800/80 flex items-center justify-between">
+                  <div className="pt-6 border-t border-slate-200 flex items-center justify-between">
                     <div>
-                      <span className="text-[11px] text-slate-400 block uppercase font-medium tracking-wider mb-0.5">
+                      <span className="text-[11px] text-slate-500 block uppercase font-medium tracking-wider mb-0.5">
                         STARTING FROM
                       </span>
-                      <span className="text-xl sm:text-2xl font-black text-white font-mono">
+                      <span className="text-xl sm:text-2xl font-black text-slate-900 font-mono">
                         KES 1,000
                       </span>
                     </div>
 
                     <Link href={`/events/${featuredEvent.slug || featuredEvent.id}`}>
-                      <Button variant="amber" size="md" className="space-x-2 bg-amber-400/90 hover:bg-amber-400 text-slate-950 font-bold px-5 py-2.5 rounded-xl shadow-lg shadow-amber-400/20">
+                      <Button variant="amber" size="md" className="space-x-2 bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold px-5 py-2.5 rounded-xl shadow-md">
                         <span>Buy Tickets</span>
                         <ArrowRight className="w-4 h-4" />
                       </Button>

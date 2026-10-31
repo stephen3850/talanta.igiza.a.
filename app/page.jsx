@@ -161,7 +161,7 @@ export default function PublicHomePage() {
                 {/* Background Banner / Image (100% Clear & Sharp on White) */}
                 <div className="relative overflow-hidden bg-white">
                   <img
-                    src={featuredEvent.image || featuredEvent.bannerUrl || '/images/ajax.jpg'}
+                    src={featuredEvent.image || featuredEvent.bannerUrl || '/images/Bayern Munich vs Ajax Match Poster.png'}
                     alt={featuredEvent.title}
                     onError={(e) => { e.currentTarget.src = '/images/Talanta-stadium.jpeg'; }}
                     className="w-full h-auto max-h-[260px] object-cover object-center group-hover:scale-105 transition-transform duration-500 opacity-100"
@@ -253,7 +253,7 @@ export default function PublicHomePage() {
                   <div>
                     <div className="relative h-48 overflow-hidden bg-white">
                       <img
-                        src={evt.image || evt.bannerUrl || '/images/ajax.jpg'}
+                        src={evt.image || evt.bannerUrl || '/images/Bayern Munich vs Ajax Match Poster.png'}
                         alt={evt.title}
                         onError={(e) => { e.currentTarget.src = '/images/Talanta-stadium.jpeg'; }}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-100"

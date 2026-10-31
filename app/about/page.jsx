@@ -578,7 +578,7 @@ export default function RedesignedAboutPage() {
               <div className="lg:col-span-6">
                 <div className="bg-white p-3 rounded-2xl border border-slate-200 shadow-lg overflow-hidden">
                   <img
-                    src="/images/ajax.jpg"
+                    src="/images/Bayern Munich vs Ajax Match Poster.png"
                     alt="African Football Competition Matchday"
                     className="w-full h-80 object-cover rounded-xl"
                   />

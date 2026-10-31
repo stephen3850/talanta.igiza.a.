@@ -14,6 +14,7 @@ export default function Button({
 
   const variants = {
     primary: 'bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-semibold shadow-lg shadow-emerald-500/20 focus:ring-emerald-400',
+    amber: 'bg-amber-400/90 hover:bg-amber-400 text-slate-950 font-bold shadow-lg shadow-amber-400/20 focus:ring-amber-400',
     secondary: 'bg-slate-800 hover:bg-slate-700 text-slate-100 border border-slate-700 focus:ring-slate-500',
     navy: 'bg-navy-800 hover:bg-navy-700 text-white border border-navy-700 focus:ring-navy-500',
     outline: 'border border-emerald-500/50 hover:bg-emerald-500/10 text-emerald-400 focus:ring-emerald-400',

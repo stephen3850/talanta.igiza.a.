@@ -145,15 +145,15 @@ export default function PublicHomePage() {
       <main className="flex-1">
         {/* ==================== A. HERO SECTION ==================== */}
         <section className="relative overflow-hidden pt-12 sm:pt-16 pb-20 sm:pb-28 border-b border-navy-800/80 bg-navy-950">
-          {/* Official Talanta Stadium Background Image */}
-          <div className="absolute inset-0 z-0">
+          {/* Official Talanta Stadium Background Image (Fully Visible) */}
+          <div className="absolute inset-0 z-0 overflow-hidden">
             <img
               src="/images/talanta.jpg"
               alt="Talanta Stadium Background"
-              className="w-full h-full object-cover object-center opacity-40 scale-105"
+              className="w-full h-full object-cover object-center opacity-85"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-navy-950 via-navy-950/85 to-navy-950/50"></div>
-            <div className="absolute inset-0 bg-gradient-to-b from-navy-950/50 via-transparent to-navy-950"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/25"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-transparent to-black/40"></div>
           </div>
           <div className="absolute -top-40 -right-40 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
 

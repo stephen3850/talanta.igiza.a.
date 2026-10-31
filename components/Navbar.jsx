@@ -28,13 +28,11 @@ export default function Navbar() {
 
   const navItems = [
     { name: 'HOME', href: '/', isActive: (p) => p === '/' },
-    { name: 'ABOUT STADIUM', href: '/about', isActive: (p) => p === '/about' },
+    { name: 'STADIUM', href: '/about', isActive: (p) => p === '/about' || p.startsWith('/about') },
     { name: 'EVENTS', href: '/events', isActive: (p) => p.startsWith('/events') || p.startsWith('/tickets') || p.startsWith('/fixtures') },
     { name: 'PLAN YOUR VISIT', href: '/facilities', isActive: (p) => p === '/facilities' || p.startsWith('/facilities') || p.startsWith('/plan-your-visit') || p.startsWith('/parking') },
     { name: 'SUITES', href: '/suites', isActive: (p) => p === '/suites' },
-    {name: 'TOURS', href: '/tours', isActive: (p) => p === '/tours' || p.startsWith('/tours') },
-    { name: 'STADIUM', href: '/about#stadium', isActive: (p) => p === '/stadium' },
-    { name: 'DIGITAL SERVICES', href: '/services', isActive: (p) => p === '/services' },
+    { name: 'TOURS', href: '/tours', isActive: (p) => p === '/tours' || p.startsWith('/tours') },
     { name: 'NEWS & UPDATES', href: '/news', isActive: (p) => p === '/news' },
     { name: 'HOST AN EVENT', href: '/host-an-event', isActive: (p) => p === '/host-an-event' },
     { name: 'CONNECT', href: '/connect', isActive: (p) => p === '/connect' },
@@ -51,7 +49,7 @@ export default function Navbar() {
 
         <div className="flex items-center space-x-3 md:space-x-5 text-[11px] uppercase">
           <span className="hidden lg:inline text-[#059669] font-black tracking-tight">ST-TECH ICT PLATFORM</span>
-          <Link href="/services" className="hover:text-black dark:hover:text-white transition-colors font-bold">STORE</Link>
+          <Link href="/events" className="hover:text-black dark:hover:text-white transition-colors font-bold">STORE</Link>
           <Link href="/help" className="hover:text-black dark:hover:text-white transition-colors font-bold">ACCESSIBILITY</Link>
           <Link href="/help" className="hover:text-black dark:hover:text-white transition-colors font-bold">SAFETY</Link>
           <Link href="/contact" className="hover:text-black dark:hover:text-white transition-colors font-bold">CONTACT</Link>

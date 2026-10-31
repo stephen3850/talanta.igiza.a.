@@ -70,7 +70,7 @@ export default function PlanYourVisitPage() {
       desc: "Nairobi's best nyama choma, swahili coast cuisine, Tusker bars and family stands.",
       image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=800&auto=format&fit=crop',
       fallbackImage: '/images/Bayern Munich vs Ajax Match Poster.png',
-      link: '/services',
+      link: '/help',
     },
     {
       id: 'accessibility',

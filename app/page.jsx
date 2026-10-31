@@ -154,63 +154,63 @@ export default function PublicHomePage() {
         </section>
 
         {/* ==================== B. FEATURED FIXTURE SECTION ==================== */}
-        <section className="py-16 bg-[#F4F3EF] border-b border-slate-200 relative overflow-hidden">
+        <section className="py-12 bg-white border-b border-slate-200 relative overflow-hidden">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-3xl mx-auto">
-              <div className="bg-white rounded-3xl overflow-hidden shadow-xl border border-slate-200 transition-all duration-300 group">
-                {/* Background Banner / Image (100% Clear & Sharp) */}
-                <div className="relative overflow-hidden bg-slate-900">
+            <div className="max-w-xl mx-auto">
+              <div className="bg-white rounded-2xl overflow-hidden shadow-lg border border-slate-200 transition-all duration-300 group">
+                {/* Background Banner / Image (100% Clear & Sharp on White) */}
+                <div className="relative overflow-hidden bg-white">
                   <img
                     src={featuredEvent.image || featuredEvent.bannerUrl || '/images/ajax.jpg'}
                     alt={featuredEvent.title}
                     onError={(e) => { e.currentTarget.src = '/images/Talanta-stadium.jpeg'; }}
-                    className="w-full h-auto max-h-[420px] object-cover object-center group-hover:scale-105 transition-transform duration-500 opacity-100"
+                    className="w-full h-auto max-h-[260px] object-cover object-center group-hover:scale-105 transition-transform duration-500 opacity-100"
                   />
 
                   {/* Top Left Faded Yellow Badge */}
-                  <div className="absolute top-4 left-4 bg-amber-400 text-slate-950 font-bold px-3.5 py-1.5 rounded-full text-xs uppercase tracking-wider shadow-lg flex items-center space-x-1.5 z-10">
-                    <Sparkles className="w-3.5 h-3.5" />
+                  <div className="absolute top-3 left-3 bg-amber-400 text-slate-950 font-bold px-3 py-1 rounded-full text-[10px] uppercase tracking-wider shadow-md flex items-center space-x-1 z-10">
+                    <Sparkles className="w-3 h-3" />
                     <span>FEATURED DEMO FIXTURE</span>
                   </div>
                 </div>
 
-                {/* Card Content (White Background) */}
-                <div className="p-6 sm:p-8 space-y-4 bg-white text-slate-900">
+                {/* Card Content (White Background & Compact Fonts) */}
+                <div className="p-5 space-y-3 bg-white text-slate-900">
                   <div>
-                    <span className="text-xs font-bold text-amber-600 uppercase tracking-widest block mb-1">
+                    <span className="text-[10px] font-bold text-amber-600 uppercase tracking-widest block mb-0.5">
                       {featuredEvent.category || 'SOCCER'}
                     </span>
-                    <h2 className="text-2xl sm:text-3xl font-black text-slate-900 uppercase font-heading tracking-tight leading-tight">
+                    <h2 className="text-lg sm:text-xl font-black text-slate-900 uppercase font-heading tracking-tight leading-snug">
                       {featuredEvent.title}
                     </h2>
                   </div>
 
-                  <div className="space-y-2 text-xs sm:text-sm text-slate-600">
-                    <div className="flex items-center space-x-2.5">
-                      <MapPin className="w-4 h-4 text-slate-500 shrink-0" />
+                  <div className="space-y-1.5 text-xs text-slate-600">
+                    <div className="flex items-center space-x-2">
+                      <MapPin className="w-3.5 h-3.5 text-slate-500 shrink-0" />
                       <span className="font-medium text-slate-700">{featuredEvent.venue}</span>
                     </div>
-                    <div className="flex items-center space-x-2.5">
-                      <Calendar className="w-4 h-4 text-slate-500 shrink-0" />
+                    <div className="flex items-center space-x-2">
+                      <Calendar className="w-3.5 h-3.5 text-slate-500 shrink-0" />
                       <span className="font-medium text-slate-700">{featuredEvent.displayDate}</span>
                     </div>
                   </div>
 
                   {/* Pricing and Buy Tickets Button */}
-                  <div className="pt-6 border-t border-slate-200 flex items-center justify-between">
+                  <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
                     <div>
-                      <span className="text-[11px] text-slate-500 block uppercase font-medium tracking-wider mb-0.5">
+                      <span className="text-[10px] text-slate-500 block uppercase font-medium tracking-wider mb-0.5">
                         STARTING FROM
                       </span>
-                      <span className="text-xl sm:text-2xl font-black text-slate-900 font-mono">
+                      <span className="text-base sm:text-lg font-black text-slate-900 font-mono">
                         KES 1,000
                       </span>
                     </div>
 
                     <Link href={`/events/${featuredEvent.slug || featuredEvent.id}`}>
-                      <Button variant="amber" size="md" className="space-x-2 bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold px-5 py-2.5 rounded-xl shadow-md">
+                      <Button variant="amber" size="sm" className="space-x-1 bg-amber-400 hover:bg-amber-500 text-slate-950 font-bold px-4 py-2 text-xs rounded-lg shadow-sm">
                         <span>Buy Tickets</span>
-                        <ArrowRight className="w-4 h-4" />
+                        <ArrowRight className="w-3.5 h-3.5" />
                       </Button>
                     </Link>
                   </div>
@@ -251,7 +251,7 @@ export default function PublicHomePage() {
                   className="bg-white border border-slate-200 hover:border-amber-400/80 rounded-2xl overflow-hidden shadow-lg flex flex-col justify-between transition-all duration-300 group"
                 >
                   <div>
-                    <div className="relative h-48 overflow-hidden bg-slate-900">
+                    <div className="relative h-48 overflow-hidden bg-white">
                       <img
                         src={evt.image || evt.bannerUrl || '/images/ajax.jpg'}
                         alt={evt.title}

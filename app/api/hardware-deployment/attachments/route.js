@@ -17,7 +17,7 @@ function storageDirectory() {
   const configured = process.env.HARDWARE_EVIDENCE_DIR;
   if (!configured) throw new HardwareDeploymentError('HARDWARE_EVIDENCE_DIR must point to private storage outside the application repository.', 503);
   const dir = path.resolve(configured);
-  const root = path.resolve(process.cwd());
+  const root = path.resolve(/*turbopackIgnore: true*/ process.cwd());
   const relative = path.relative(root, dir);
   if (!path.isAbsolute(dir) || relative === '' || (!relative.startsWith('..') && !path.isAbsolute(relative))) {
     throw new HardwareDeploymentError('Hardware evidence storage must be outside the application repository.', 503);

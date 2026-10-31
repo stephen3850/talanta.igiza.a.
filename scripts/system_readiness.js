@@ -129,7 +129,7 @@ async function runReadinessChecks() {
   console.log('\n--- 5. SYSTEM DIRECTORIES & STORAGE ---');
   const requiredDirs = ['app', 'public', 'lib', 'scripts', 'logs'];
   requiredDirs.forEach((dir) => {
-    const dirPath = path.join(PROJECT_ROOT, dir);
+    const dirPath = path.join(/*turbopackIgnore: true*/ PROJECT_ROOT, dir);
     if (!fs.existsSync(dirPath)) {
       fs.mkdirSync(dirPath, { recursive: true });
     }

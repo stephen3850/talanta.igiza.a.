@@ -1,4 +1,4 @@
-![img.png](img.png)![img_1.png](img_1.png)# REPUBLIC OF KENYA | MINISTRY OF SPORTS
+![img.png](img.png)![img_1.png](img_1.png# REPUBLIC OF KENYA | MINISTRY OF SPORTS
 # TALANTA STADIUM SMART INFRASTRUCTURE SYSTEM
 ### Technical & Financial Concept Proposal
 **Integrated Digital Ticketing | Biometric Access Control | Venue & Workforce Management | Real-time Operations**

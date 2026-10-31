@@ -37,62 +37,71 @@ export default function PlanYourVisitPage() {
       title: 'PARKING & TRANSPORTATION',
       desc: 'Buy parking ahead, view zone maps, BRT routes, matatu stages and rideshare drop-offs.',
       image: '/images/Talanta-stadium.jpeg',
+      fallbackImage: 'https://images.unsplash.com/photo-1506521781263-d8422e82f27a?q=80&w=800&auto=format&fit=crop',
       link: '/parking',
     },
     {
       id: 'rideshare',
       title: 'RIDESHARE',
       desc: 'Designated Uber, Bolt and Little Cab pick-up and drop-off zones at Talanta Stadium.',
-      image: '/images/talanta-stadium-aerial.png',
+      image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?q=80&w=800&auto=format&fit=crop',
+      fallbackImage: '/images/talanta-stadium-aerial.png',
       link: '/parking',
     },
     {
       id: 'bag-policies',
       title: 'STADIUM & BAG POLICIES',
       desc: 'Approved bag sizes, screening, prohibited items and gate procedures.',
-      image: '/images/Talanta-stadium.jpeg',
+      image: 'https://images.unsplash.com/photo-1582139329536-e7284fece509?q=80&w=800&auto=format&fit=crop',
+      fallbackImage: '/images/Talanta-stadium.jpeg',
       link: '/help',
     },
     {
       id: 'seating-maps',
       title: 'SEATING MAPS',
       desc: 'Explore the Talanta bowl, Lower, Club, Suite and Upper levels.',
-      image: '/images/Talanta-stadium.jpeg',
+      image: '/images/talanta-stadium-aerial.png',
+      fallbackImage: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=800&auto=format&fit=crop',
       link: '/suites',
     },
     {
       id: 'food-beverage',
       title: 'FOOD & BEVERAGE',
       desc: "Nairobi's best nyama choma, swahili coast cuisine, Tusker bars and family stands.",
-      image: '/images/Bayern Munich vs Ajax Match Poster.png',
+      image: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?q=80&w=800&auto=format&fit=crop',
+      fallbackImage: '/images/Bayern Munich vs Ajax Match Poster.png',
       link: '/services',
     },
     {
       id: 'accessibility',
       title: 'ACCESSIBILITY SERVICES',
       desc: 'Wheelchair seating, sensory rooms, mobility shuttles and assistive devices.',
-      image: '/images/Talanta-stadium.jpeg',
+      image: 'https://images.unsplash.com/photo-1517649763962-0c623266010b?q=80&w=800&auto=format&fit=crop',
+      fallbackImage: '/images/Talanta-stadium.jpeg',
       link: '/help',
     },
     {
       id: 'prohibited-items',
       title: 'PROHIBITED ITEMS',
       desc: 'What you can and cannot bring into Talanta Stadium.',
-      image: '/images/Talanta-stadium.jpeg',
+      image: 'https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=800&auto=format&fit=crop',
+      fallbackImage: '/images/Talanta-stadium.jpeg',
       link: '/help',
     },
     {
       id: 'health-safety',
       title: 'HEALTH & SAFETY',
       desc: 'Security screening, first-aid stations, lost & found, family meeting points.',
-      image: '/images/Talanta-stadium.jpeg',
+      image: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=800&auto=format&fit=crop',
+      fallbackImage: '/images/Talanta-stadium.jpeg',
       link: '/help',
     },
     {
       id: 'guest-services',
       title: 'GUEST SERVICES',
       desc: 'Information kiosks, languages spoken, mobile ticketing and on-site help.',
-      image: '/images/talanta-stadium-aerial.png',
+      image: 'https://images.unsplash.com/photo-1519766304817-4f37bda74a29?q=80&w=800&auto=format&fit=crop',
+      fallbackImage: '/images/talanta-stadium-aerial.png',
       link: '/contact',
     },
   ];
@@ -149,7 +158,7 @@ export default function PlanYourVisitPage() {
                       <img
                         src={card.image}
                         alt={card.title}
-                        onError={(e) => { e.currentTarget.src = '/images/Talanta-stadium.jpeg'; }}
+                        onError={(e) => { e.currentTarget.src = card.fallbackImage || '/images/Talanta-stadium.jpeg'; }}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>

@@ -1,8 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { Shield, Lock, Smartphone } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Shield, Lock, Smartphone, ChevronDown, ChevronUp } from 'lucide-react';
 
 const FacebookIcon = (props) => (
   <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -32,6 +33,24 @@ const YoutubeIcon = (props) => (
 );
 
 export default function Footer() {
+  const router = useRouter();
+  const [showPortals, setShowPortals] = useState(false);
+
+  // Helper to handle protected operational portal link access
+  const handleProtectedPortalClick = (e, path) => {
+    e.preventDefault();
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('token') || localStorage.getItem('ssp_user');
+      if (!token && path !== '/login') {
+        router.push(`/login?redirect=${encodeURIComponent(path)}&notice=Authentication+Required+for+Operational+Portals`);
+      } else {
+        router.push(path);
+      }
+    } else {
+      router.push(path);
+    }
+  };
+
   return (
     <footer className="bg-[#F8F7F5] border-t border-[#E5E3DF] text-neutral-700 text-sm font-sans relative selection:bg-[#E5B83F] selection:text-black">
       {/* MAIN FOOTER CONTAINER */}
@@ -97,16 +116,53 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* COL 5: OPERATIONAL PORTALS & COMPLIANCE (Preserved) */}
+          {/* COL 5: OPERATIONAL PORTALS & COMPLIANCE (Interactive & Guarded) */}
           <div className="space-y-3">
-            <h4 className="text-black font-black text-xs uppercase tracking-widest">OPERATIONAL PORTALS</h4>
-            <ul className="space-y-2 text-xs font-semibold text-neutral-700">
-              <li><Link href="/login" className="hover:text-black transition-colors">Staff & Patron Login</Link></li>
-              <li><Link href="/gate" className="hover:text-black transition-colors">Turnstile Validation Tool</Link></li>
-              <li><Link href="/admin" className="hover:text-black transition-colors">Administrator Console</Link></li>
-              <li><Link href="/admin/command" className="hover:text-black transition-colors">Matchday Command Centre</Link></li>
-              <li><Link href="/admin/workforce" className="hover:text-black transition-colors">Workforce Accreditation</Link></li>
-            </ul>
+            <button
+              onClick={() => setShowPortals(!showPortals)}
+              className="flex items-center justify-between w-full text-black font-black text-xs uppercase tracking-widest hover:text-[#059669] transition-colors focus:outline-none group"
+              aria-expanded={showPortals}
+            >
+              <span>OPERATIONAL PORTALS</span>
+              <span className="ml-1.5 p-0.5 rounded bg-slate-200 text-slate-700 group-hover:bg-[#059669] group-hover:text-white transition-colors">
+                {showPortals ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+              </span>
+            </button>
+
+            {showPortals && (
+              <ul className="space-y-2 text-xs font-semibold text-neutral-700 pt-1 animate-in fade-in-50 duration-200">
+                <li>
+                  <a href="/login" onClick={(e) => handleProtectedPortalClick(e, '/login')} className="hover:text-black transition-colors flex items-center space-x-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#059669]"></span>
+                    <span>Staff & Patron Login</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="/gate" onClick={(e) => handleProtectedPortalClick(e, '/gate')} className="hover:text-black transition-colors flex items-center space-x-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#059669]"></span>
+                    <span>Turnstile Validation Tool</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="/admin" onClick={(e) => handleProtectedPortalClick(e, '/admin')} className="hover:text-black transition-colors flex items-center space-x-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#059669]"></span>
+                    <span>Administrator Console</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="/admin/command" onClick={(e) => handleProtectedPortalClick(e, '/admin/command')} className="hover:text-black transition-colors flex items-center space-x-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#059669]"></span>
+                    <span>Matchday Command Centre</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="/admin/workforce" onClick={(e) => handleProtectedPortalClick(e, '/admin/workforce')} className="hover:text-black transition-colors flex items-center space-x-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#059669]"></span>
+                    <span>Workforce Accreditation</span>
+                  </a>
+                </li>
+              </ul>
+            )}
 
             <div className="pt-2 space-y-1 text-[11px] text-neutral-500 font-medium">
               <div className="flex items-center space-x-1.5">

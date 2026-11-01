@@ -24,46 +24,47 @@ export default function PublicFixturesPage() {
   });
 
   return (
-    <div className="min-h-screen flex flex-col bg-navy-950">
+    <div className="min-h-screen flex flex-col bg-[#FAF9F5] font-sans text-neutral-800 selection:bg-[#E5B83F] selection:text-black">
       <Navbar />
 
-      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full">
-        {/* Page Header */}
-        <div className="mb-8">
-          <Badge variant="success" size="sm" className="mb-2">
+      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 w-full space-y-8">
+        {/* Page Header Banner */}
+        <div className="bg-[#F8F7F5] border border-[#E5E3DF] p-8 space-y-2">
+          <span className="text-[#E5B83F] font-black text-xs uppercase tracking-widest block">
             OFFICIAL STADIUM SCHEDULE
-          </Badge>
-          <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+          </span>
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-black uppercase font-sans tracking-tight">
             Matchday Fixtures & Events
           </h1>
-          <p className="text-sm text-slate-400 mt-1">
+          <div className="w-16 h-1 bg-[#CC0000] my-2"></div>
+          <p className="text-xs sm:text-sm text-neutral-600 font-medium">
             Official ticket allocations for sporting events and tournaments at Talanta Sports City, Nairobi.
           </p>
         </div>
 
         {/* Filter Controls */}
-        <div className="bg-navy-900 border border-navy-800 rounded-2xl p-4 mb-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="bg-[#EAEAEA] border border-[#DDDCD8] p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="relative flex-1 w-full">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+            <Search className="w-4 h-4 text-neutral-400 absolute left-3.5 top-3" />
             <input
               type="text"
               placeholder="Search by team, tournament, or event keyword..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-navy-950 border border-navy-700 rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-emerald-500"
+              className="w-full bg-[#FAF9F5] border border-[#DDDCD8] focus:border-[#CC0000] pl-10 pr-4 py-2 text-xs text-black placeholder-neutral-500 focus:outline-none"
             />
           </div>
 
           <div className="flex items-center space-x-2 w-full sm:w-auto overflow-x-auto">
-            <Filter className="w-4 h-4 text-slate-400 shrink-0" />
+            <Filter className="w-4 h-4 text-neutral-500 shrink-0" />
             {['ALL', 'Football', 'Rugby'].map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-colors ${
+                className={`px-3.5 py-2 text-xs font-black uppercase tracking-wider transition-colors ${
                   selectedCategory === cat
-                    ? 'bg-emerald-500 text-slate-950'
-                    : 'bg-navy-950 text-slate-400 hover:text-white border border-navy-700'
+                    ? 'bg-[#CC0000] text-white'
+                    : 'bg-[#FAF9F5] text-neutral-800 border border-[#DDDCD8] hover:bg-[#EAEAEA]'
                 }`}
               >
                 {cat}
@@ -77,51 +78,67 @@ export default function PublicFixturesPage() {
           {filteredEvents.map((evt) => (
             <div
               key={evt.id}
-              className="bg-navy-900 border border-navy-800 hover:border-emerald-500/40 rounded-2xl overflow-hidden shadow-xl flex flex-col justify-between transition-all group"
+              className="bg-white border border-[#DDDCD8] hover:border-[#CC0000] overflow-hidden shadow-sm hover:shadow-md flex flex-col justify-between transition-all duration-300 group"
             >
               <div>
-                <div className="relative h-48 overflow-hidden">
+                {/* Image Container with Title Overlay */}
+                <div className="relative h-52 overflow-hidden bg-black">
                   <img
-                    src={evt.bannerUrl}
+                    src={evt.image || evt.bannerUrl || '/images/Talanta-stadium.jpeg'}
                     alt={evt.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    onError={(e) => { e.currentTarget.src = '/images/Talanta-stadium.jpeg'; }}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-80"
                   />
-                  <Badge variant="navy" className="absolute top-3 left-3 text-[10px]">
-                    {evt.category}
-                  </Badge>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+
+                  <h3 className="absolute bottom-3 left-4 right-12 text-lg sm:text-xl font-black text-white uppercase font-sans tracking-tight leading-snug drop-shadow-md">
+                    {evt.title}
+                  </h3>
+
+                  <div className="absolute top-3 right-3 flex flex-col w-2 h-6 shadow-sm overflow-hidden">
+                    <div className="h-2 bg-black"></div>
+                    <div className="h-2 bg-[#CC0000]"></div>
+                    <div className="h-2 bg-[#008000]"></div>
+                  </div>
                 </div>
 
-                <div className="p-6 space-y-3">
-                  <h3 className="text-lg font-bold text-white leading-snug">{evt.title}</h3>
-                  <p className="text-xs text-slate-400 line-clamp-2">{evt.description}</p>
+                {/* Card Body */}
+                <div className="p-5 space-y-3 bg-[#EAEAEA] border-t border-[#DDDCD8]">
+                  <span className="text-[10px] font-bold text-[#E5B83F] uppercase tracking-wider block">
+                    {evt.category}
+                  </span>
+                  <p className="text-xs text-neutral-600 font-medium line-clamp-2 leading-relaxed">
+                    {evt.description}
+                  </p>
 
-                  <div className="space-y-1.5 pt-2 text-xs text-slate-300">
+                  <div className="space-y-1.5 pt-2 text-xs font-semibold text-neutral-700">
                     <div className="flex items-center space-x-2">
-                      <Calendar className="w-3.5 h-3.5 text-emerald-400" />
-                      <span>{new Date(evt.startTime).toLocaleDateString('en-KE', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                      <Calendar className="w-3.5 h-3.5 text-[#CC0000] shrink-0" />
+                      <span>{evt.displayDate || (evt.startDate && new Date(evt.startDate).toLocaleDateString())}</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <MapPin className="w-3.5 h-3.5 text-slate-400" />
-                      <span>{evt.venueZone} • Talanta Stadium</span>
+                      <MapPin className="w-3.5 h-3.5 text-neutral-500 shrink-0" />
+                      <span>{evt.venue || 'Talanta Stadium'}</span>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="p-6 pt-0">
-                <div className="pt-4 border-t border-navy-800 flex items-center justify-between">
+              {/* Card Footer */}
+              <div className="p-5 pt-0 bg-[#EAEAEA]">
+                <div className="pt-3 border-t border-[#DDDCD8] flex items-center justify-between">
                   <div>
-                    <span className="text-[10px] text-slate-400 block">General Admission</span>
-                    <span className="text-base font-bold text-white">
-                      {evt.categories?.[0]?.price ? `KES ${evt.categories[0].price.toLocaleString()}` : 'Awaiting Confirmation'}
+                    <span className="text-[10px] text-neutral-500 uppercase font-medium block">GENERAL ADMISSION</span>
+                    <span className="text-sm font-black text-black font-mono">
+                      {evt.categories?.[0]?.price ? `KES ${evt.categories[0].price.toLocaleString()}` : 'KES 1,000'}
                     </span>
                   </div>
 
-                  <Link href={`/fixtures/${evt.id}`}>
-                    <Button variant="primary" size="sm" className="space-x-1">
-                      <span>Book Ticket</span>
+                  <Link href={`/events/${evt.slug || evt.id}`}>
+                    <button className="bg-[#CC0000] hover:bg-[#B30000] text-white font-extrabold text-xs tracking-wider uppercase px-4 py-2 transition-colors flex items-center space-x-1 shadow-sm">
+                      <span>BOOK TICKET</span>
                       <ArrowRight className="w-3.5 h-3.5" />
-                    </Button>
+                    </button>
                   </Link>
                 </div>
               </div>

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { Activity, AlertTriangle, Calendar, CheckCircle2, RefreshCw, Shield, Ticket, Wifi } from 'lucide-react';
+import RevenueTrendChart from '../../../components/RevenueTrendChart';
 
 const panel = 'rounded-2xl border border-navy-800 bg-navy-900 p-5 shadow-xl';
 
@@ -105,6 +106,14 @@ export default function CommandCentrePage() {
               </article>
             ))}
           </section>
+
+          <RevenueTrendChart
+            title="Daily Command Centre Revenue Trend (LAST 30 DAYS)"
+            subtitle="Daily revenue aggregated directly from closed sales transactions"
+            totalAmount={metrics.verifiedTicketRevenueKes}
+            currency="KSh"
+            accentColor="emerald"
+          />
 
           <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
             <section className={panel}>

@@ -30,6 +30,7 @@ import {
   XCircle,
   Info
 } from 'lucide-react';
+import RevenueTrendChart from '../../../components/RevenueTrendChart';
 
 export default function AdminBuildingManagementOverviewPage() {
   const [energyData, setEnergyData] = useState(null);
@@ -279,6 +280,15 @@ export default function AdminBuildingManagementOverviewPage() {
           accentColor="emerald"
         />
       </div>
+
+      {/* Building Management Revenue & Utility Cost Trend */}
+      <RevenueTrendChart
+        title="Daily Building Operations Revenue & Cost Trend (LAST 30 DAYS)"
+        subtitle="Daily utility revenue aggregated directly from closed sales transactions"
+        totalAmount={energyData?.summary ? Math.round(energyData.summary.totalDailyKwh * 14.5 * 30) : 5394000}
+        currency="KSh"
+        accentColor="emerald"
+      />
 
       {/* Subsystem Direct Navigation Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

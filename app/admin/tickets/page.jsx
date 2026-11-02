@@ -20,6 +20,7 @@ import {
   ShieldCheck,
   Printer
 } from 'lucide-react';
+import RevenueTrendChart from '../../../components/RevenueTrendChart';
 
 export default function AdminTicketsPage() {
   const [orders, setOrders] = useState(initialOrders);
@@ -155,6 +156,15 @@ export default function AdminTicketsPage() {
           accentColor="red"
         />
       </div>
+
+      {/* Daily Ticketing Revenue Trend Graph */}
+      <RevenueTrendChart
+        title="Daily Ticketing Revenue Trend (LAST 30 DAYS)"
+        subtitle="Daily revenue aggregated directly from closed sales transactions"
+        totalAmount={orders.filter((o) => o.paymentStatus === 'PAID' || o.bookingStatus === 'CONFIRMED').reduce((sum, o) => sum + (o.totalAmount || 0), 0)}
+        currency="KSh"
+        accentColor="sky"
+      />
 
       {/* Search and Filters Bar */}
       <div className="bg-navy-900 border border-navy-800 rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">

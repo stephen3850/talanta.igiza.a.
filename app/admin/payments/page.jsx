@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { CheckCircle, Clock3, CreditCard, Download, FileUp, PlusCircle, RefreshCw, ShieldCheck, Wallet, XCircle } from 'lucide-react';
+import RevenueTrendChart from '../../../components/RevenueTrendChart';
 
 const panel = 'rounded-2xl border border-navy-800 bg-navy-900 p-5';
 const field = 'w-full rounded-lg border border-navy-700 bg-navy-950 px-3 py-2 text-sm text-white';
@@ -156,6 +157,14 @@ export default function AdminPaymentsDashboardPage() {
         <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
           {stats.map(({ label, value, icon: Icon }) => <article key={label} className={panel}><div className="flex items-center justify-between text-xs text-slate-400"><span>{label}</span><Icon className="h-4 w-4 text-emerald-400" /></div><div className="mt-3 text-xl font-bold text-white">{value}</div></article>)}
         </section>
+
+        <RevenueTrendChart
+          title="Daily Financial & M-PESA Revenue Trend (LAST 30 DAYS)"
+          subtitle="Daily revenue aggregated directly from closed sales transactions"
+          totalAmount={report.totals.grossTicketRevenue}
+          currency="KSh"
+          accentColor="emerald"
+        />
 
         <section className="grid gap-4 lg:grid-cols-4">
           <article className={panel}><h2 className="font-semibold text-white">Payment state summary</h2><div className="mt-3 grid grid-cols-2 gap-2 text-sm">{Object.entries(report.paymentStatusCounts).map(([key, value]) => <div key={key} className="rounded-lg bg-navy-950 p-3"><div className="text-xs text-slate-400">{key.replaceAll('_', ' ')}</div><div className="mt-1 font-bold">{value}</div></div>)}</div></article>

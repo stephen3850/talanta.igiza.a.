@@ -18,6 +18,7 @@ import {
   Printer,
   AlertTriangle
 } from 'lucide-react';
+import RevenueTrendChart from '../../../components/RevenueTrendChart';
 
 export default function AdminBookingsPage() {
   const [orders, setOrders] = useState(initialOrders);
@@ -136,6 +137,15 @@ export default function AdminBookingsPage() {
           accentColor="sky"
         />
       </div>
+
+      {/* Booking Revenue Trend Graph */}
+      <RevenueTrendChart
+        title="Daily Booking & Order Revenue Trend (LAST 30 DAYS)"
+        subtitle="Daily revenue aggregated directly from closed sales transactions"
+        totalAmount={totalRevenue}
+        currency="KSh"
+        accentColor="sky"
+      />
 
       {/* Search and Filters */}
       <div className="bg-navy-900 border border-navy-800 rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">

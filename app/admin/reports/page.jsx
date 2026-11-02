@@ -20,6 +20,7 @@ import {
   Filter,
   DollarSign
 } from 'lucide-react';
+import RevenueTrendChart from '../../../components/RevenueTrendChart';
 
 export default function AdminReportsPage() {
   const [dateRange, setDateRange] = useState('ALL');
@@ -147,6 +148,14 @@ export default function AdminReportsPage() {
             accentColor="emerald"
           />
         </div>
+
+        <RevenueTrendChart
+          title="Daily Gross Settlement Revenue Trend (LAST 30 DAYS)"
+          subtitle="Daily revenue aggregated directly from closed sales transactions"
+          totalAmount={financials.grossRevenueKes}
+          currency="KSh"
+          accentColor="emerald"
+        />
       </div>
 
       {/* Ticketing & Attendance Analytics */}

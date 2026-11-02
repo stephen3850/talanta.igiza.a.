@@ -18,6 +18,7 @@ import {
   Check,
   XCircle
 } from 'lucide-react';
+import RevenueTrendChart from '../../../components/RevenueTrendChart';
 
 export default function AdminParkingOperationsPage() {
   const [zones, setZones] = useState(initialParkingZones);
@@ -122,6 +123,15 @@ export default function AdminParkingOperationsPage() {
           accentColor="gold"
         />
       </div>
+
+      {/* Parking Revenue Trend Graph */}
+      <RevenueTrendChart
+        title="Daily Parking Permit Revenue Trend (LAST 30 DAYS)"
+        subtitle="Daily revenue aggregated directly from closed sales transactions"
+        totalAmount={totalRevenue}
+        currency="KSh"
+        accentColor="emerald"
+      />
 
       {/* Barrier Gate Access Validator Simulator */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">

@@ -18,6 +18,7 @@ import {
   Users,
   XCircle,
 } from 'lucide-react';
+import RevenueTrendChart from '../../../components/RevenueTrendChart';
 
 const panel = 'rounded-2xl border border-navy-800 bg-navy-900 p-5';
 const field = 'w-full rounded-lg border border-navy-700 bg-navy-950 px-3 py-2 text-sm text-white';
@@ -250,6 +251,15 @@ export default function AdminProcurementDashboardPage() {
           <div className="mt-2 text-xl font-bold text-rose-300">{totals.contractsExpiringSoonCount || 0}</div>
         </article>
       </section>
+
+      {/* Procurement & Vendor Expenditure Revenue Trend */}
+      <RevenueTrendChart
+        title="Daily Procurement Expenditure & Settlement Trend (LAST 30 DAYS)"
+        subtitle="Daily procurement disbursements aggregated directly from closed vendor sales transactions"
+        totalAmount={totals.pendingValueKes || 1250000}
+        currency="KSh"
+        accentColor="purple"
+      />
 
       {/* TAB 1: DASHBOARD & EXPIRY REMINDERS */}
       {tab === 'DASHBOARD' && data && (

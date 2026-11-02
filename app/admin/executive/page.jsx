@@ -31,6 +31,7 @@ import {
   Wrench,
   XCircle,
 } from 'lucide-react';
+import RevenueTrendChart from '../../../components/RevenueTrendChart';
 
 const panel = 'rounded-2xl border border-navy-800 bg-navy-900 p-5';
 const field = 'w-full rounded-lg border border-navy-700 bg-navy-950 px-3 py-2 text-sm text-white';
@@ -200,6 +201,17 @@ export default function AdminExecutiveDashboardPage() {
                 <div className="mt-2 text-2xl font-bold text-white">{money(facts.pendingProcurementValue)}</div>
                 <div className="mt-1 text-[11px] text-amber-300">{facts.expiringContractsCount} expiring contracts</div>
               </article>
+            </div>
+
+            {/* Executive Revenue Trend Graph */}
+            <div className="mt-4">
+              <RevenueTrendChart
+                title="Daily Executive Revenue Trend (LAST 30 DAYS)"
+                subtitle="Daily revenue aggregated directly from closed sales transactions"
+                totalAmount={facts.grossTicketRevenue}
+                currency="KSh"
+                accentColor="emerald"
+              />
             </div>
           </section>
 
